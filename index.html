@@ -1,0 +1,454 @@
+<html><head>
+<link href="https://fonts.googleapis.com/css2?family=Anton&amp;display=swap" rel="stylesheet">
+<style>
+@font-face {
+  font-family: "Gyparody";
+  src: url("./static/fonts/gyparody.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "OPTIKorinna-Agency";
+  src: url("./static/fonts/OPTIKorinna-Agency.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+html {
+  background: darkblue;
+  overflow: hidden;
+  text-rendering: geometricPrecision;
+}
+body {
+  margin: 0;
+}
+
+.screen {
+  transform-origin: top left;
+  user-select: none;
+  /*transform: scale(calc(1/2));*/
+}
+.splash-screen {
+  /*background-image: url(https://www.w3schools.com/howto/img_nature.jpg);*/
+  --height: calc(var(--width) * var(--splash-ratio)) !important;
+  transform: translate(0, 10%)
+}
+.splash-screen .title {
+  font-family: 'Gyparody', serif;
+  font-size: calc(var(--width)/4.7);
+  text-shadow: .06em .06em #000;
+  line-height: 1em;
+}
+.grid-lines {
+  background: black;
+  transform-origin: top left;
+
+}
+.grid-lines.splash {
+  mix-blend-mode: multiply;
+}
+.grid-lines.splash .blue-background {
+  background: white;
+}
+.grid-lines.splash .little-screen * {
+  display: none;
+}
+.aspect-ratio {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 0; right: 0;
+  margin: auto;
+  --width: 100vw;
+  --height: calc(var(--width) / var(--aspect-ratio));
+  width: var(--width);
+  height: var(--height);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  --aspect-ratio: calc(16/9);
+  --board-ratio: calc(127/240);
+  --splash-ratio: calc(137/300);
+}
+@media (min-aspect-ratio: 16/9) {
+    .aspect-ratio {
+        --width: calc(100vh * var(--aspect-ratio));
+    }
+}
+
+.little-screen {
+  --line-width: calc(var(--width) * 1/20);
+  --additional-ratio: 1/4;
+  --move-scale: calc(5/32);
+  --scale: calc(var(--move-scale)*var(--board-ratio)*var(--aspect-ratio));
+  --vertical-bump-direction: 1;
+  --vertical-bump: calc(var(--vertical-bump-direction)*var(--additional-ratio)*var(--line-width));
+  --translate-x: calc(var(--move-scale)*(var(--column) - 2.5) * (var(--width) + var(--line-width)));
+  --translate-y: calc(var(--scale)*((var(--row) - 2.5)*(var(--height) + var(--line-width)) + var(--vertical-bump)));
+  transform: translate(var(--translate-x), var(--translate-y)) scale(var(--scale));
+}
+.board-ratio {
+  --height: calc(var(--width) * var(--board-ratio));
+  --scale: var(--move-scale);
+}
+.topics .little-screen {
+  --vertical-bump-direction: -1;
+}
+.little-screen.fullscreen {
+  transition: transform 1s linear;
+  transform: translate(0,0) scale(1);
+  z-index: 1;
+}
+.blue-background {
+  background: #009;
+  background: linear-gradient(to bottom right, #00C, #006);
+  color: #FFF;
+}
+.topic {
+  font-family: 'Anton', serif;
+  font-size: calc(var(--width)/7);
+  text-shadow: .07em .07em #000;
+  line-height: 1em;
+}
+.topic p {
+  padding: 0 5%;
+}
+
+.value {
+  position: absolute;
+  top: 0; bottom: 0; left: 0; right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: gold;
+  font-family: 'Anton', serif;
+  font-size: calc(var(--width)/2.7);
+  text-shadow: .07em .07em #000;
+}
+.value-1000 {
+  font-size: 90%;
+  margin: 0;
+}
+.value .dollar {
+  top: -.04em;
+  /* left: -.05em; */
+  position: relative;
+  transform: scale(.75,1);
+  display: inline-block;
+}
+.prompt {
+  position: absolute;
+  top: 0; bottom: 0; left: 0; right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: #009;
+  background: linear-gradient(to bottom right, #00C, #006);
+  color: white;
+  font-family: 'OPTIKorinna-Agency', serif;
+  font-size: calc(var(--width)/20);
+  text-shadow: .07em .07em #000;
+}
+.prompt p {
+  padding: 0 15%;
+}
+
+.vertical-flip {
+  position: absolute;
+  top: 0; bottom: 0; left: 0; right: 0;
+  transform: perspective(calc(2 * var(--width))) rotateX(360deg);
+}
+.fullscreen .vertical-flip {
+  transition: transform 1s linear;
+  transform: perspective(calc(2 * var(--width))) rotateX(0deg);
+}
+.horizontal-flip {
+  position: absolute;
+  top: 0; bottom: 0; left: 0; right: 0;
+  transform-style: preserve-3d;
+  transition: transform 1s linear;
+  transform: perspective(calc(2 * var(--width))) rotateY(0deg);
+}
+.horizontal-flip.flipped {
+  transform: perspective(calc(2 * var(--width))) rotateY(-180deg);
+}
+.horizontal-flip .prompt {
+  backface-visibility: hidden;
+  visibility: hidden;
+  transform: rotateY(180deg);
+}
+.horizontal-flip.flipped .prompt {
+  visibility: visible;
+}
+.horizontal-flip.flipped .daily-double {
+  backface-visibility: hidden;
+}
+.daily-double {
+  position: absolute;
+  top: 0; bottom: 0; left: 0; right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: #EE0;
+  background: linear-gradient(to bottom right, #FF0, #CC0);
+  color: #009;
+  font-family: 'Anton', sans-serif;
+  font-size: calc(var(--width)/5);
+  text-shadow: .07em .07em #F00;
+  letter-spacing: 0;
+  line-height: 1em;
+}
+
+.hidden {
+  visibility: hidden !important;
+}
+</style>
+</head><body>
+<div class="screen aspect-ratio">
+</div>
+<div class="splash-screen aspect-ratio blue-background">
+<p class="title">JEOPARDY!</p>
+</div>
+<div class="grid-lines aspect-ratio splash">
+<div class="aspect-ratio board-ratio little-screen blue-background" style="--column: 0; --row: 1;">
+<div class="value">
+<span class="dollar">$</span>200
+</div>
+</div>
+<div class="aspect-ratio board-ratio little-screen blue-background" style="--column: 0; --row: 2;">
+<div class="value">
+<span class="dollar">$</span>400
+</div>
+</div>
+<div class="aspect-ratio board-ratio little-screen blue-background" style="--column: 0; --row: 3;">
+<div class="value">
+<span class="dollar">$</span>600
+</div>
+</div>
+<div class="aspect-ratio board-ratio little-screen blue-background" style="--column: 0; --row: 4;">
+<div class="value">
+<span class="dollar">$</span>800
+</div>
+</div>
+<div class="aspect-ratio board-ratio little-screen blue-background" style="--column: 0; --row: 5;">
+<div class="value">
+<p class="value-1000"><span class="dollar">$</span>1000</p>
+</div>
+</div>
+<div class="aspect-ratio board-ratio little-screen blue-background" style="--column: 1; --row: 1;">
+<div class="value">
+<span class="dollar">$</span>200
+</div>
+</div>
+<div class="aspect-ratio board-ratio little-screen blue-background" style="--column: 1; --row: 2;">
+<div class="value">
+<span class="dollar">$</span>400
+</div>
+</div>
+<div class="aspect-ratio board-ratio little-screen blue-background" style="--column: 1; --row: 3;">
+<div class="value">
+<span class="dollar">$</span>600
+</div>
+</div>
+<div class="aspect-ratio board-ratio little-screen blue-background" style="--column: 1; --row: 4;">
+<div class="value">
+<span class="dollar">$</span>800
+</div>
+</div>
+<div class="aspect-ratio board-ratio little-screen blue-background" style="--column: 1; --row: 5;">
+<div class="value">
+<p class="value-1000"><span class="dollar">$</span>1000</p>
+</div>
+</div>
+<div class="aspect-ratio board-ratio little-screen blue-background" style="--column: 2; --row: 1;">
+<div class="value">
+<span class="dollar">$</span>200
+</div>
+</div>
+<div class="aspect-ratio board-ratio little-screen blue-background" style="--column: 2; --row: 2;">
+<div class="value">
+<span class="dollar">$</span>400
+</div>
+</div>
+<div class="aspect-ratio board-ratio little-screen blue-background" style="--column: 2; --row: 3;">
+<div class="daily-double hidden">
+DAILY DOUBLE
+</div>
+<div class="value">
+<span class="dollar">$</span>600
+</div>
+</div>
+<div class="aspect-ratio board-ratio little-screen blue-background" style="--column: 2; --row: 4;">
+<div class="value">
+<span class="dollar">$</span>800
+</div>
+</div>
+<div class="aspect-ratio board-ratio little-screen blue-background" style="--column: 2; --row: 5;">
+<div class="value">
+<p class="value-1000"><span class="dollar">$</span>1000</p>
+</div>
+</div>
+<div class="aspect-ratio board-ratio little-screen blue-background" style="--column: 3; --row: 1;">
+<div class="value">
+<span class="dollar">$</span>200
+</div>
+</div>
+<div class="aspect-ratio board-ratio little-screen blue-background" style="--column: 3; --row: 2;">
+<div class="value">
+<span class="dollar">$</span>400
+</div>
+</div>
+<div class="aspect-ratio board-ratio little-screen blue-background" style="--column: 3; --row: 3;">
+<div class="value">
+<span class="dollar">$</span>600
+</div>
+</div>
+<div class="aspect-ratio board-ratio little-screen blue-background" style="--column: 3; --row: 4;">
+<div class="value">
+<span class="dollar">$</span>800
+</div>
+</div>
+<div class="aspect-ratio board-ratio little-screen blue-background" style="--column: 3; --row: 5;">
+<div class="value">
+<p class="value-1000"><span class="dollar">$</span>1000</p>
+</div>
+</div>
+<div class="aspect-ratio board-ratio little-screen blue-background" style="--column: 4; --row: 1;">
+<div class="value">
+<span class="dollar">$</span>200
+</div>
+</div>
+<div class="aspect-ratio board-ratio little-screen blue-background" style="--column: 4; --row: 2;">
+<div class="value">
+<span class="dollar">$</span>400
+</div>
+</div>
+<div class="aspect-ratio board-ratio little-screen blue-background" style="--column: 4; --row: 3;">
+<div class="value">
+<span class="dollar">$</span>600
+</div>
+</div>
+<div class="aspect-ratio board-ratio little-screen blue-background" style="--column: 4; --row: 4;">
+<div class="value">
+<span class="dollar">$</span>800
+</div>
+</div>
+<div class="aspect-ratio board-ratio little-screen blue-background" style="--column: 4; --row: 5;">
+<div class="value">
+<p class="value-1000"><span class="dollar">$</span>1000</p>
+</div>
+</div>
+<div class="aspect-ratio board-ratio little-screen blue-background" style="--column: 5; --row: 1;">
+<div class="value">
+<span class="dollar">$</span>200
+</div>
+</div>
+<div class="aspect-ratio board-ratio little-screen blue-background" style="--column: 5; --row: 2;">
+<div class="value">
+<span class="dollar">$</span>400
+</div>
+</div>
+<div class="aspect-ratio board-ratio little-screen blue-background" style="--column: 5; --row: 3;">
+<div class="value">
+<span class="dollar">$</span>600
+</div>
+</div>
+<div class="aspect-ratio board-ratio little-screen blue-background" style="--column: 5; --row: 4;">
+<div class="value">
+<span class="dollar">$</span>800
+</div>
+</div>
+<div class="aspect-ratio board-ratio little-screen blue-background" style="--column: 5; --row: 5;">
+<div class="value">
+<p class="value-1000"><span class="dollar">$</span>1000</p>
+</div>
+</div>
+</div>
+<div class="topics">
+<div class="aspect-ratio board-ratio little-screen topic blue-background" style="--column: 0; --row: 0;">
+<p>POTENT POTABLES</p>
+</div>
+<div class="aspect-ratio board-ratio little-screen topic blue-background" style="--column: 1; --row: 0;">
+<p>POTENT POTABLES</p>
+</div>
+<div class="aspect-ratio board-ratio little-screen topic blue-background" style="--column: 2; --row: 0;">
+<p>POTENT POTABLES</p>
+</div>
+<div class="aspect-ratio board-ratio little-screen topic blue-background" style="--column: 3; --row: 0;">
+<p>POTENT POTABLES</p>
+</div>
+<div class="aspect-ratio board-ratio little-screen topic blue-background" style="--column: 4; --row: 0;">
+<p>POTENT POTABLES</p>
+</div>
+<div class="aspect-ratio board-ratio little-screen topic blue-background" style="--column: 5; --row: 0;">
+<p>POTENT POTABLES</p>
+</div>
+<div class="prompts">
+<div class="aspect-ratio little-screen blue-background" style="--column: 4; --row: 1;">
+<div class="prompt hidden">
+<p>DRAUGHTS IS THIS KINGLY GAME</p>
+</div>
+</div>
+<div class="aspect-ratio foo little-screen" style="--column: 2; --row: 3;">
+<div class="vertical-flip">
+<div class="horizontal-flip blue-background">
+<div class="daily-double hidden">
+DAILY DOUBLE
+</div>
+<div class="prompt blue-background hidden">
+<p>DRAUGHTS IS THIS KINGLY GAME</p>
+</div>
+</div>
+</div>
+</div>
+<div class="aspect-ratio little-screen blue-background" style="--column: 1; --row: 2;">
+<div class="prompt hidden">
+<p>DRAUGHTS IS THIS KINGLY GAME</p>
+</div>
+</div>
+<div class="aspect-ratio little-screen blue-background" style="--column: 4; --row: 4;">
+<div class="prompt hidden">
+<p>DRAUGHTS IS THIS KINGLY GAME</p>
+</div>
+</div>
+</div>
+</div>
+<script type="module">
+let fullscreening = false;
+function toggleFullscreen() {
+  if (fullscreening) return;
+  fullscreening = true;
+  this.removeEventListener('click', toggleFullscreen);
+  const dd = this.querySelector('.daily-double');
+  if (dd) dd.classList.remove('hidden');
+  const p = this.querySelector('.prompt');
+  if (p) p.classList.remove('hidden');
+  const v = this.querySelector('.value');
+  if (v) v.classList.add('hidden');
+  setTimeout(() => {
+    this.classList.add('fullscreen');
+  }, 0);
+  const hf = this.querySelector(".horizontal-flip");
+  setTimeout(() => {
+    fullscreening = false;
+    if (hf) hf.addEventListener('click', horizontalFlip);
+    if (p) p.addEventListener('click', returnToBoard);
+  }, 1000);
+}
+function returnToBoard(e) {
+  this.classList.add('hidden');
+  let n = this.parentNode;
+  while (n != document.body && !n.classList.contains('fullscreen')) n = n.parentNode;
+  n.classList.add('hidden');
+  e.stopPropagation();
+}
+function horizontalFlip() {
+  if (!this.parentNode.classList.contains('fullscreen'))
+  if (this.classList.contains('flipped')) return;
+  this.classList.add('flipped')
+}
+document.querySelectorAll(".prompts .little-screen").forEach(n => n.addEventListener('click', toggleFullscreen));
+</script>
+</body></html>
