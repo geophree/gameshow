@@ -13,10 +13,17 @@
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: "OPTITopic-Bold";
+  src: url("./static/fonts/OPTITopic-Bold.woff2") format("woff2");
+  font-weight: bold;
+  font-style: normal;
+}
 html {
   background: darkblue;
   overflow: hidden;
   text-rendering: geometricPrecision;
+  text-wrap: balance;
 }
 body {
   margin: 0;
@@ -36,14 +43,14 @@ body {
   font-family: 'Gyparody', serif;
   font-size: calc(var(--width)/4.7);
   text-shadow: .06em .06em #000;
-  line-height: 1em;
+  line-height: .8em;
 }
 .grid-lines {
   background: black;
   transform-origin: top left;
 
 }
-.grid-lines.splash {
+/*.grid-lines.splash {
   mix-blend-mode: multiply;
 }
 .grid-lines.splash .blue-background {
@@ -51,7 +58,7 @@ body {
 }
 .grid-lines.splash .little-screen * {
   display: none;
-}
+}*/
 .aspect-ratio {
   position: absolute;
   top: 0; bottom: 0;
@@ -131,10 +138,10 @@ body {
 }
 .value .dollar {
   top: -.04em;
-  /* left: -.05em; */
   position: relative;
   transform: scale(.75,1);
   display: inline-block;
+  margin-left: -.05em;
 }
 .prompt {
   position: absolute;
@@ -147,6 +154,8 @@ body {
   background: linear-gradient(to bottom right, #00C, #006);
   color: white;
   font-family: 'OPTIKorinna-Agency', serif;
+  font-weight: normal;
+  word-spacing: .15em;
   font-size: calc(var(--width)/20);
   text-shadow: .07em .07em #000;
 }
@@ -181,10 +190,15 @@ body {
 .horizontal-flip.flipped .prompt {
   visibility: visible;
 }
-.horizontal-flip.flipped .daily-double {
+.horizontal-flip.flipped .daily {
   backface-visibility: hidden;
 }
-.daily-double {
+.double {
+  font-family: 'OPTITopic-Bold', sans-serif;
+  letter-spacing: 0;
+  line-height: 1em;
+}
+.daily {
   position: absolute;
   top: 0; bottom: 0; left: 0; right: 0;
   display: flex;
@@ -194,11 +208,21 @@ body {
   background: #EE0;
   background: linear-gradient(to bottom right, #FF0, #CC0);
   color: #009;
-  font-family: 'Anton', sans-serif;
   font-size: calc(var(--width)/5);
+  line-height: .9em;
   text-shadow: .07em .07em #F00;
-  letter-spacing: 0;
-  line-height: 1em;
+  white-space: pre;
+  letter-spacing: -.05em;
+}
+.daily-ly {
+  letter-spacing: -.15em;
+}
+
+.title .double {
+  color: #F00;
+  font-size: 80%;
+  margin-bottom: -.12em;
+  display: inline-block;
 }
 
 .hidden {
@@ -209,7 +233,7 @@ body {
 <div class="screen aspect-ratio">
 </div>
 <div class="splash-screen aspect-ratio blue-background">
-<p class="title">JEOPARDY!</p>
+<p class="title"><span class="double">DOUBLE</span> JEOPARDY!</p>
 </div>
 <div class="grid-lines aspect-ratio splash">
 <div class="aspect-ratio board-ratio little-screen blue-background" style="--column: 0; --row: 1;">
@@ -273,7 +297,7 @@ body {
 </div>
 </div>
 <div class="aspect-ratio board-ratio little-screen blue-background" style="--column: 2; --row: 3;">
-<div class="daily-double hidden">
+<div class="daily double hidden">
 DAILY DOUBLE
 </div>
 <div class="value">
@@ -394,8 +418,9 @@ DAILY DOUBLE
 <div class="aspect-ratio foo little-screen" style="--column: 2; --row: 3;">
 <div class="vertical-flip">
 <div class="horizontal-flip blue-background">
-<div class="daily-double hidden">
-DAILY DOUBLE
+<div class="daily double hidden">
+<p>DAI<span class="daily-ly">LY</span>
+DOUBLE</p>
 </div>
 <div class="prompt blue-background hidden">
 <p>DRAUGHTS IS THIS KINGLY GAME</p>
@@ -421,7 +446,7 @@ function toggleFullscreen() {
   if (fullscreening) return;
   fullscreening = true;
   this.removeEventListener('click', toggleFullscreen);
-  const dd = this.querySelector('.daily-double');
+  const dd = this.querySelector('.daily');
   if (dd) dd.classList.remove('hidden');
   const p = this.querySelector('.prompt');
   if (p) p.classList.remove('hidden');
