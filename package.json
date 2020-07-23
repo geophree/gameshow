@@ -1,7 +1,7 @@
 {
   "name": "gameshow",
   "version": "1.0.0",
-  "description": "",
+  "description": "HTML5 implementations of various game shows",
   "main": "index.js",
   "scripts": {
     "postinstall": "patch-package",
@@ -27,9 +27,11 @@
   },
   "dependencies": {
     "@material-ui/core": "^4.11.0",
+    "@pika/react": "^16.13.1",
     "htm": "^3.0.4",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react": "npm:@pika/react@^16.13.1",
+    "react-dom": "npm:@pika/react-dom@^16.13.1",
+    "recoil": "0.0.10"
   },
   "husky": {
     "hooks": {
