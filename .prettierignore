@@ -3,3 +3,6 @@ node_modules/
 patches/
 .gitignore
 .prettierignore
+LICENSE
+public/favicon.ico
+public/robots.txt

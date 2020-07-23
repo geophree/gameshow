@@ -1,2 +1,4 @@
-dist/
-node_modules/
+.build
+build
+web_modules
+node_modules
