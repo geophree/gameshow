@@ -1,13 +1,13 @@
 const scripts = {
-  'mount:public': 'mount public --to /',
-  'mount:src': 'mount src --to /_dist_',
+  "mount:public": "mount public --to /",
+  "mount:src": "mount src --to /_dist_",
 };
 
 module.exports = {
   scripts,
-  plugins: ['@snowpack/plugin-babel', '@snowpack/plugin-dotenv'],
+  plugins: ["@snowpack/plugin-babel", "@snowpack/plugin-dotenv"],
   devOptions: {},
   installOptions: {
-    namedExports: ['recoil'],
+    namedExports: ["recoil"],
   },
 };

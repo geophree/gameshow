@@ -1,14 +1,14 @@
-import { html } from 'htm/react';
-import { StrictMode } from 'react';
-import ReactDOM from 'react-dom';
-import { RecoilRoot } from 'recoil';
-import App from './App.js';
+import { html } from "htm/react";
+import { StrictMode } from "react";
+import ReactDOM from "react-dom";
+import { RecoilRoot } from "recoil";
+import App from "./App.js";
 
 ReactDOM.render(
   html`<${StrictMode}
     ><${RecoilRoot}><${App} /><//
   ><//>`,
-  document.getElementById('root'),
+  document.getElementById("root")
 );
 
 // Hot Module Replacement (HMR) - Remove this snippet to remove HMR.

@@ -1,8 +1,7 @@
-dist/
+build/
 node_modules/
-patches/
-.gitignore
-.prettierignore
+web_modules/
 LICENSE
-public/favicon.ico
-public/robots.txt
+.*ignore
+*.ico
+*.txt

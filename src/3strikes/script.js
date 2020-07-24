@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
   let currentToken;
   let currentTokenDigit;
   let rand;
@@ -12,68 +12,68 @@ $(document).ready(function() {
     car0: {
       name: "Audi A4",
       price: 49125,
-      src: "url(http://www.jarrodyellets.com/images/cars/AudiA4.jpg)"
+      src: "url(http://www.jarrodyellets.com/images/cars/AudiA4.jpg)",
     },
     car1: {
       name: "Batmobile",
       price: 92765,
-      src: "url(http://www.jarrodyellets.com/images/cars/Batmobile.png)"
+      src: "url(http://www.jarrodyellets.com/images/cars/Batmobile.png)",
     },
     car2: {
       name: "Smart fortwo",
       price: 21389,
-      src: "url(http://www.jarrodyellets.com/images/cars/Smart42.jpg)"
+      src: "url(http://www.jarrodyellets.com/images/cars/Smart42.jpg)",
     },
     car3: {
       name: "Citroen Berlingo",
       price: 14236,
-      src: "url(http://www.jarrodyellets.com/images/cars/Citroen.jpg)"
+      src: "url(http://www.jarrodyellets.com/images/cars/Citroen.jpg)",
     },
     car4: {
       name: "Porsche Cayenne",
       price: 69785,
-      src: "url(http://www.jarrodyellets.com/images/cars/Porsche.jpg)"
+      src: "url(http://www.jarrodyellets.com/images/cars/Porsche.jpg)",
     },
     car5: {
       name: "Love Beetle",
       price: 21360,
-      src: "url(http://www.jarrodyellets.com/images/cars/Beetle.jpg)"
+      src: "url(http://www.jarrodyellets.com/images/cars/Beetle.jpg)",
     },
     car6: {
       name: "Mirth Mobile",
       price: 10635,
-      src: "url(http://www.jarrodyellets.com/images/cars/Mirth.png)"
+      src: "url(http://www.jarrodyellets.com/images/cars/Mirth.png)",
     },
     car7: {
       name: "Delorean DMC-12",
       price: 89435,
-      src: "url(http://www.jarrodyellets.com/images/cars/Delorean.jpg)"
+      src: "url(http://www.jarrodyellets.com/images/cars/Delorean.jpg)",
     },
     car8: {
       name: "Tie Fighter",
       price: 97482,
-      src: "url(http://www.jarrodyellets.com/images/cars/TieFighter.jpg)"
+      src: "url(http://www.jarrodyellets.com/images/cars/TieFighter.jpg)",
     },
     car9: {
       name: "Ghost Busters Ecto-1",
       price: 15672,
-      src: "url(http://www.jarrodyellets.com/images/cars/Ecto1.jpg)"
+      src: "url(http://www.jarrodyellets.com/images/cars/Ecto1.jpg)",
     },
     car10: {
       name: "Millennium Falcon",
       price: 98612,
-      src: "url(http://www.jarrodyellets.com/images/cars/Falcon.jpg)"
+      src: "url(http://www.jarrodyellets.com/images/cars/Falcon.jpg)",
     },
     car11: {
       name: "Griswold Family Truckster",
       price: 12875,
-      src: "url(http://www.jarrodyellets.com/images/cars/Truckster.jpg)"
+      src: "url(http://www.jarrodyellets.com/images/cars/Truckster.jpg)",
     },
     car12: {
       name: "Flintstones Footmobile",
       price: 10298,
-      src: "url(http://www.jarrodyellets.com/images/cars/Flintstones.png)"
-    }
+      src: "url(http://www.jarrodyellets.com/images/cars/Flintstones.png)",
+    },
   };
 
   let carArr = Object.keys(cars);
@@ -88,7 +88,7 @@ $(document).ready(function() {
     correct: "Correct!",
     wrong: "Wrong! Please select another token.",
     lose: "3 strikes!  Sorry, but you lost the game.",
-    playAgain: "<button class='quoteButton' id='playAgain'>Play Again</button>"
+    playAgain: "<button class='quoteButton' id='playAgain'>Play Again</button>",
   };
 
   setup();
@@ -114,13 +114,13 @@ $(document).ready(function() {
   //   Choose to view rules or play
   function openingRemarks() {
     changeQuote(quotes.welcome);
-    $("#rules").click(function() {
+    $("#rules").click(function () {
       changeQuote(quotes.rules);
-      $("#playNow").on("click", function() {
+      $("#playNow").on("click", function () {
         startGame();
       });
     });
-    $("#play").click(function() {
+    $("#play").click(function () {
       startGame();
     });
   }
@@ -134,11 +134,11 @@ $(document).ready(function() {
   //   Start game by showing prize
   function startGame() {
     changeQuote(quotes.showPrize);
-    setTimeout(function() {
+    setTimeout(function () {
       $(".curtain").addClass("raiseCurtain");
       changeQuote("Its a " + cars[currentCar].name + " !");
     }, 3000);
-    setTimeout(function() {
+    setTimeout(function () {
       makeTokens();
     }, 6000);
   }
@@ -157,14 +157,14 @@ $(document).ready(function() {
       "token4",
       "token5",
       "token6",
-      "token7"
+      "token7",
     ];
     changeQuote(
       "Here are your tokens.  Five numbers make up the price of the " +
         cars[currentCar].name +
         " and 3 strikes."
     );
-    setTimeout(function() {
+    setTimeout(function () {
       grabTokens();
     }, 3000);
   }
@@ -175,17 +175,17 @@ $(document).ready(function() {
       raiseToken(i, timer);
       timer += 1500;
     }
-    setTimeout(function() {
+    setTimeout(function () {
       playGame();
     }, 13000);
   }
 
   //   Raise and lower tokens from bag
   function raiseToken(index, timer) {
-    setTimeout(function() {
+    setTimeout(function () {
       $("#token" + index).addClass("raiseToken");
     }, timer);
-    setTimeout(function() {
+    setTimeout(function () {
       $("#token" + index).removeClass("raiseToken");
     }, timer + 1500);
   }
@@ -193,7 +193,7 @@ $(document).ready(function() {
   //   Choose a token from the bag
   function playGame() {
     changeQuote(quotes.selectToken);
-    $(".bag").on("click", function() {
+    $(".bag").on("click", function () {
       $(".bag").off();
       rand = Math.round(Math.random() * (tokenArr.length - 1));
       currentToken = tokenArr[rand];
@@ -208,7 +208,7 @@ $(document).ready(function() {
     if (currentTokenDigit === "X") {
       strikeCount++;
       changeQuote("Oh No!  Strike " + strikeCount + "!");
-      setTimeout(function() {
+      setTimeout(function () {
         $("#strike" + strikeCount).append("X");
       }, 2200);
       depositToken();
@@ -226,7 +226,7 @@ $(document).ready(function() {
 
   //   Choose which screen the number belongs
   function selectScreen() {
-    $(".blank").on("click", function() {
+    $(".blank").on("click", function () {
       $(".blank").off();
       let screenId = Number($(this).attr("id"));
       if (priceArr[screenId] == currentTokenDigit) {
@@ -237,7 +237,7 @@ $(document).ready(function() {
         depositToken();
       } else {
         changeQuote(quotes.wrong);
-        setTimeout(function() {
+        setTimeout(function () {
           $("#" + currentToken).removeClass("raiseToken");
           playGame();
         }, 1000);
@@ -247,18 +247,18 @@ $(document).ready(function() {
 
   //   Put token in slot
   function depositToken() {
-    setTimeout(function() {
+    setTimeout(function () {
       tokenArr.splice(rand, 1);
       $("#" + currentToken).addClass("rotate");
     }, 1500);
-    setTimeout(function() {
+    setTimeout(function () {
       $("#" + currentToken).addClass("hide");
       if (strikeCount === 3) {
         strikeOut();
       } else if (priceCount === 5) {
         winGame();
       } else {
-        setTimeout(function() {
+        setTimeout(function () {
           playGame();
         }, 1000);
       }
@@ -268,7 +268,7 @@ $(document).ready(function() {
   //   Lose game
   function strikeOut() {
     changeQuote(quotes.lose);
-    setTimeout(function() {
+    setTimeout(function () {
       lowerCurtain();
     }, 3000);
   }
@@ -277,7 +277,7 @@ $(document).ready(function() {
   function winGame() {
     changeQuote("Congratulations!  You won the " + cars[currentCar].name + "!");
     $(".blink").addClass("blinking");
-    setTimeout(function() {
+    setTimeout(function () {
       lowerCurtain();
     }, 5000);
   }
@@ -285,11 +285,11 @@ $(document).ready(function() {
   //   Lower prize curtain
   function lowerCurtain() {
     changeQuote(quotes.playAgain);
-    $("#playAgain").on("click", function() {
+    $("#playAgain").on("click", function () {
       $(".blink").removeClass("blinking");
       $(".curtain").removeClass("raiseCurtain");
 
-      setTimeout(function() {
+      setTimeout(function () {
         setup();
       }, 1000);
     });
