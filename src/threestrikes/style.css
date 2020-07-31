@@ -15,26 +15,30 @@
   background-color: #3f3f3f;
   position: relative;
   font-family: var(--font);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  --px1: calc(var(--tvw) / 1000);
+  --npx1: calc(-1 * var(--px1));
+  --px2: calc(2 * var(--px1));
+  --px3: calc(3 * var(--px1));
+  --px5: calc(5 * var(--px1));
+  --npx5: calc(-5 * var(--px1));
+  --px10: calc(10 * var(--px1));
 }
 
-.threestrikes *,
-.threestrikes ::after,
-.threestrikes ::before {
-  box-sizing: border-box;
-}
-
-.threestrikes .container-fluid {
-  width: 1000px;
-  height: 100%;
-  position: relative;
-  margin: 0 auto;
+.threestrikes .game-screen {
+  border: 1px solid white;
 }
 
 .threestrikes .gameTitle {
   text-align: center;
-  height: 119px;
-  font-size: 100px;
-  padding-top: 39px;
+  height: calc(100 * var(--px1));
+  font-size: calc(100 * var(--px1));
+  line-height: 1;
+  padding-top: calc(22 * var(--px1));
 }
 
 /* gold effect from https://codepen.io/mandymichael/pen/xpLNeV */
@@ -64,8 +68,9 @@
   top: 0;
   z-index: -1;
   position: absolute;
-  text-shadow: -1px 0 1px #c6bb9f, 0 1px 1px #c6bb9f,
-    5px 5px 10px rgba(0, 0, 0, 0.4), -5px -5px 10px rgba(0, 0, 0, 0.4);
+  text-shadow: var(--npx1) 0 var(--px1) #c6bb9f, 0 var(--px1) var(--px1) #c6bb9f,
+    var(--px5) var(--px5) var(--px10) rgba(0, 0, 0, 0.4),
+    var(--npx5) var(--npx5) var(--px10) rgba(0, 0, 0, 0.4);
 }
 
 .threestrikes .gameBoard {
@@ -73,10 +78,10 @@
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  width: 800px;
-  height: 150px;
+  width: calc(800 * var(--px1));
+  height: calc(150 * var(--px1));
   position: relative;
-  border-radius: 2px;
+  border-radius: var(--px2);
   margin: 0 auto;
   background: rgba(227, 218, 209, 1);
   background: linear-gradient(
@@ -92,22 +97,22 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.75);
-  width: 110px;
-  height: 120px;
-  font-size: 100px;
-  border-radius: 2px;
+  box-shadow: var(--px5) var(--px5) var(--px5) 0 rgba(0, 0, 0, 0.75);
+  width: calc(110 * var(--px1));
+  height: calc(120 * var(--px1));
+  font-size: calc(100 * var(--px1));
+  border-radius: var(--px2);
   background-color: #0f2a3d;
-  border: 4px solid var(--borderColor);
+  border: calc(4 * var(--px1)) solid var(--borderColor);
 }
 
 .threestrikes .numScreen {
   color: #39e68c;
-  text-shadow: 0 0 2.5px #39e68c;
+  text-shadow: 0 0 calc(2.5 * var(--px1)) #39e68c;
   color: transparent;
-  font-size: 135px;
-  padding-top: 24px;
-  padding-left: 6px;
+  font-size: calc(135 * var(--px1));
+  padding-top: calc(24 * var(--px1));
+  padding-left: calc(6 * var(--px1));
 }
 
 .threestrikes .numScreen::before {
@@ -118,7 +123,7 @@
   width: 100%;
   height: 100%;
   /* color: #39e68c; */
-  text-shadow: 0 0 5px #39e6c;
+  text-shadow: 0 0 var(--px5) #39e6c;
   color: tranparent;
 }
 
@@ -127,10 +132,10 @@
 }
 
 .threestrikes .base {
-  width: 400px;
-  height: 130px;
+  width: calc(400 * var(--px1));
+  height: calc(130 * var(--px1));
   margin: 0 auto;
-  border-radius: 0 0 5px 5px;
+  border-radius: 0 0 var(--px5) var(--px5);
   position: relative;
   display: flex;
   justify-content: center;
@@ -144,37 +149,37 @@
 }
 
 .threestrikes .base:before {
-  width: 55px;
-  height: 110px;
-  border-radius: 0 0 100px 0;
+  width: calc(55 * var(--px1));
+  height: calc(110 * var(--px1));
+  border-radius: 0 0 calc(100 * var(--px1)) 0;
   border: none;
   background-color: #3f3f3f;
   display: inline-block;
   vertical-align: middle;
   content: "";
   position: absolute;
-  left: -5px;
+  left: var(--npx5);
 }
 
 .threestrikes .base:after {
-  width: 55px;
-  height: 110px;
-  border-radius: 0 0 0 100px;
+  width: calc(55 * var(--px1));
+  height: calc(110 * var(--px1));
+  border-radius: 0 0 0 calc(100 * var(--px1));
   border: none;
   background-color: #3f3f3f;
   display: inline-block;
   vertical-align: middle;
   content: "";
   position: absolute;
-  right: -5px;
+  right: var(--npx5);
 }
 
 .threestrikes .bottom {
-  width: 400px;
-  height: 20px;
+  width: calc(400 * var(--px1));
+  height: calc(20 * var(--px1));
   position: absolute;
   bottom: 0;
-  border-radius: 0 0 5px 5px;
+  border-radius: 0 0 var(--px5) var(--px5);
   background: rgba(70, 166, 137, 1);
   background: linear-gradient(
     to bottom,
@@ -189,28 +194,29 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.75);
-  width: 50px;
-  height: 50px;
+  box-shadow: var(--px2) var(--px2) var(--px2) 0 rgba(0, 0, 0, 0.75);
+  width: calc(50 * var(--px1));
+  height: calc(50 * var(--px1));
   background-color: #742001;
-  margin: 5px;
+  margin: var(--px5);
   color: #ff2321;
-  font-size: 40px;
+  font-size: calc(40 * var(--px1));
   font-family: "Archivo Black", sans-serif;
-  border: 4px solid var(--borderColor);
-  border-radius: 2px;
-  text-shadow: 0 0 2px rgba(255, 35, 33, 0.5), 0 0 2px rgba(255, 35, 33, 0.5),
-    0 0 5px rgba(255, 35, 33, 1), 0 0 5px #ff0000, 0 0 2px #ff0000,
-    0 0 2px #ff0000, 0 0 2px #ff0000;
+  border: calc(4 * var(--px1)) solid var(--borderColor);
+  border-radius: var(--px2);
+  text-shadow: 0 0 var(--px2) rgba(255, 35, 33, 0.5),
+    0 0 var(--px2) rgba(255, 35, 33, 0.5), 0 0 var(--px5) rgba(255, 35, 33, 1),
+    0 0 var(--px5) #ff0000, 0 0 var(--px2) #ff0000, 0 0 var(--px2) #ff0000,
+    0 0 var(--px2) #ff0000;
 }
 
 .threestrikes .slot {
-  width: 55px;
-  height: 5px;
+  width: calc(55 * var(--px1));
+  height: var(--px5);
   background-color: var(--blackColor);
-  border-radius: 1px;
+  border-radius: var(--px1);
   position: absolute;
-  top: 75px;
+  top: calc(75 * var(--px1));
 }
 
 .threestrikes .bag {
@@ -223,17 +229,17 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  box-shadow: inset 0px -3px 3px 0px rgba(0, 0, 0, 0.75);
-  width: 45px;
-  height: 45px;
+  box-shadow: inset 0 calc(-3 * var(--px1)) var(--px3) 0 rgba(0, 0, 0, 0.75);
+  width: calc(45 * var(--px1));
+  height: calc(45 * var(--px1));
   transition: all 500ms cubic-bezier(0.42, 0, 0.58, 1);
   position: absolute;
-  bottom: 10px;
+  bottom: calc(10 * var(--px1));
   left: 43%;
-  border-radius: 50px;
+  border-radius: calc(50 * var(--px1));
   color: var(--blackColor);
   z-index: 2;
-  font-size: 35px;
+  font-size: calc(35 * var(--px1));
   font-family: "Sedgwick Ave Display", cursive;
 }
 
@@ -243,28 +249,28 @@
 
 .threestrikes .strikeToken {
   background-color: #be0403;
-  text-shadow: #f8f8f8 0px 0px 3px;
+  text-shadow: #f8f8f8 0 0 var(--px3);
 }
 
 .threestrikes .rotate {
-  top: -147px;
+  top: calc(-147 * var(--px1));
   transform: rotateX(70deg);
 }
 
 .threestrikes .raiseToken {
-  bottom: 130px;
+  bottom: calc(130 * var(--px1));
 }
 
 .threestrikes .button {
-  box-shadow: inset 0px -3px 3px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: inset 0 calc(-3 * var(--px1)) var(--px3) 0 rgba(0, 0, 0, 0.75);
   font-family: var(--font);
   background-color: #b2a89e;
-  border-radius: 5px 5px 20px 20px;
+  border-radius: var(--px5) var(--px5) var(20 * var(--px1)) var(20 * var(--px1));
   border: none;
   outline: none;
-  font-size: 1.2em;
-  margin: 0 100px;
-  padding: 20px 15px;
+  font-size: calc(17 * var(--px1));
+  margin: 0 calc(100 * var(--px1));
+  padding: calc(20 * var(--px1)) calc(15 * var(--px1));
   color: var(--blackColor);
   z-index: 3;
   position: relative;
@@ -281,27 +287,27 @@ p {
 }
 
 .threestrikes .text {
-  width: 350px;
-  height: 200px;
+  width: calc(350 * var(--px1));
+  height: calc(200 * var(--px1));
   background-color: #f4f4f4;
-  border-radius: 5px;
-  border: 3px solid var(--blackColor);
-  font-size: 20px;
+  border-radius: var(--px5);
+  border: var(--px3) solid var(--blackColor);
+  font-size: calc(20 * var(--px1));
   color: var(--blackColor);
   z-index: 2;
   overflow: auto;
 }
 
 .threestrikes .car {
-  width: 350px;
-  height: 200px;
+  width: calc(350 * var(--px1));
+  height: calc(200 * var(--px1));
   position: relative;
   background-color: white;
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-  border-radius: 5px;
-  border: 3px solid var(--blackColor);
+  border-radius: var(--px5);
+  border: var(--px3) solid var(--blackColor);
   overflow: hidden;
 }
 
@@ -310,7 +316,7 @@ p {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin: 30px 15px;
+  margin: calc(30 * var(--px1)) calc(15 * var(--px1));
   z-index: 3;
 }
 
@@ -324,7 +330,7 @@ p {
   transition: all 1000ms cubic-bezier(0.42, 0, 0.58, 1);
   position: relative;
   top: 0;
-  font-size: 50px;
+  font-size: calc(50 * var(--px1));
   color: var(--goldColor);
   background: rgba(247, 81, 59, 1);
   background: linear-gradient(
@@ -340,16 +346,16 @@ p {
 }
 
 .threestrikes .raiseCurtain {
-  top: -250px;
+  top: calc(-250 * var(--px1));
 }
 
 .threestrikes .quoteButton {
   background: #f4f4f4;
   font-family: var(--font);
-  border-radius: 5px;
+  border-radius: var(--px5);
   outline: none;
-  font-size: 20px;
-  margin: 0 5px;
+  font-size: calc(20 * var(--px1));
+  margin: 0 var(--px5);
   color: #0a0a0a;
   cursor: pointer;
 }
@@ -373,12 +379,5 @@ p {
   text-align: center;
   color: #adadad;
   font-family: sans-serif;
-  font-size: 14px;
-}
-
-@media screen and (max-width: 1030px) {
-  .container-fluid {
-    top: -90px;
-    transform: scale(0.6);
-  }
+  font-size: calc(14 * var(--px1));
 }
