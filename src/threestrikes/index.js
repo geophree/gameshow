@@ -1,6 +1,6 @@
 import { html } from "htm/react";
 
-export default () => html`
+export const ThreeStrikes = () => html`
   <div class="threestrikes">
     <div class="container-fluid">
       <div class="gameTitle">

@@ -2,10 +2,10 @@ import { html } from "htm/react";
 import { useRecoilState } from "recoil";
 import { Button } from "@material-ui/core";
 
-import GameList from "./GameList.js";
+import { GameList } from "./GameList.js";
 import selectedGame from "./selectedGame.js";
 
-export default () => {
+export const App = () => {
   const [SelectedGame, setSelectedGame] = useRecoilState(selectedGame);
 
   if (SelectedGame) {

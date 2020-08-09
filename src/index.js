@@ -2,7 +2,7 @@ import { html } from "htm/react";
 import { StrictMode } from "react";
 import ReactDOM from "react-dom";
 import { RecoilRoot } from "recoil";
-import App from "./App.js";
+import { App } from "./App.js";
 
 ReactDOM.render(
   html`<${StrictMode}
