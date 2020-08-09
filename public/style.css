@@ -1,0 +1,26 @@
+:root {
+  --aspect-ratio: calc(16 / 9);
+  --tvw: 100vw;
+  --tvh: calc(var(--tvw) / var(--aspect-ratio));
+}
+
+@media (min-aspect-ratio: 16/9) {
+  :root {
+    --tvw: calc(100vh * var(--aspect-ratio));
+  }
+}
+
+.game-screen {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: var(--tvw);
+  height: var(--tvh);
+  /* display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center; */
+}
