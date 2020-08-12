@@ -2,11 +2,13 @@ import { html } from "htm/react";
 import { StrictMode } from "react";
 import ReactDOM from "react-dom";
 import { RecoilRoot } from "recoil";
+import { CssBaseline } from "@material-ui/core";
+
 import { App } from "./App.js";
 
 ReactDOM.render(
   html`<${StrictMode}
-    ><${RecoilRoot}><${App} /><//
+    ><${RecoilRoot}><${CssBaseline} /><${App} /><//
   ><//>`,
   document.getElementById("root")
 );
