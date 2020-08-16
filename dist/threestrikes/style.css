@@ -1,0 +1,441 @@
+@import url("https://fonts.googleapis.com/css?family=Archivo+Black|Sedgwick+Ave+Display");
+
+.threestrikes {
+  --borderColor: #b5c6f4;
+  --font: "3Strikes", sans-serif;
+  --goldColor: #f1d4a4;
+  --blackColor: #0a0a0a;
+  background-color: #3f3f3f;
+  position: relative;
+  font-family: var(--font);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  user-select: none;
+  --px1: calc(var(--tvw) / 1000);
+  --npx1: calc(-1 * var(--px1));
+  --px2: calc(2 * var(--px1));
+  --px3: calc(3 * var(--px1));
+  --px5: calc(5 * var(--px1));
+  --npx5: calc(-5 * var(--px1));
+  --px10: calc(10 * var(--px1));
+}
+
+.threestrikes .game-screen {
+  /*border: 1px solid white;*/
+}
+
+.threestrikes .gameTitle {
+  text-align: center;
+  height: calc(100 * var(--px1));
+  font-size: calc(100 * var(--px1));
+  line-height: 1;
+  padding-top: calc(22 * var(--px1));
+}
+
+/* gold effect from https://codepen.io/mandymichael/pen/xpLNeV */
+.threestrikes .gameTitle span {
+  text-transform: uppercase;
+  background: var(--goldColor);
+  background: linear-gradient(
+    to bottom,
+    #cfc09f 3%,
+    #634f2c 5%,
+    #cfc09f 7%,
+    #cfc09f 8%,
+    #ffecb3 40%,
+    #3a2c0f 78%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  position: relative;
+  z-index: 1;
+}
+
+.threestrikes .gameTitle span::after {
+  background: none;
+  content: attr(data-gametitle);
+  left: 0;
+  top: 0;
+  z-index: -1;
+  position: absolute;
+  text-shadow: var(--npx1) 0 var(--px1) #c6bb9f, 0 var(--px1) var(--px1) #c6bb9f,
+    var(--px5) var(--px5) var(--px10) rgba(0, 0, 0, 0.4),
+    var(--npx5) var(--npx5) var(--px10) rgba(0, 0, 0, 0.4);
+}
+
+.threestrikes .gameBoard {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: calc(800 * var(--px1));
+  height: calc(150 * var(--px1));
+  position: relative;
+  border-radius: var(--px2);
+  margin: 0 auto;
+  background: rgba(227, 218, 209, 1);
+  background: linear-gradient(
+    to bottom,
+    rgba(227, 218, 209, 1) 0%,
+    rgba(230, 222, 214, 1) 0%,
+    rgba(178, 168, 158, 1) 100%
+  );
+}
+
+.threestrikes .screen {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  box-shadow: var(--px5) var(--px5) var(--px5) 0 rgba(0, 0, 0, 0.75);
+  width: calc(110 * var(--px1));
+  height: calc(120 * var(--px1));
+  font-size: calc(100 * var(--px1));
+  border-radius: var(--px2);
+  background-color: #0f2a3d;
+  border: calc(4 * var(--px1)) solid var(--borderColor);
+}
+
+.threestrikes .numScreen {
+  color: #39e68c;
+  text-shadow: 0 0 calc(2.5 * var(--px1)) #39e68c;
+  color: transparent;
+  font-size: calc(135 * var(--px1));
+  padding-top: calc(24 * var(--px1));
+  padding-left: calc(6 * var(--px1));
+}
+
+.threestrikes .numScreen::before {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  /* color: #39e68c; */
+  text-shadow: 0 0 var(--px5) #39e6c;
+  color: tranparent;
+}
+
+.threestrikes .blank {
+  cursor: pointer;
+}
+
+.threestrikes .base {
+  width: calc(400 * var(--px1));
+  height: calc(130 * var(--px1));
+  margin: 0 auto;
+  border-radius: 0 0 var(--px5) var(--px5);
+  position: relative;
+  display: flex;
+  justify-content: center;
+  background: rgba(178, 168, 158, 1);
+  background: linear-gradient(
+    to bottom,
+    rgba(178, 168, 158, 1) 0%,
+    rgba(230, 222, 214, 1) 73%,
+    rgba(227, 218, 209, 1) 100%
+  );
+  -webkit-box-reflect: below 0 -webkit-linear-gradient(bottom, rgba(
+          255,
+          255,
+          255,
+          0.2
+        )
+        0%, transparent 50%, transparent 100%);
+}
+
+.threestrikes .base:before {
+  width: calc(55 * var(--px1));
+  height: calc(110 * var(--px1));
+  border-radius: 0 0 calc(100 * var(--px1)) 0;
+  border: none;
+  background-color: #3f3f3f;
+  display: inline-block;
+  vertical-align: middle;
+  content: "";
+  position: absolute;
+  left: var(--npx5);
+}
+
+.threestrikes .base:after {
+  width: calc(55 * var(--px1));
+  height: calc(110 * var(--px1));
+  border-radius: 0 0 0 calc(100 * var(--px1));
+  border: none;
+  background-color: #3f3f3f;
+  display: inline-block;
+  vertical-align: middle;
+  content: "";
+  position: absolute;
+  right: var(--npx5);
+}
+
+.threestrikes .bottom {
+  width: calc(400 * var(--px1));
+  height: calc(20 * var(--px1));
+  position: absolute;
+  bottom: 0;
+  border-radius: 0 0 var(--px5) var(--px5);
+  background: rgba(70, 166, 137, 1);
+  background: linear-gradient(
+    to bottom,
+    rgba(70, 166, 137, 1) 0%,
+    rgba(37, 110, 90, 1) 99%,
+    rgba(37, 110, 90, 1) 100%
+  );
+}
+
+.threestrikes .strike {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  box-shadow: var(--px2) var(--px2) var(--px2) 0 rgba(0, 0, 0, 0.75);
+  width: calc(50 * var(--px1));
+  height: calc(50 * var(--px1));
+  background-color: #742001;
+  margin: var(--px5);
+  color: #ff2321;
+  font-size: calc(40 * var(--px1));
+  font-family: "Archivo Black", sans-serif;
+  border: calc(4 * var(--px1)) solid var(--borderColor);
+  border-radius: var(--px2);
+  text-shadow: 0 0 var(--px2) rgba(255, 35, 33, 0.5),
+    0 0 var(--px2) rgba(255, 35, 33, 0.5), 0 0 var(--px5) rgba(255, 35, 33, 1),
+    0 0 var(--px5) #ff0000, 0 0 var(--px2) #ff0000, 0 0 var(--px2) #ff0000,
+    0 0 var(--px2) #ff0000;
+}
+
+.threestrikes .slot {
+  width: calc(55 * var(--px1));
+  height: var(--px5);
+  background-color: var(--blackColor);
+  border-radius: var(--px1);
+  position: absolute;
+  top: calc(75 * var(--px1));
+}
+
+.threestrikes .bag {
+  position: relative;
+  overflow: visible;
+}
+
+.threestrikes .token {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: #feffc6;
+  box-shadow: inset 0 calc(-3 * var(--px1)) var(--px3) 0 rgba(0, 0, 0, 0.75);
+  width: calc(45 * var(--px1));
+  height: calc(45 * var(--px1));
+  transition: all 500ms cubic-bezier(0.42, 0, 0.58, 1);
+  position: absolute;
+  bottom: calc(10 * var(--px1));
+  left: calc(50% - 22.5 * var(--px1));
+  border-radius: calc(50 * var(--px1));
+  color: var(--blackColor);
+  z-index: 2;
+  font-size: calc(35 * var(--px1));
+  font-family: "Sedgwick Ave Display", cursive;
+  padding-top: calc(3 * var(--px1));
+}
+
+.threestrikes .strikeToken {
+  background-color: #f40100;
+  text-shadow: #f8f8f8 0 0 var(--px3);
+}
+
+.threestrikes .rotate {
+  /* top: calc(-147 * var(--px1)); */
+  transform: rotateX(70deg);
+}
+
+.threestrikes .raiseToken {
+  bottom: calc(130 * var(--px1));
+}
+
+.threestrikes .button {
+  text-align: center;
+  width: calc(100 * var(--px1));
+  height: calc(75 * var(--px1));
+  box-shadow: inset 0 calc(-3 * var(--px1)) var(--px3) 0 rgba(0, 0, 0, 0.75);
+  font-family: var(--font);
+  background-color: #b2a89e;
+  border-radius: var(--px5) var(--px5) var(20 * var(--px1)) var(20 * var(--px1));
+  border: none;
+  outline: none;
+  font-size: calc(17 * var(--px1));
+  margin: 0 calc(100 * var(--px1));
+  padding: calc(20 * var(--px1)) calc(15 * var(--px1));
+  color: var(--blackColor);
+  z-index: 3;
+  position: relative;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.threestrikes .button:active {
+  transform: translate(0px, 3px);
+  box-shadow: none;
+}
+
+p {
+  margin: 0;
+}
+
+.threestrikes .text {
+  --width: calc(275 * var(--px1));
+  width: var(--width);
+  height: calc(200 * var(--width) / 350);
+  background-color: #f4f4f4;
+  border-radius: var(--px5);
+  border: var(--px3) solid var(--blackColor);
+  font-size: calc(20 * var(--px1));
+  color: var(--blackColor);
+  z-index: 2;
+  overflow: auto;
+  position: absolute;
+  left: calc(20 * var(--px1));
+  bottom: calc(20 * var(--px1));
+}
+
+.threestrikes .car {
+  --width: calc(275 * var(--px1));
+  width: var(--width);
+  height: calc(200 * var(--width) / 350);
+  position: absolute;
+  right: calc(20 * var(--px1));
+  bottom: calc(20 * var(--px1));
+  background-color: white;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: var(--px5);
+  border: var(--px3) solid var(--blackColor);
+  overflow: hidden;
+}
+
+.threestrikes .bottomDiv {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: calc(30 * var(--px1)) calc(15 * var(--px1));
+  z-index: 3;
+}
+
+.threestrikes .curtain {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  transition: all 1000ms cubic-bezier(0.42, 0, 0.58, 1);
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  left: -2px;
+  right: -2px;
+  font-size: calc(50 * var(--px1));
+  line-height: 1;
+  color: var(--goldColor);
+  background: rgba(247, 81, 59, 1);
+  background: linear-gradient(
+    to right,
+    rgba(247, 81, 59, 1) 0%,
+    rgba(209, 27, 2, 1) 16%,
+    rgba(219, 64, 46, 1) 32%,
+    rgba(166, 19, 0, 1) 55%,
+    rgba(201, 49, 28, 1) 67%,
+    rgba(168, 17, 0, 1) 80%,
+    rgba(247, 81, 59, 1) 100%
+  );
+}
+
+.threestrikes .raiseCurtain {
+  top: calc(-250 * var(--px1));
+}
+
+.threestrikes .quoteButton {
+  background: #f4f4f4;
+  font-family: var(--font);
+  border-radius: var(--px5);
+  outline: none;
+  font-size: calc(20 * var(--px1));
+  margin: 0 var(--px5);
+  color: #0a0a0a;
+  cursor: pointer;
+}
+
+.threestrikes .splash {
+  --color: darkgoldenrod;
+  z-index: 1000;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-family: "Archivo Black", sans-serif;
+  font-size: calc(var(--tvh) / 2.5);
+  line-height: calc(var(--tvh) / 2.5);
+  text-shadow: 0 0 calc(5 * var(--px1)) var(--color);
+  color: transparent;
+  opacity: 90%;
+}
+
+.threestrikes .non-splash.dim {
+  opacity: 20%;
+}
+
+.threestrikes .splash.good {
+  --color: #39e68c;
+}
+
+.threestrikes .splash.bad {
+  --color: #ff2321;
+}
+
+.threestrikes .debug {
+  z-index: 2000;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: calc(275 * var(--px1));
+  font-family: Arial;
+  font-size: calc(15 * var(--px1));
+  color: white;
+}
+
+.threestrikes .debug button {
+  font-size: inherit;
+}
+
+.threestrikes .hide {
+  display: none;
+}
+
+.threestrikes .blinking {
+  animation: blink 0.5s linear infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.threestrikes #author {
+  text-align: center;
+  color: #adadad;
+  font-family: sans-serif;
+  font-size: calc(14 * var(--px1));
+}

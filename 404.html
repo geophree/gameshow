@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="./favicon.ico" />
+    <meta
+      name="viewport"
+      content="minimum-scale=1, initial-scale=1, width=device-width"
+    />
+    <meta name="description" content="Various gameshows in HTML5" />
+    <title>3 Strikes!</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+    />
+    <link rel="stylesheet" type="text/css" href="./style.css" />
+    <script>
+      try {
+        if (window.location.hash) {
+          window.hashData = JSON.parse(atob(window.location.hash.slice(1)));
+          window.history.pushState({}, "", window.location.pathname);
+        }
+      } catch {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <script type="module" src="./dist/index.js"></script>
+  </body>
+</html>
