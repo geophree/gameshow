@@ -138,7 +138,12 @@ export const ThreeStrikes = () => {
         const { index, more } = tokenRaised;
 
         if (index >= 0) raiseToken(index, false);
-        if (!more) setGamePhase("draw");
+        if (!more) {
+          setGamePhase("wait");
+          setTimeout(() => {
+            setGamePhase("draw");
+          }, 500);
+        }
       },
     },
     start: {
@@ -148,8 +153,8 @@ export const ThreeStrikes = () => {
         raiseAllTokens();
         setGamePhase("insert");
         // TODO(geophree): remove these two when done developing
-        raiseAllTokens(false);
-        setGamePhase("draw");
+        // raiseAllTokens(false);
+        // setGamePhase("draw");
       },
     },
   }[gamePhase];
