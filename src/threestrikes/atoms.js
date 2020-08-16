@@ -1,11 +1,11 @@
 import { atom, selector } from "recoil";
 
 export const buttonPhaseState = atom({
-  key: "ThreeStrikesButtonText",
+  key: "buttonPhase",
   default: "start",
 });
 export const priceState = atom({
-  key: "ThreeStrikesPrice",
+  key: "price",
   default: 15672,
 });
 export const numScreensState = atom({
@@ -26,11 +26,11 @@ export const tokensRemainingState = atom({
 });
 
 export const priceDigitsValue = selector({
-  key: "ThreeStrikesPriceDigitsValue",
+  key: "priceDigitsValue",
   get: ({ get }) => ("" + get(priceState)).split("").map(Number),
 });
 export const tokenDigitsValue = selector({
-  key: "ThreeStrikesTokenDigitsValue",
+  key: "tokenDigitsValue",
   get: ({ get }) => [
     "X",
     "X",
