@@ -1,15 +1,24 @@
 import { html } from "htm/react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import {
+  useRecoilState,
+  useRecoilValue,
+  useResetRecoilState,
+  useSetRecoilState,
+} from "recoil";
 
 import "./style.css";
 import fontUrl from "./fonts/3Strikes.woff2";
 
 import {
-  buttonPhaseState,
-  priceState,
+  gamePhaseState,
+  numScreensState,
+  priceDigitsValue,
+  resetGameState,
+  strikesState,
   tokenDigitsValue,
-  tokensShownState,
-  tokensRemainingState,
+  tokenModsState,
+  tokenRaisedValue,
+  tokensRemainingValue,
 } from "./atoms.js";
 import { NumScreen } from "./NumScreen.js";
 
@@ -19,55 +28,155 @@ function getRandomInt(max) {
 }
 
 export const ThreeStrikes = () => {
-  const [buttonPhase, setButtonPhase] = useRecoilState(buttonPhaseState);
-  const [price] = useRecoilState(priceState);
-  const [tokensShown, setTokensShown] = useRecoilState(tokensShownState);
+  const [gamePhase, setGamePhase] = useRecoilState(gamePhaseState);
+  const [strikes, setStrikes] = useRecoilState(strikesState);
+  const [tokenMods, setTokenMods] = useRecoilState(tokenModsState);
   const [remainingTokens, setRemainingTokens] = useRecoilState(
-    tokensRemainingState
+    tokensRemainingValue
   );
+  const resetGame = useResetRecoilState(resetGameState);
 
   const tokenDigits = useRecoilValue(tokenDigitsValue);
+  const priceDigits = useRecoilValue(priceDigitsValue);
+  const tokenRaised = useRecoilValue(tokenRaisedValue);
+  // const { gameOver, won } = useRecoilValue(gameOverValue);
 
-  const tokens = tokenDigits.map((c, i) => {
-    let className = "token";
-    if (c === "X") className += " strikeToken";
-    if (tokensShown[i]) className += " raiseToken";
-    return html`<div key=${i} class=${className}>${c}</div>`;
-  });
+  const setScreenStates = useSetRecoilState(numScreensState);
 
-  const showToken = (index, show = true) => {
-    const shown = tokensShown.slice();
-    shown[index] = show;
-    setTokensShown(shown);
+  const modToken = (index, mod) => {
+    setTokenMods((mods) => {
+      mods = mods.slice();
+      mods.splice(index, 1, { ...mods[index], ...mod });
+      return mods;
+    });
   };
 
-  const { text: buttonText, onClick: buttonOnClick } = {
+  const raiseToken = (index, raised = true) => {
+    modToken(index, { raised });
+  };
+
+  const raiseAllTokens = (raised = true) => {
+    setTokenMods((mods) => mods.map((x) => ({ ...x, raised })));
+  };
+
+  const discardToken = (index, callback) => {
+    modToken(index, { rotated: true });
+    setTimeout(() => {
+      modToken(index, { discarded: true });
+      callback();
+    }, 650);
+  };
+
+  const noop = () => {};
+
+  const { text: buttonText, buttonOnClick = noop, numScreenOnClick = noop } = {
+    wait: { text: "" },
+    select: {
+      text: "select",
+      numScreenOnClick: (i) => {
+        const { index, more } = tokenRaised;
+        if (index <= 0) {
+          setGamePhase("draw");
+          return;
+        }
+        if (tokenDigits[index] == priceDigits[i]) {
+          setScreenStates((states) => {
+            states = states.slice();
+            states[i] = true;
+            return states;
+          });
+          // TODO(geophree): check win condition
+          setGamePhase("wait");
+          discardToken(index, () => {
+            setGamePhase("draw");
+          });
+          return;
+        }
+        // TODO(geophree): Big NO flash?
+
+        setGamePhase("wait");
+        raiseToken(index, false);
+        setTimeout(() => {
+          setGamePhase("draw");
+        }, 500);
+      },
+    },
+    end: {
+      text: "restart",
+      buttonOnClick: () => {
+        setGamePhase("start");
+      },
+    },
     draw: {
       text: "draw",
-      onClick: () => {
-        const selected = getRandomInt(remainingTokens.length - 1);
-        showToken(selected);
+      buttonOnClick: () => {
+        if (remainingTokens.length == 0) {
+          setGamePhase("end");
+          return;
+        }
+        const index = remainingTokens[getRandomInt(remainingTokens.length - 1)];
+        raiseToken(index);
+        if (tokenDigits[index] == "X") {
+          setGamePhase("wait");
+          setTimeout(() => {
+            discardToken(index, () => {
+              setStrikes((x) => x + 1);
+              setGamePhase("draw");
+            });
+          }, 500);
+          return;
+        }
+        setGamePhase("wait");
+        setTimeout(() => {
+          setGamePhase("select");
+        }, 500);
       },
     },
     insert: {
       text: "insert",
-      onClick: () => {
-        const index = tokensShown.lastIndexOf(true);
-        showToken(index, false);
-        if (index <= 0) setButtonPhase("draw");
+      buttonOnClick: () => {
+        const { index, more } = tokenRaised;
+
+        if (index >= 0) raiseToken(index, false);
+        if (!more) setGamePhase("draw");
       },
     },
     start: {
       text: "start",
-      onClick: () => {
-        setRemainingTokens(tokenDigits.map((_, i) => i));
-        setTokensShown(tokenDigits.map(() => true));
-        setButtonPhase("insert");
-        setTokensShown(tokenDigits.map(() => false));
-        setButtonPhase("draw");
+      buttonOnClick: () => {
+        resetGame();
+        raiseAllTokens();
+        setGamePhase("insert");
+        // TODO(geophree): remove these two when done developing
+        raiseAllTokens(false);
+        setGamePhase("draw");
       },
     },
-  }[buttonPhase];
+  }[gamePhase];
+
+  let numScreens = [html`<${NumScreen} dollar key="$" />`];
+  for (let i = 0; i < 5; i++) {
+    numScreens.push(
+      html`<${NumScreen} i=${i} key=${i} onClick=${numScreenOnClick} />`
+    );
+  }
+
+  let strikeScreens = [];
+  for (let i = 0; i < 3; i++) {
+    strikeScreens.push(
+      html`<div class="strike" key=${i}>${i < strikes ? "X" : ""}</div>`
+    );
+  }
+
+  const tokens = tokenDigits.map((c, i) => {
+    const { raised = false, rotated = false, discarded = false } = tokenMods[i];
+    let className = "token";
+    if (c === "X") className += " strikeToken";
+    if (raised) className += " raiseToken";
+    if (rotated) className += " rotate";
+    if (discarded) className += " hide";
+    return html`<div key=${i} class=${className}>${c}</div>`;
+  });
 
   return html`
     <div class="threestrikes">
@@ -85,30 +194,26 @@ export const ThreeStrikes = () => {
             <span data-gametitle="3 Strikes">3 Strikes</span>
           </div>
           <div class="gameBoard">
-            <${NumScreen} dollar />
-            <${NumScreen} i="0" />
-            <${NumScreen} i="1" />
-            <${NumScreen} i="2" />
-            <${NumScreen} i="3" />
-            <${NumScreen} i="4" />
+            ${numScreens}
           </div>
           <div class="base">
-            <div class="strike" id="strike1"></div>
-            <div class="strike" id="strike2"></div>
-            <div class="strike" id="strike3"></div>
+            ${strikeScreens}
             <div class="slot"></div>
             <div class="bottom"></div>
           </div>
           <div class="bottomDiv">
             <!-- <div class="text">Come on down!</div> -->
-            <div class="bag" onClick=${buttonOnClick}>
+            <div class="bag">
               ${tokens}
-              <button class="button">${buttonText}</button>
+              <button class="button" onClick=${buttonOnClick}>
+                ${buttonText}
+              </button>
             </div>
             <!-- <div class="car">
               <div class="curtain">Prize</div>
             </div> -->
           </div>
+          <button onClick=${resetGame}>reset game</button>
           <!-- <footer>
             <div id="author">© Jarrod Yellets | 2018</div>
           </footer> -->

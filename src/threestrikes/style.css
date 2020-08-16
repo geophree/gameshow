@@ -13,6 +13,7 @@
   bottom: 0;
   left: 0;
   right: 0;
+  user-select: none;
   --px1: calc(var(--tvw) / 1000);
   --npx1: calc(-1 * var(--px1));
   --px2: calc(2 * var(--px1));
@@ -139,6 +140,13 @@
     rgba(230, 222, 214, 1) 73%,
     rgba(227, 218, 209, 1) 100%
   );
+  -webkit-box-reflect: below 0 -webkit-linear-gradient(bottom, rgba(
+          255,
+          255,
+          255,
+          0.2
+        )
+        0%, transparent 50%, transparent 100%);
 }
 
 .threestrikes .base:before {
@@ -244,7 +252,7 @@
 }
 
 .threestrikes .rotate {
-  top: calc(-147 * var(--px1));
+  /* top: calc(-147 * var(--px1)); */
   transform: rotateX(70deg);
 }
 
@@ -253,6 +261,9 @@
 }
 
 .threestrikes .button {
+  text-align: center;
+  width: calc(100 * var(--px1));
+  height: calc(75 * var(--px1));
   box-shadow: inset 0 calc(-3 * var(--px1)) var(--px3) 0 rgba(0, 0, 0, 0.75);
   font-family: var(--font);
   background-color: #b2a89e;
@@ -367,7 +378,6 @@ p {
 
 .threestrikes .blinking {
   animation: blink 0.5s linear infinite;
-  -webkit-animation: blink 1s linear infinite;
 }
 
 @keyframes blink {
