@@ -4,7 +4,8 @@
   "description": "HTML5 implementations of various game shows",
   "scripts": {
     "start": "snowpack dev",
-    "build": "snowpack build"
+    "build": "snowpack build",
+    "postinstall": "patch-package"
   },
   "author": "Jeff Hanke <geophree@gmail.com>",
   "license": "MIT",
@@ -12,8 +13,9 @@
     "@snowpack/app-scripts-react": "^1.6.0-alpha.0",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.11",
+    "patch-package": "^6.2.2",
     "prettier": "^2.0.5",
-    "snowpack": "^2.6.4"
+    "snowpack": "^2.7.7"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.0",

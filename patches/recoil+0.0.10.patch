@@ -1,0 +1,12 @@
+diff --git a/node_modules/recoil/dist/recoil.development.js b/node_modules/recoil/dist/recoil.development.js
+index d1e2ab1..c17b9d6 100644
+--- a/node_modules/recoil/dist/recoil.development.js
++++ b/node_modules/recoil/dist/recoil.development.js
+@@ -3377,7 +3377,6 @@ exports.RecoilRoot = Recoil_index_2;
+ exports.atom = Recoil_index_3;
+ exports.atomFamily = Recoil_index_5;
+ exports.constSelector = Recoil_index_7;
+-exports.default = Recoil_index;
+ exports.errorSelector = Recoil_index_8;
+ exports.isRecoilValue = Recoil_index_26;
+ exports.noWait = Recoil_index_22;

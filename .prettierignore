@@ -1,8 +1,10 @@
 build/
 node_modules/
 web_modules/
+/patches/
 LICENSE
 .*ignore
+.git*
 *.ico
 *.txt
 *.woff2
