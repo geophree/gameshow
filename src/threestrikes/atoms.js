@@ -1,7 +1,22 @@
-import { atom, selector, DefaultValue } from "recoil";
+import { atom, atomFamily, selector, DefaultValue } from "recoil";
 
 // random int from 0 to max (inclusive!)
 const getRandomInt = (max) => Math.floor(Math.random() * (Math.floor(max) + 1));
+
+export const optionState = atomFamily({
+  key: "option",
+  default: (param) =>
+    ({
+      numStrikes: 3,
+      discardStrikes: true,
+      startingExtraDrawAttempts: 0,
+      strikeIncreasesDrawAttempts: false,
+      nonStrikeDecreasesDrawAttempts: false,
+      correctDigitDecreasesDrawAttempts: false,
+      incorrectDigitIncreasesDrawAttempts: false,
+      usingAttemptDecreasesDrawAttempts: false,
+    }[param]),
+});
 
 export const gamePhaseState = atom({
   key: "gamePhase",
@@ -29,9 +44,7 @@ export const priceDigitsValue = selector({
 export const tokenDigitsValue = selector({
   key: "tokenDigitsValue",
   get: ({ get }) => [
-    "X",
-    "X",
-    "X",
+    ...Array(get(optionState("numStrikes"))).fill("X"),
     ...get(priceDigitsValue)
       .slice()
       .sort((a, b) => b - a),
@@ -73,6 +86,15 @@ export const tokensRemainingValue = selector({
   },
 });
 
+export const extraDrawAttemptsState = atom({
+  key: "extraDrawAttempts",
+  default: selector({
+    key: "extraDrawAttemptsDefault",
+    get: ({ get }) =>
+      Math.max(0, get(optionState("startingExtraDrawAttempts"))),
+  }),
+});
+
 export const tokenRaisedValue = selector({
   key: "tokenRaisedValue",
   get: ({ get }) => {
@@ -93,6 +115,7 @@ export const tokenRaisedValue = selector({
 });
 
 const resetStates = [
+  extraDrawAttemptsState,
   gamePhaseState,
   numScreensState,
   strikesState,

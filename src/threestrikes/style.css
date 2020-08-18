@@ -37,6 +37,7 @@
 
 /* gold effect from https://codepen.io/mandymichael/pen/xpLNeV */
 .threestrikes .gameTitle span {
+  text-transform: uppercase;
   background: var(--goldColor);
   background: linear-gradient(
     to bottom,
@@ -49,7 +50,6 @@
   );
   -webkit-background-clip: text;
   background-clip: text;
-  text-transform: uppercase;
   color: transparent;
   position: relative;
   z-index: 1;
@@ -370,6 +370,22 @@ p {
   margin: 0 var(--px5);
   color: #0a0a0a;
   cursor: pointer;
+}
+
+.threestrikes .debug {
+  font-family: Arial;
+  font-size: calc(15 * var(--px1));
+  color: white;
+  --width: calc(275 * var(--px1));
+  width: var(--width);
+  /*height: calc(200 * var(--width) / 350);*/
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.threestrikes .debug button {
+  font-size: inherit;
 }
 
 .threestrikes .hide {
