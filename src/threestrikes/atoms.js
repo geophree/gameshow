@@ -120,11 +120,17 @@ export const tokenRaisedValue = selector({
   },
 });
 
+export const splashState = atom({
+  key: "splash",
+  default: {},
+});
+
 const resetStates = [
   extraDrawAttemptsState,
   gamePhaseState,
   numScreensState,
   strikesState,
+  splashState,
   tokenModsState,
 ];
 

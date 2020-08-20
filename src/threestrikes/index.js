@@ -17,6 +17,7 @@ import {
   priceDigitsValue,
   priceState,
   resetGameState,
+  splashState,
   strikesState,
   tokenDigitsValue,
   tokenModsState,
@@ -24,6 +25,8 @@ import {
   tokensRemainingValue,
 } from "./atoms.js";
 import { NumScreen } from "./NumScreen.js";
+
+const STRIKE_WORD_MAP = ["ZERO", "ONE", "TWO", "OUT"];
 
 // TODO(geophree):
 // screens: win, lose, draw strike, miss digit guess
@@ -44,6 +47,12 @@ export const ThreeStrikes = () => {
   const [extraDrawAttempts, setExtraDrawAttempts] = useRecoilState(
     extraDrawAttemptsState
   );
+  const [splashData, setSplash] = useRecoilState(splashState);
+
+  let splashClasses = "splash";
+  if (splashData.good) splashClasses += " good";
+  if (splashData.bad) splashClasses += " bad";
+  if (!splashData.text) splashClasses += " hide";
 
   const [discardStrikes, setDiscardStrikes] = useRecoilState(
     optionState("discardStrikes")
@@ -91,7 +100,7 @@ export const ThreeStrikes = () => {
   const tokenRaised = useRecoilValue(tokenRaisedValue);
   // const { gameOver, won } = useRecoilValue(gameOverValue);
 
-  const setScreenStates = useSetRecoilState(numScreensState);
+  const [screenStates, setScreenStates] = useRecoilState(numScreensState);
 
   const modToken = (index, mod) => {
     setTokenMods((mods) => {
@@ -117,6 +126,11 @@ export const ThreeStrikes = () => {
     }, 650);
   };
 
+  const splash = (data) => {
+    setSplash(data);
+    if (!data.end) setTimeout(() => setSplash({}), 1000);
+  };
+
   const decreaseDrawAttempts = () =>
     setExtraDrawAttempts((x) => Math.max(0, x - 1));
   const increaseDrawAttempts = () => setExtraDrawAttempts((x) => x + 1);
@@ -139,14 +153,22 @@ export const ThreeStrikes = () => {
             states[i] = true;
             return states;
           });
-          // TODO(geophree): check win condition
+
+          const win =
+            screenStates.reduce((n, x) => n + x) == screenStates.length - 1;
+          if (win) {
+            splash({ text: "HOME RUN!", good: true, end: true });
+            // TODO(geophree): do other win stuff
+          } else {
+            splash({ text: "HIT!", good: true });
+          }
           setGamePhase("wait");
           discardToken(index, () => {
-            setGamePhase("draw");
+            setGamePhase(win ? "end" : "draw");
           });
           return;
         }
-        // TODO(geophree): Big NO flash?
+        splash({ text: "MISS!", bad: true });
 
         if (incorrectDigitIncreasesDrawAttempts) increaseDrawAttempts();
         setGamePhase("wait");
@@ -157,10 +179,7 @@ export const ThreeStrikes = () => {
       },
     },
     end: {
-      text: "restart",
-      buttonOnClick: () => {
-        setGamePhase("start");
-      },
+      text: "",
     },
     draw: {
       text: "draw",
@@ -184,15 +203,22 @@ export const ThreeStrikes = () => {
         setGamePhase("wait");
         setTimeout(() => {
           if (tokenDigits[index] == "X") {
+            const nextStrikes = strikes + 1;
+            const lose = nextStrikes >= 3;
+            splash({
+              text: `STRIKE ${STRIKE_WORD_MAP[nextStrikes]}!`,
+              bad: true,
+              end: lose,
+            });
             if (strikeIncreasesDrawAttempts) increaseDrawAttempts();
             if (!discardStrikes) {
               setStrikes((x) => x + 1);
-              setGamePhase("insert");
+              setGamePhase(lose ? "end" : "insert");
               return;
             }
             discardToken(index, () => {
               setStrikes((x) => x + 1);
-              setGamePhase("draw");
+              setGamePhase(lose ? "end" : "draw");
             });
             return;
           }
@@ -263,7 +289,7 @@ export const ThreeStrikes = () => {
         }
       </style>
       <div class="game-screen">
-        <div class="container-fluid">
+        <div class="non-splash${splashData.text ? " dim" : ""}">
           <div class="gameTitle">
             <span data-gametitle="3 Strikes">3 Strikes</span>
           </div>
@@ -287,101 +313,95 @@ export const ThreeStrikes = () => {
               <div class="curtain">Prize</div>
             </div> -->
           </div>
-          <div class="debug">
-            DEBUG:<br />
-            <label
-              ><input
-                type="checkbox"
-                checked=${discardStrikes}
-                onChange=${() => setDiscardStrikes((x) => !x)}
-              />discard strikes</label
-            ><br />
-            Total strike tokens: ${numStrikes}
-            <button onClick=${() => setNumStrikes((x) => Math.max(0, x - 1))}>
-              -</button
-            ><button onClick=${() => setNumStrikes((x) => x + 1)}>+</button
-            ><br />
-            Extra draw attempts (internal): ${extraDrawAttempts}<br />
-            <ul style=${{ margin: 0 }}>
-              <li>
-                starting: ${startingExtraDrawAttempts}
-                <button
-                  onClick=${() =>
-                    setStartingExtraDrawAttempts((x) => Math.max(0, x - 1))}
-                >
-                  -</button
-                ><button
-                  onClick=${() => setStartingExtraDrawAttempts((x) => x + 1)}
-                >
-                  +</button
-                ><br />
-              </li>
-              <li>
-                <label
-                  ><input
-                    type="checkbox"
-                    checked=${strikeIncreasesDrawAttempts}
-                    onChange=${() => setStrikeIncreasesDrawAttempts((x) => !x)}
-                  />strike increases</label
-                ><br />
-              </li>
-              <li>
-                <label
-                  ><input
-                    type="checkbox"
-                    checked=${nonStrikeDecreasesDrawAttempts}
-                    onChange=${() =>
-                      setNonStrikeDecreasesDrawAttempts((x) => !x)}
-                  />non strike decreases</label
-                ><br />
-              </li>
-              <li>
-                <label
-                  ><input
-                    type="checkbox"
-                    checked=${correctDigitDecreasesDrawAttempts}
-                    onChange=${() =>
-                      setCorrectDigitDecreasesDrawAttempts((x) => !x)}
-                  />correct digit decreases</label
-                ><br />
-              </li>
-              <li>
-                <label
-                  ><input
-                    type="checkbox"
-                    checked=${incorrectDigitIncreasesDrawAttempts}
-                    onChange=${() =>
-                      setIncorrectDigitIncreasesDrawAttempts((x) => !x)}
-                  />incorrect digit increases</label
-                ><br />
-              </li>
-              <li>
-                <label
-                  ><input
-                    type="checkbox"
-                    checked=${usingAttemptDecreasesDrawAttempts}
-                    onChange=${() =>
-                      setUsingAttemptDecreasesDrawAttempts((x) => !x)}
-                  />using attempt decreases</label
-                ><br />
-              </li>
-            </ul>
-            Price
-            <button
-              onClick=${() => setPrice(() => 10000 + getRandomInt(89999))}
-            >
-              randomize
-            </button>
-            <button onClick=${() => setPrice(Number(prompt("hello")))}>
-              set
-            </button>
-            <button onClick=${goToPricedLink}>go to priced url</button><br />
-            <button onClick=${resetGame}>reset game</button><br />
-          </div>
-          <!-- <footer>
-            <div id="author">© Jarrod Yellets | 2018</div>
-          </footer> -->
         </div>
+        <div class="debug">
+          DEBUG:<br />
+          <label
+            ><input
+              type="checkbox"
+              checked=${discardStrikes}
+              onChange=${() => setDiscardStrikes((x) => !x)}
+            />discard strikes</label
+          ><br />
+          Total strike tokens: ${numStrikes}
+          <button onClick=${() => setNumStrikes((x) => Math.max(0, x - 1))}>
+            -</button
+          ><button onClick=${() => setNumStrikes((x) => x + 1)}>+</button><br />
+          Extra draw attempts (internal): ${extraDrawAttempts}<br />
+          <ul style=${{ margin: 0 }}>
+            <li>
+              starting: ${startingExtraDrawAttempts}
+              <button
+                onClick=${() =>
+                  setStartingExtraDrawAttempts((x) => Math.max(0, x - 1))}
+              >
+                -</button
+              ><button
+                onClick=${() => setStartingExtraDrawAttempts((x) => x + 1)}
+              >
+                +</button
+              ><br />
+            </li>
+            <li>
+              <label
+                ><input
+                  type="checkbox"
+                  checked=${strikeIncreasesDrawAttempts}
+                  onChange=${() => setStrikeIncreasesDrawAttempts((x) => !x)}
+                />strike increases</label
+              ><br />
+            </li>
+            <li>
+              <label
+                ><input
+                  type="checkbox"
+                  checked=${nonStrikeDecreasesDrawAttempts}
+                  onChange=${() => setNonStrikeDecreasesDrawAttempts((x) => !x)}
+                />non strike decreases</label
+              ><br />
+            </li>
+            <li>
+              <label
+                ><input
+                  type="checkbox"
+                  checked=${correctDigitDecreasesDrawAttempts}
+                  onChange=${() =>
+                    setCorrectDigitDecreasesDrawAttempts((x) => !x)}
+                />correct digit decreases</label
+              ><br />
+            </li>
+            <li>
+              <label
+                ><input
+                  type="checkbox"
+                  checked=${incorrectDigitIncreasesDrawAttempts}
+                  onChange=${() =>
+                    setIncorrectDigitIncreasesDrawAttempts((x) => !x)}
+                />incorrect digit increases</label
+              ><br />
+            </li>
+            <li>
+              <label
+                ><input
+                  type="checkbox"
+                  checked=${usingAttemptDecreasesDrawAttempts}
+                  onChange=${() =>
+                    setUsingAttemptDecreasesDrawAttempts((x) => !x)}
+                />using attempt decreases</label
+              ><br />
+            </li>
+          </ul>
+          Price
+          <button onClick=${() => setPrice(() => 10000 + getRandomInt(89999))}>
+            randomize
+          </button>
+          <button onClick=${() => setPrice(Number(prompt("hello")))}>
+            set
+          </button>
+          <button onClick=${goToPricedLink}>go to priced url</button><br />
+          <button onClick=${resetGame}>reset game</button><br />
+        </div>
+        <div class=${splashClasses}><span>${splashData.text}</span></div>
       </div>
     </div>
   `;

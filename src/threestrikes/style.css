@@ -372,16 +372,47 @@ p {
   cursor: pointer;
 }
 
+.threestrikes .splash {
+  --color: darkgoldenrod;
+  z-index: 1000;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-family: "Archivo Black", sans-serif;
+  font-size: calc(var(--tvh) / 2.5);
+  line-height: calc(var(--tvh) / 2.5);
+  text-shadow: 0 0 calc(5 * var(--px1)) var(--color);
+  color: transparent;
+  opacity: 90%;
+}
+
+.threestrikes .non-splash.dim {
+  opacity: 20%;
+}
+
+.threestrikes .splash.good {
+  --color: #39e68c;
+}
+
+.threestrikes .splash.bad {
+  --color: #ff2321;
+}
+
 .threestrikes .debug {
-  font-family: Arial;
-  font-size: calc(15 * var(--px1));
-  color: white;
-  --width: calc(275 * var(--px1));
-  width: var(--width);
-  /*height: calc(200 * var(--width) / 350);*/
+  z-index: 2000;
   position: absolute;
   bottom: 0;
   left: 0;
+  width: calc(275 * var(--px1));
+  font-family: Arial;
+  font-size: calc(15 * var(--px1));
+  color: white;
 }
 
 .threestrikes .debug button {
@@ -402,7 +433,7 @@ p {
   }
 }
 
-#author {
+.threestrikes #author {
   text-align: center;
   color: #adadad;
   font-family: sans-serif;
