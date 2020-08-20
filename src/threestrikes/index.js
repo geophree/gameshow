@@ -31,12 +31,10 @@ import { NumScreen } from "./NumScreen.js";
 // sounds
 
 // random int from 0 to max (inclusive!)
-function getRandomInt(max) {
-  return Math.floor(Math.random() * (Math.floor(max) + 1));
-}
+const getRandomInt = (max) => Math.floor(Math.random() * (Math.floor(max) + 1));
 
 export const ThreeStrikes = () => {
-  const setPrice = useSetRecoilState(priceState);
+  const [price, setPrice] = useRecoilState(priceState);
   const [gamePhase, setGamePhase] = useRecoilState(gamePhaseState);
   const [strikes, setStrikes] = useRecoilState(strikesState);
   const [tokenMods, setTokenMods] = useRecoilState(tokenModsState);
@@ -75,6 +73,16 @@ export const ThreeStrikes = () => {
     startingExtraDrawAttempts,
     setStartingExtraDrawAttempts,
   ] = useRecoilState(optionState("startingExtraDrawAttempts"));
+
+  const goToPricedLink = () => {
+    if (!window) {
+      console.log("need window for goToPricedLink");
+      return;
+    }
+    const url = new URL(window.location);
+    url.hash = btoa(JSON.stringify({ price }));
+    window.history.pushState({}, "", url.toString());
+  };
 
   const resetGame = useResetRecoilState(resetGameState);
 
@@ -358,11 +366,16 @@ export const ThreeStrikes = () => {
                 ><br />
               </li>
             </ul>
+            Price
             <button
               onClick=${() => setPrice(() => 10000 + getRandomInt(89999))}
             >
-              randomize price</button
-            ><br />
+              randomize
+            </button>
+            <button onClick=${() => setPrice(Number(prompt("hello")))}>
+              set
+            </button>
+            <button onClick=${goToPricedLink}>go to priced url</button><br />
             <button onClick=${resetGame}>reset game</button><br />
           </div>
           <!-- <footer>

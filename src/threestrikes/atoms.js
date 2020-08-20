@@ -27,7 +27,13 @@ export const priceState = atom({
   key: "price",
   default: selector({
     key: "priceDefault",
-    get: () => 10000 + getRandomInt(89999),
+    get: () => {
+      try {
+        const { hashData: { price } = {} } = window || {};
+        if (price) return price;
+      } catch {}
+      return 10000 + getRandomInt(89999);
+    },
   }),
 });
 
