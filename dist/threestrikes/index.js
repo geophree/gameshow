@@ -24,7 +24,9 @@ import {
   tokenRaisedValue,
   tokensRemainingValue,
 } from "./atoms.js";
+
 import { NumScreen } from "./NumScreen.js";
+import { Cog } from "./Cog.js";
 
 const STRIKE_WORD_MAP = ["ZERO", "ONE", "TWO", "OUT"];
 
@@ -54,6 +56,7 @@ export const ThreeStrikes = () => {
   if (splashData.bad) splashClasses += " bad";
   if (!splashData.text) splashClasses += " hide";
 
+  const [showDebug, setShowDebug] = useRecoilState(optionState("showDebug"));
   const [discardStrikes, setDiscardStrikes] = useRecoilState(
     optionState("discardStrikes")
   );
@@ -314,7 +317,7 @@ export const ThreeStrikes = () => {
             </div> -->
           </div>
         </div>
-        <div class="debug">
+        <div class="debug${showDebug ? "" : " hide"}">
           DEBUG:<br />
           <label
             ><input
@@ -403,6 +406,7 @@ export const ThreeStrikes = () => {
         </div>
         <div class=${splashClasses}><span>${splashData.text}</span></div>
       </div>
+      <${Cog} class="debug-trigger" onClick=${() => setShowDebug((x) => !x)} />
     </div>
   `;
 };

@@ -9,12 +9,13 @@ export const optionState = atomFamily({
     ({
       numStrikes: 3,
       discardStrikes: true,
-      startingExtraDrawAttempts: 0,
-      strikeIncreasesDrawAttempts: false,
+      startingExtraDrawAttempts: 2,
+      strikeIncreasesDrawAttempts: true,
       nonStrikeDecreasesDrawAttempts: false,
-      correctDigitDecreasesDrawAttempts: false,
+      correctDigitDecreasesDrawAttempts: true,
       incorrectDigitIncreasesDrawAttempts: false,
       usingAttemptDecreasesDrawAttempts: false,
+      showDebug: false,
     }[param]),
 });
 

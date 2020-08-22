@@ -16,11 +16,11 @@ export const App = () => {
     return html`
       <${RecoilRoot}>
         <${SelectedGame} />
-        <${Button}
+        <!-- <${Button}
           style=${{ position: "absolute", top: 0, left: 0 }}
           onClick=${unselectGame}
           >Back<//
-        >
+        > -->
       <//>
     `;
   }
