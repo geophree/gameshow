@@ -100,6 +100,11 @@
   border: calc(4 * var(--px1)) solid var(--borderColor);
 }
 
+.threestrikes .screen.clickable {
+  cursor: pointer;
+  border-color: #39e68c;
+}
+
 .threestrikes .numScreen {
   color: #39e68c;
   text-shadow: 0 0 calc(2.5 * var(--px1)) #39e68c;
@@ -417,6 +422,16 @@ p {
 
 .threestrikes .debug button {
   font-size: inherit;
+}
+
+.threestrikes .debug-trigger {
+  position: absolute;
+  top: calc(5 * var(--px1));
+  right: calc(5 * var(--px1));
+  width: calc(20 * var(--px1));
+  height: calc(20 * var(--px1));
+  opacity: 15%;
+  cursor: pointer;
 }
 
 .threestrikes .hide {

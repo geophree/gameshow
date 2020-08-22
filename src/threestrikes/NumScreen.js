@@ -1,9 +1,10 @@
 import { html } from "htm/react";
 import { useRecoilState, useRecoilValue } from "recoil";
 
-import { numScreensState, priceDigitsValue } from "./atoms.js";
+import { gamePhaseState, numScreensState, priceDigitsValue } from "./atoms.js";
 
 export const NumScreen = ({ i, dollar, onClick }) => {
+  const gamePhase = useRecoilValue(gamePhaseState);
   const [screenStates, setScreenStates] = useRecoilState(numScreensState);
   const priceDigits = useRecoilValue(priceDigitsValue);
 
@@ -17,10 +18,15 @@ export const NumScreen = ({ i, dollar, onClick }) => {
 
   let realOnClick = () => onClick(i);
   const isShowing = screenStates[i];
-  if (isShowing) realOnClick = undefined;
+  let screenClass = "screen";
+  if (isShowing) {
+    realOnClick = undefined;
+  } else if (gamePhase == "select") {
+    screenClass += " clickable";
+  }
 
   return html`
-    <div class="screen" onClick=${realOnClick}>
+    <div class=${screenClass} onClick=${realOnClick}>
       <div class="numScreen" id="${i}">
         ${isShowing ? priceDigits[i] : ""}
       </div>
