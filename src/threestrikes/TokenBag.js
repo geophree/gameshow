@@ -1,7 +1,7 @@
 import { html } from "htm/react";
 import { useRecoilValue } from "recoil";
 
-import { tokenDigitsValue, tokenModsState } from "./atoms.js";
+import { tokenDigitsValue, tokenModsState } from "./state.js";
 
 export const TokenBag = ({ bagText, onClick }) => {
   const tokenDigits = useRecoilValue(tokenDigitsValue);

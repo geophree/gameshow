@@ -1,7 +1,7 @@
 import { html } from "htm/react";
 import { useRecoilValue, useRecoilCallback } from "recoil";
 
-import { splashState } from "./atoms.js";
+import { splashState } from "./state.js";
 import { sleep } from "./util.js";
 
 export const useDoSplash = () =>

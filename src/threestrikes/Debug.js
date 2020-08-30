@@ -11,7 +11,7 @@ import {
   optionState,
   priceState,
   resetGameState,
-} from "./atoms.js";
+} from "./state.js";
 
 import { getRandomInt } from "./util.js";
 

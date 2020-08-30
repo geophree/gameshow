@@ -1,7 +1,7 @@
 import { html } from "htm/react";
 import { useRecoilState, useRecoilValue } from "recoil";
 
-import { gamePhaseState, numScreensState, priceDigitsValue } from "./atoms.js";
+import { gamePhaseState, numScreensState, priceDigitsValue } from "./state.js";
 
 export const NumScreen = ({ i, dollar, onClick }) => {
   const gamePhase = useRecoilValue(gamePhaseState);

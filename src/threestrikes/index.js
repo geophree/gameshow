@@ -22,7 +22,7 @@ import {
   tokenModsState,
   tokenRaisedValue,
   tokensRemainingValue,
-} from "./atoms.js";
+} from "./state.js";
 
 import { getRandomInt } from "./util.js";
 
