@@ -4,7 +4,12 @@ import { useRecoilValue } from "recoil";
 import "./style.css";
 import fontUrl from "./fonts/3Strikes.woff2";
 
-import { gamePhaseState, strikesState } from "./state.js";
+import {
+  gamePhaseState,
+  numScreensState,
+  priceDigitsValue,
+  strikesState,
+} from "./state.js";
 
 import {
   useDrawToken,
@@ -26,28 +31,31 @@ import { TokenBag } from "./TokenBag.js";
 export const ThreeStrikes = () => {
   const gamePhase = useRecoilValue(gamePhaseState);
   const strikes = useRecoilValue(strikesState);
+  const screenStates = useRecoilValue(numScreensState);
+  const priceDigits = useRecoilValue(priceDigitsValue);
 
   const toggleDebug = useToggleDebug();
-  const drawToken = useDrawToken();
-  const insertToken = useInsertToken();
   const startGame = useStartGame();
+  const insertToken = useInsertToken();
+  const drawToken = useDrawToken();
   const selectScreen = useSelectScreen();
 
-  let bagText = gamePhase;
-  if (gamePhase === "wait" || gamePhase === "end") bagText = "";
-
-  let bagOnClick = {
+  const bagText = gamePhase === "wait" || gamePhase === "end" ? "" : gamePhase;
+  const bagOnClick = {
     draw: drawToken,
     insert: insertToken,
     start: startGame,
   }[gamePhase];
 
-  let numScreens = [html`<${NumScreen} dollar key="$" />`];
-  for (let i = 0; i < 5; i++) {
-    numScreens.push(
-      html`<${NumScreen} i=${i} key=${i} onClick=${selectScreen} />`
-    );
-  }
+  let makeScreenOnClick = () => undefined;
+  if (gamePhase === "select") makeScreenOnClick = (i) => () => selectScreen(i);
+  const numScreens = screenStates.map(
+    (filled, i) => html`
+      <${NumScreen} key=${i} onClick=${filled ? null : makeScreenOnClick(i)}>
+        ${filled ? priceDigits[i] : ""}
+      <//>
+    `
+  );
 
   let strikeScreens = [];
   for (let i = 0; i < 3; i++) {
@@ -71,6 +79,7 @@ export const ThreeStrikes = () => {
           <span data-gametitle="3 Strikes">3 Strikes</span>
         </div>
         <div class="gameBoard">
+          <${NumScreen}>$<//>
           ${numScreens}
         </div>
         <div class="base">
