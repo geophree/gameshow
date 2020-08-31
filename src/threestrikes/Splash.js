@@ -4,17 +4,6 @@ import { useRecoilValue, useRecoilCallback } from "recoil";
 import { splashState } from "./state.js";
 import { sleep } from "./util.js";
 
-export const useDoSplash = () =>
-  useRecoilCallback(
-    ({ set }) => async (data) => {
-      set(splashState, data);
-      if (data.end) return;
-      await sleep(1000);
-      set(splashState, {});
-    },
-    []
-  );
-
 export const Splash = () => {
   const splashData = useRecoilValue(splashState);
 
@@ -24,6 +13,11 @@ export const Splash = () => {
   if (!splashData.text) splashClasses += " hide";
 
   return html`
-    <div class=${splashClasses}><span>${splashData.text}</span></div>
+    <div class=${splashClasses}>
+      <div class="splash-background"></div>
+      <div class="splash-text">
+        <span>${splashData.text}</span>
+      </div>
+    </div>
   `;
 };

@@ -17,10 +17,12 @@ export const TokenBag = ({ bagText, onClick }) => {
     return html`<div key=${i} class=${className}>${c}</div>`;
   });
 
+  const disabled = !onClick;
+
   return html`
     <div class="bag">
       ${tokens}
-      <button class="button" onClick=${onClick}>
+      <button class="button" disabled=${disabled} onClick=${onClick}>
         ${bagText}
       </button>
     </div>

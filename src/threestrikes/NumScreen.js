@@ -16,13 +16,12 @@ export const NumScreen = ({ i, dollar, onClick }) => {
     `;
   }
 
-  let realOnClick = () => onClick(i);
+  let realOnClick;
   const isShowing = screenStates[i];
   let screenClass = "screen";
-  if (isShowing) {
-    realOnClick = undefined;
-  } else if (gamePhase == "select") {
+  if (!isShowing && gamePhase == "select") {
     screenClass += " clickable";
+    realOnClick = () => onClick(i);
   }
 
   return html`

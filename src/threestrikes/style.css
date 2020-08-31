@@ -5,7 +5,8 @@
   --font: "3Strikes", sans-serif;
   --goldColor: #f1d4a4;
   --blackColor: #0a0a0a;
-  background-color: #3f3f3f;
+  --backgroundColor: #3f3f3f;
+  background-color: var(--backgroundColor);
   position: relative;
   font-family: var(--font);
   position: absolute;
@@ -277,8 +278,11 @@
   color: var(--blackColor);
   z-index: 3;
   position: relative;
-  cursor: pointer;
   text-transform: uppercase;
+}
+
+.threestrikes .button:not([disabled]) {
+  cursor: pointer;
 }
 
 .threestrikes .button:active {
@@ -307,6 +311,14 @@ p {
   bottom: 0;
   left: 0;
   right: 0;
+}
+
+.threestrikes .splash .splash-text {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -319,8 +331,14 @@ p {
   opacity: 90%;
 }
 
-.threestrikes .non-splash.dim {
-  opacity: 20%;
+.threestrikes .splash .splash-background {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--backgroundColor);
+  opacity: 0.8;
 }
 
 .threestrikes .splash.good {
