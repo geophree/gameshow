@@ -1,0 +1,5 @@
+From: http://abfonts.freehostia.com/opti/fonts-t/index.htm
+License:
+"OPTI fonts were created by Castcraft Software Inc. OptiFont is a trademark filed in 1990 by Fredric J. Kreiter of Castcraft. Castcraft started with metal types in the 1930s and might have folded with the death of Manny Kreiter, its last President and CEO, in 2005. (Direct lifts or sourced from Luc Devroye)"
+"Since the fonts are no longer available for sale, they are now widely considered as abandoned or orphaned fonts."
+Converted to woff2 using: https://everythingfonts.com/otf-to-woff2
