@@ -1,0 +1,3 @@
+From: https://famfonts.com/jeopardy/
+License: freeware, see gyparody.ttf.README
+Converted to woff2 using

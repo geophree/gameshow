@@ -1,0 +1,658 @@
+<html><head>
+<link href="https://fonts.googleapis.com/css2?family=Anton" rel="stylesheet">
+<style>
+@font-face {
+  font-family: "Gyparody";
+  src: url("./static/fonts/gyparody.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "OPTIKorinna-Agency";
+  src: url("./static/fonts/OPTIKorinna-Agency.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "OPTITopic-Bold";
+  src: url("./static/fonts/OPTITopic-Bold.woff2") format("woff2");
+  font-weight: bold;
+  font-style: normal;
+}
+html {
+  background: darkblue;
+  overflow: hidden;
+  text-rendering: geometricPrecision;
+  text-wrap: balance;
+}
+body {
+  margin: 0;
+}
+
+.screen {
+  transform-origin: top left;
+  user-select: none;
+}
+.splash-screen {
+  /*background-image: url(https://www.w3schools.com/howto/img_nature.jpg);*/
+  --height: calc(var(--width) / var(--splash-ratio)) !important;
+  transform: translate(0, 10%)
+}
+.splash-screen .title {
+  font-family: 'Gyparody', serif;
+  font-size: calc(var(--width)/4.7);
+  text-shadow: .06em .06em #000;
+  line-height: .8em;
+}
+.prompts {
+  background: black;
+  transform-origin: top left;
+
+}
+.prompts.splash {
+  mix-blend-mode: multiply;
+}
+.prompts.splash .blue-background {
+  background: white;
+}
+.prompts.splash .blue-background * {
+  display: none;
+}
+.prompts.splash .value {
+  display: none;
+}
+.aspect-ratio {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 0; right: 0;
+  margin: auto;
+  --width: 100vw;
+  --height: calc(var(--width) / var(--aspect-ratio));
+  width: var(--width);
+  height: var(--height);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  --aspect-ratio: calc(16/9);
+  --board-ratio: calc(240/127);
+  --splash-ratio: calc(300/137);
+}
+@media (min-aspect-ratio: 16/9) {
+    .aspect-ratio {
+        --width: calc(100vh * var(--aspect-ratio));
+    }
+}
+
+.little-screen {
+  --line-width: calc(var(--width) * 1/20);
+  --additional-ratio: 1/4;
+  --scale: calc(5/32);
+  --move-height: var(--width)/var(--board-ratio);
+  --vertical-bump-direction: 1;
+  --vertical-bump: calc(var(--vertical-bump-direction)*var(--additional-ratio)*var(--line-width));
+  --translate-x: calc(var(--scale)*(var(--column) - 2.5) * (var(--width) + var(--line-width)));
+  --translate-y: calc(var(--scale)*((var(--row) - 2.5)*(var(--move-height) + var(--line-width)) + var(--vertical-bump)));
+  transform: translate(var(--translate-x), var(--translate-y)) scale(var(--scale));
+}
+.topics .little-screen {
+  --vertical-bump-direction: -1;
+}
+.little-screen.fullscreen {
+  transition: transform 1s linear;
+  transform: translate(0,0) scale(1);
+  z-index: 1;
+}
+.limiter {
+  position: absolute;
+  height: 94%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-top: auto;
+  margin-bottom: auto;
+  cursor: pointer;
+}
+.little-screen.fullscreen > .limiter {
+  transition: height 1s linear;
+  height: 100%;
+}
+
+.blue-background {
+  background: #009;
+  background: linear-gradient(to bottom right, #00C, #006);
+  color: #FFF;
+}
+.topic {
+  font-family: 'Anton', serif;
+  font-size: calc(var(--width)/7);
+  text-shadow: .07em .07em #000;
+  line-height: 1em;
+}
+.topic p {
+  padding: 0 5%;
+}
+
+.value {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: gold;
+  font-family: 'Anton', serif;
+  font-size: calc(var(--width)/2.7);
+  text-shadow: .07em .07em #000;
+}
+.value-1000 {
+  font-size: 90%;
+  margin: 0;
+}
+.value .dollar {
+  top: -.04em;
+  position: relative;
+  transform: scale(.75,1);
+  display: inline-block;
+  margin-left: -.05em;
+}
+.prompt {
+  position: absolute;
+  top: 0; bottom: 0; left: 0; right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: #009;
+  background: linear-gradient(to bottom right, #00C, #006);
+  color: white;
+  font-family: 'OPTIKorinna-Agency', serif;
+  font-weight: normal;
+  word-spacing: .15em;
+  font-size: calc(var(--width)/20);
+  text-shadow: .07em .07em #000;
+}
+.prompt p {
+  padding: 0 15%;
+}
+
+.vertical-flip {
+  position: absolute;
+  top: 0; bottom: 0; left: 0; right: 0;
+  transform: perspective(calc(2 * var(--width))) rotateX(360deg);
+}
+.fullscreen .vertical-flip {
+  transition: transform 1s linear;
+  transform: perspective(calc(2 * var(--width))) rotateX(0deg);
+}
+.horizontal-flip {
+  position: absolute;
+  top: 0; bottom: 0; left: 0; right: 0;
+  transform-style: preserve-3d;
+  transition: transform 1s linear;
+  transform: perspective(calc(2 * var(--width))) rotateY(0deg);
+}
+.horizontal-flip.flipped {
+  transform: perspective(calc(2 * var(--width))) rotateY(-180deg);
+}
+.horizontal-flip .prompt {
+  backface-visibility: hidden;
+  visibility: hidden;
+  transform: rotateY(180deg);
+}
+.horizontal-flip.flipped .prompt {
+  visibility: visible;
+}
+.horizontal-flip.flipped .daily {
+  backface-visibility: hidden;
+}
+.double {
+  font-family: 'OPTITopic-Bold', sans-serif;
+  letter-spacing: 0;
+  line-height: 1em;
+}
+.daily {
+  position: absolute;
+  top: 0; bottom: 0; left: 0; right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: #EE0;
+  background: linear-gradient(to bottom right, #FF0, #CC0);
+  color: #009;
+  font-size: calc(var(--width)/5);
+  line-height: .9em;
+  text-shadow: .07em .07em #F00;
+  white-space: pre;
+  letter-spacing: -.05em;
+}
+.daily-ly {
+  letter-spacing: -.15em;
+}
+
+.title .double {
+  color: #F00;
+  font-size: 80%;
+  margin-bottom: -.12em;
+  display: inline-block;
+}
+
+.hidden {
+  visibility: hidden !important;
+}
+</style>
+</head><body>
+<div class="screen aspect-ratio">
+</div>
+<div class="splash-screen aspect-ratio blue-background">
+<p class="title"><span class="double">DOUBLE</span>JEOPARDY!</p>
+</div>
+<!--<div class="prompts aspect-ratio splash">-->
+<div class="prompts aspect-ratio">
+<div class="aspect-ratio little-screen" style="--column: 0; --row: 1;">
+<div class="limiter blue-background">
+<div class="prompt hidden">
+<p>DRAUGHTS IS THIS KINGLY GAME</p>
+</div>
+<div class="value">
+<span class="dollar">$</span>200
+</div>
+</div>
+</div>
+<div class="aspect-ratio little-screen" style="--column: 0; --row: 2;">
+<div class="limiter blue-background">
+<div class="prompt hidden">
+<p>DRAUGHTS IS THIS KINGLY GAME</p>
+</div>
+<div class="value">
+<span class="dollar">$</span>400
+</div>
+</div>
+</div>
+<div class="aspect-ratio little-screen" style="--column: 0; --row: 3;">
+<div class="limiter blue-background">
+<div class="prompt hidden">
+<p>DRAUGHTS IS THIS KINGLY GAME</p>
+</div>
+<div class="value">
+<span class="dollar">$</span>600
+</div>
+</div>
+</div>
+<div class="aspect-ratio little-screen" style="--column: 0; --row: 4;">
+<div class="limiter blue-background">
+<div class="prompt hidden">
+<p>DRAUGHTS IS THIS KINGLY GAME</p>
+</div>
+<div class="value">
+<span class="dollar">$</span>800
+</div>
+</div>
+</div>
+<div class="aspect-ratio little-screen" style="--column: 0; --row: 5;">
+<div class="limiter blue-background">
+<div class="prompt hidden">
+<p>DRAUGHTS IS THIS KINGLY GAME</p>
+</div>
+<div class="value">
+<p class="value-1000"><span class="dollar">$</span>1000</p>
+</div>
+</div>
+</div>
+<div class="aspect-ratio little-screen" style="--column: 1; --row: 1;">
+<div class="limiter blue-background">
+<div class="prompt hidden">
+<p>DRAUGHTS IS THIS KINGLY GAME</p>
+</div>
+<div class="value">
+<span class="dollar">$</span>200
+</div>
+</div>
+</div>
+<div class="aspect-ratio little-screen" style="--column: 1; --row: 2;">
+<div class="limiter blue-background">
+<div class="prompt hidden">
+<p>DRAUGHTS IS THIS KINGLY GAME</p>
+</div>
+<div class="value">
+<span class="dollar">$</span>400
+</div>
+</div>
+</div>
+<div class="aspect-ratio little-screen" style="--column: 1; --row: 3;">
+<div class="limiter blue-background">
+<div class="prompt hidden">
+<p>DRAUGHTS IS THIS KINGLY GAME</p>
+</div>
+<div class="value">
+<span class="dollar">$</span>600
+</div>
+</div>
+</div>
+<div class="aspect-ratio little-screen" style="--column: 1; --row: 4;">
+<div class="limiter blue-background">
+<div class="prompt hidden">
+<p>DRAUGHTS IS THIS KINGLY GAME</p>
+</div>
+<div class="value">
+<span class="dollar">$</span>800
+</div>
+</div>
+</div>
+<div class="aspect-ratio little-screen" style="--column: 1; --row: 5;">
+<div class="limiter blue-background">
+<div class="prompt hidden">
+<p>DRAUGHTS IS THIS KINGLY GAME</p>
+</div>
+<div class="value">
+<p class="value-1000"><span class="dollar">$</span>1000</p>
+</div>
+</div>
+</div>
+<div class="aspect-ratio little-screen" style="--column: 2; --row: 1;">
+<div class="limiter blue-background">
+<div class="prompt hidden">
+<p>DRAUGHTS IS THIS KINGLY GAME</p>
+</div>
+<div class="value">
+<span class="dollar">$</span>200
+</div>
+</div>
+</div>
+<div class="aspect-ratio little-screen" style="--column: 2; --row: 2;">
+<div class="limiter blue-background">
+<div class="prompt hidden">
+<p>DRAUGHTS IS THIS KINGLY GAME</p>
+</div>
+<div class="value">
+<span class="dollar">$</span>400
+</div>
+</div>
+</div>
+<div class="aspect-ratio little-screen hidden" style="--column: 2; --row: 3;">
+<div class="limiter blue-background">
+<div class="daily double">
+<p>DAI<span class="daily-ly">LY</span>
+DOUBLE</p>
+</div>
+</div>
+</div>
+<div class="aspect-ratio little-screen" style="--column: 2; --row: 3;">
+<div class="limiter">
+<div class="vertical-flip">
+<div class="horizontal-flip blue-background">
+<div class="daily double hidden">
+<p>DAI<span class="daily-ly">LY</span>
+DOUBLE</p>
+</div>
+<div class="prompt blue-background hidden">
+<p>DRAUGHTS IS THIS KINGLY GAME</p>
+</div>
+</div>
+</div>
+<div class="value">
+<span class="dollar">$</span>600
+</div>
+</div>
+</div>
+<div class="aspect-ratio little-screen" style="--column: 2; --row: 4;">
+<div class="limiter blue-background">
+<div class="prompt hidden">
+<p>DRAUGHTS IS THIS KINGLY GAME</p>
+</div>
+<div class="value">
+<span class="dollar">$</span>800
+</div>
+</div>
+</div>
+<div class="aspect-ratio little-screen" style="--column: 2; --row: 5;">
+<div class="limiter blue-background">
+<div class="prompt hidden">
+<p>DRAUGHTS IS THIS KINGLY GAME</p>
+</div>
+<div class="value">
+<p class="value-1000"><span class="dollar">$</span>1000</p>
+</div>
+</div>
+</div>
+<div class="aspect-ratio little-screen" style="--column: 3; --row: 1;">
+<div class="limiter blue-background">
+<div class="prompt hidden">
+<p>DRAUGHTS IS THIS KINGLY GAME</p>
+</div>
+<div class="value">
+<span class="dollar">$</span>200
+</div>
+</div>
+</div>
+<div class="aspect-ratio little-screen" style="--column: 3; --row: 2;">
+<div class="limiter blue-background">
+<div class="prompt hidden">
+<p>DRAUGHTS IS THIS KINGLY GAME</p>
+</div>
+<div class="value">
+<span class="dollar">$</span>400
+</div>
+</div>
+</div>
+<div class="aspect-ratio little-screen" style="--column: 3; --row: 3;">
+<div class="limiter blue-background">
+<div class="prompt hidden">
+<p>DRAUGHTS IS THIS KINGLY GAME</p>
+</div>
+<div class="value">
+<span class="dollar">$</span>600
+</div>
+</div>
+</div>
+<div class="aspect-ratio little-screen" style="--column: 3; --row: 4;">
+<div class="limiter blue-background">
+<div class="prompt hidden">
+<p>DRAUGHTS IS THIS KINGLY GAME</p>
+</div>
+<div class="value">
+<span class="dollar">$</span>800
+</div>
+</div>
+</div>
+<div class="aspect-ratio little-screen" style="--column: 3; --row: 5;">
+<div class="limiter blue-background">
+<div class="prompt hidden">
+<p>DRAUGHTS IS THIS KINGLY GAME</p>
+</div>
+<div class="value">
+<p class="value-1000"><span class="dollar">$</span>1000</p>
+</div>
+</div>
+</div>
+<div class="aspect-ratio little-screen" style="--column: 4; --row: 1;">
+<div class="limiter blue-background">
+<div class="prompt hidden">
+<p>DRAUGHTS IS THIS KINGLY GAME</p>
+</div>
+<div class="value">
+<span class="dollar">$</span>200
+</div>
+</div>
+</div>
+<div class="aspect-ratio little-screen" style="--column: 4; --row: 2;">
+<div class="limiter blue-background">
+<div class="prompt hidden">
+<p>DRAUGHTS IS THIS KINGLY GAME</p>
+</div>
+<div class="value">
+<span class="dollar">$</span>400
+</div>
+</div>
+</div>
+<div class="aspect-ratio little-screen" style="--column: 4; --row: 3;">
+<div class="limiter blue-background">
+<div class="prompt hidden">
+<p>DRAUGHTS IS THIS KINGLY GAME</p>
+</div>
+<div class="value">
+<span class="dollar">$</span>600
+</div>
+</div>
+</div>
+<div class="aspect-ratio little-screen" style="--column: 4; --row: 4;">
+<div class="limiter blue-background">
+<div class="prompt hidden">
+<p>DRAUGHTS IS THIS KINGLY GAME</p>
+</div>
+<div class="value">
+<span class="dollar">$</span>800
+</div>
+</div>
+</div>
+<div class="aspect-ratio little-screen" style="--column: 4; --row: 5;">
+<div class="limiter blue-background">
+<div class="prompt hidden">
+<p>DRAUGHTS IS THIS KINGLY GAME</p>
+</div>
+<div class="value">
+<p class="value-1000"><span class="dollar">$</span>1000</p>
+</div>
+</div>
+</div>
+<div class="aspect-ratio little-screen" style="--column: 5; --row: 1;">
+<div class="limiter blue-background">
+<div class="prompt hidden">
+<p>DRAUGHTS IS THIS KINGLY GAME</p>
+</div>
+<div class="value">
+<span class="dollar">$</span>200
+</div>
+</div>
+</div>
+<div class="aspect-ratio little-screen" style="--column: 5; --row: 2;">
+<div class="limiter blue-background">
+<div class="prompt hidden">
+<p>DRAUGHTS IS THIS KINGLY GAME</p>
+</div>
+<div class="value">
+<span class="dollar">$</span>400
+</div>
+</div>
+</div>
+<div class="aspect-ratio little-screen" style="--column: 5; --row: 3;">
+<div class="limiter blue-background">
+<div class="prompt hidden">
+<p>DRAUGHTS IS THIS KINGLY GAME</p>
+</div>
+<div class="value">
+<span class="dollar">$</span>600
+</div>
+</div>
+</div>
+<div class="aspect-ratio little-screen" style="--column: 5; --row: 4;">
+<div class="limiter blue-background">
+<div class="prompt hidden">
+<p>DRAUGHTS IS THIS KINGLY GAME</p>
+</div>
+<div class="value">
+<span class="dollar">$</span>800
+</div>
+</div>
+</div>
+<div class="aspect-ratio little-screen" style="--column: 5; --row: 5;">
+<div class="limiter blue-background">
+<div class="prompt hidden">
+<p>DRAUGHTS IS THIS KINGLY GAME</p>
+</div>
+<div class="value">
+<p class="value-1000"><span class="dollar">$</span>1000</p>
+</div>
+</div>
+</div>
+</div>
+<div class="topics">
+<div class="aspect-ratio little-screen topic" style="--column: 0; --row: 0;">
+<div class="limiter blue-background">
+<p>POTENT POTABLES</p>
+</div>
+</div>
+<div class="aspect-ratio little-screen topic" style="--column: 1; --row: 0;">
+<div class="limiter blue-background">
+<p>POTENT POTABLES</p>
+</div>
+</div>
+<div class="aspect-ratio little-screen topic" style="--column: 2; --row: 0;">
+<div class="limiter blue-background">
+<p>POTENT POTABLES</p>
+</div>
+</div>
+<div class="aspect-ratio little-screen topic" style="--column: 3; --row: 0;">
+<div class="limiter blue-background">
+<p>POTENT POTABLES</p>
+</div>
+</div>
+<div class="aspect-ratio little-screen topic" style="--column: 4; --row: 0;">
+<div class="limiter blue-background">
+<p>POTENT POTABLES</p>
+</div>
+</div>
+<div class="aspect-ratio little-screen topic" style="--column: 5; --row: 0;">
+<div class="limiter blue-background">
+<p>POTENT POTABLES</p>
+</div>
+</div>
+</div>
+<script type="module">
+let fullscreening = false;
+function toggleFullscreen() {
+  if (fullscreening) return;
+  fullscreening = true;
+  this.removeEventListener('click', toggleFullscreen);
+  const p = this.querySelector('.prompt');
+  if (p) {
+    p.classList.remove('hidden');
+  } else {
+    return;
+  }
+  const dd = this.querySelector('.daily');
+  if (dd) {
+    dd.classList.remove('hidden');
+    const ps = this.previousElementSibling;
+    if (ps && ps.querySelector('.daily')) ps.classList.remove('hidden');
+  }
+  const v = this.querySelector('.value');
+  if (v) v.classList.add('hidden');
+  setTimeout(() => {
+    this.classList.add('fullscreen');
+  }, 0);
+  const hf = this.querySelector(".horizontal-flip");
+  setTimeout(() => {
+    fullscreening = false;
+    if (hf) hf.addEventListener('click', horizontalFlip);
+    if (p) p.addEventListener('click', returnToBoard);
+  }, 1000);
+}
+function returnToBoard(e) {
+  this.classList.add('hidden');
+  let n = this.parentNode;
+  while (n != document.body && !n.classList.contains('fullscreen')) n = n.parentNode;
+  n.querySelectorAll('.blue-background *').forEach(n => n.classList.add('hidden'));
+  const dd = n.querySelector('.daily');
+  if (dd) {
+    const ps = n.previousElementSibling;
+    if (ps) {
+      const dd2 = ps.querySelector('.daily');
+      if (dd2) dd2.classList.add('hidden');
+    }
+    n.classList.add('hidden');
+  }
+  n.classList.remove('fullscreen');
+  e.stopPropagation();
+}
+function horizontalFlip() {
+  if (!this.parentNode.classList.contains('fullscreen'))
+  if (this.classList.contains('flipped')) return;
+  this.classList.add('flipped')
+}
+document.querySelectorAll('.prompts .little-screen').forEach(n => n.addEventListener('click', toggleFullscreen));
+</script>
+</body></html>
