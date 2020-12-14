@@ -5,11 +5,8 @@ module.exports = {
     web_modules: "/gameshow/dist/web_modules",
   },
   plugins: ["@snowpack/plugin-dotenv"],
-  devOptions: {
-    fallback: "/gameshow/404.html",
-  },
-  installOptions: {
-    namedExports: ["recoil"],
+  experiments: {
+    routes: [{ src: ".*", dest: "/gameshow/404.html", match: "routes" }],
   },
   buildOptions: {
     metaDir: "/gameshow/dist/snowpack",
