@@ -72,6 +72,7 @@ export const ThreeStrikes = () => {
           src: url("${fontUrl}") format("woff2");
           font-weight: normal;
           font-style: normal;
+          font-display: block;
         }
       </style>
       <div class="game-screen">
