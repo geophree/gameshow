@@ -1,7 +1,6 @@
 import { atom, atomFamily, selector, DefaultValue } from "../web_modules/recoil.js";
 
-// random int from 0 to max (inclusive!)
-const getRandomInt = (max) => Math.floor(Math.random() * (Math.floor(max) + 1));
+import { getRandomInt } from "./util.js";
 
 export const optionState = atomFamily({
   key: "option",

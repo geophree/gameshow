@@ -1,6 +1,7 @@
-import { r as react } from './common/index-3e0c732a.js';
+import { r as react } from './common/index-e66f0a38.js';
 
 
 
 var StrictMode = react.StrictMode;
-export { StrictMode };
+var useCallback = react.useCallback;
+export { StrictMode, useCallback };
