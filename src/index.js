@@ -3,12 +3,14 @@ import { StrictMode } from "react";
 import ReactDOM from "react-dom";
 import { RecoilRoot } from "recoil";
 import { CssBaseline } from "@material-ui/core";
+import { BrowserRouter as Router } from "react-router-dom";
 
 import { App } from "./App.js";
 
 ReactDOM.render(
   html`<${StrictMode}
-    ><${RecoilRoot}><${CssBaseline} /><${App} /><//
+    ><${RecoilRoot}
+      ><${Router}><${CssBaseline} /><${App} /><//><//
   ><//>`,
   document.getElementById("root")
 );
