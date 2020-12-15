@@ -1,5 +1,5 @@
 import { html } from "htm/react";
-import { atomFamily, useRecoilValue } from "recoil";
+import { atom, atomFamily, useRecoilValue } from "recoil";
 
 import "./style.css";
 import gyparodyFontUrl from "./fonts/gyparody.woff2";
@@ -104,10 +104,11 @@ const clueInfoState = atomFamily({
     clue: "DRAUGHTS IS THIS KINGLY GAME",
     response: "What is checkers",
     dailyDouble: column == 2 && row == 3,
-    hidden: false,
-    selected: false,
+    used: false,
   }),
 });
+
+const selectedClueState = atom({ key: "selectedClue" });
 
 export const Jeopardy = () => {
   const categories = CATEGORIES.map(
@@ -125,57 +126,75 @@ export const Jeopardy = () => {
   );
 
   /*
-  <div class="aspect-ratio little-screen hidden" xstyle="--column: 2; --row: 3;">
-  <div class="limiter blue-background">
-  <div class="daily double">
-  <p>DAI<span class="daily-ly">LY</span>
-  DOUBLE</p>
+  <div class="aspect-ratio little-screen hidden">
+    <div class="limiter blue-background">
+      <div class="daily double">
+        <p>DAI<span class="daily-ly">LY</span>
+        DOUBLE</p>
+      </div>
+    </div>
   </div>
-  </div>
-  </div>
-  <div class="aspect-ratio little-screen" xstyle="--column: 2; --row: 3;">
-  <div class="limiter">
-  <div class="vertical-flip">
-  <div class="horizontal-flip blue-background">
-  <div class="daily double hidden">
-  <p>DAI<span class="daily-ly">LY</span>
-  DOUBLE</p>
-  </div>
-  <div class="prompt blue-background hidden">
-  <p>DRAUGHTS IS THIS KINGLY GAME</p>
-  </div>
-  </div>
-  </div>
-  <div class="value">
-  <span class="dollar">$</span>600
-  </div>
-  </div>
+  <div class="aspect-ratio little-screen">
+    <div class="limiter">
+      <div class="vertical-flip">
+        <div class="horizontal-flip blue-background">
+          <div class="daily double hidden">
+            <p>DAI<span class="daily-ly">LY</span>
+            DOUBLE</p>
+          </div>
+          <div class="prompt blue-background hidden">
+            <p>DRAUGHTS IS THIS KINGLY GAME</p>
+          </div>
+        </div>
+      </div>
+      <div class="value">
+        <span class="dollar">$</span>600
+      </div>
+    </div>
   </div>
   */
 
+  const selectedClue = useRecoilValue(selectedClueState);
   const clues = [];
   for (let j = 0; j < CATEGORY_COUNT; j++) {
     for (let i = 1; i <= CLUES_PER_CAT; i++) {
-      const { clue, dailyDouble, hidden, selected } = useRecoilValue(
-        clueInfoState([j, i])
-      );
-      const value = BASE_CLUE_VALUE * i;
+      const { clue, dailyDouble, used } = useRecoilValue(clueInfoState([j, i]));
+      let before;
+      let inner;
+      if (!used) {
+        const selected = selectedClue?.column == j && selectedClue?.row == i;
+        const value = BASE_CLUE_VALUE * i;
+        const showPrice = !selected;
+        const showClue = selected;
+        if (dailyDouble) {
+          const dd = !dailyDouble
+            ? null
+            : html`
+                <div class="daily double">
+                  <p>DAI<span class="daily-ly">LY</span> DOUBLE</p>
+                </div>
+              `;
+          const baseDD = "";
+        }
+        inner = html`
+          <div class="prompt blue-background hidden">
+            <p>${clue}</p>
+          </div>
+          <div class="value blue-background">
+            <p class=${value >= 1000 && "value-1000"}>
+              <span class="dollar">$</span>${value}
+            </p>
+          </div>
+        `;
+      }
       clues.push(html`
         <div
           key=${j * CLUES_PER_CAT + i - 1}
           style=${{ "--column": j, "--row": i }}
         >
+          ${before}
           <div class="aspect-ratio little-screen">
-            <div class="limiter blue-background">
-              <div class="prompt hidden">
-                <p>${clue}</p>
-              </div>
-              <div class="value">
-                <p class=${value >= 1000 && "value-1000"}>
-                  <span class="dollar">$</span>${value}
-                </p>
-              </div>
-            </div>
+            <div class="limiter ${used && "blue-background"}">${inner}</div>
           </div>
         </div>
       `);
