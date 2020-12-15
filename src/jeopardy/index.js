@@ -1,4 +1,5 @@
 import { html } from "htm/react";
+import { atomFamily, useRecoilValue } from "recoil";
 
 import "./style.css";
 import gyparodyFontUrl from "./fonts/gyparody.woff2";
@@ -39,8 +40,9 @@ function toggleFullscreen() {
 function returnToBoard(e) {
   this.classList.add("hidden");
   let n = this.parentNode;
-  while (n != document.body && !n.classList.contains("fullscreen"))
+  while (n != document.body && !n.classList.contains("fullscreen")) {
     n = n.parentNode;
+  }
   n.querySelectorAll(".blue-background *").forEach((n) =>
     n.classList.add("hidden")
   );
@@ -90,10 +92,22 @@ const FONT_INFO = `
 `;
 
 const BASE_CLUE_VALUE = 200;
-const CATEGORIES = new Array(6).fill("POTENT POTABLES");
-const CLUES = new Array(6).fill(
-  new Array(5).fill("DRAUGHTS IS THIS KINGLY GAME")
-);
+const CATEGORY_COUNT = 6;
+const CLUES_PER_CAT = 5;
+const CATEGORIES = new Array(CATEGORY_COUNT).fill("POTENT POTABLES");
+
+const clueInfoState = atomFamily({
+  key: "clueInfo",
+  default: ([column, row]) => ({
+    column,
+    row,
+    clue: "DRAUGHTS IS THIS KINGLY GAME",
+    response: "What is checkers",
+    dailyDouble: column == 2 && row == 3,
+    hidden: false,
+    selected: false,
+  }),
+});
 
 export const Jeopardy = () => {
   const categories = CATEGORIES.map(
@@ -139,13 +153,17 @@ export const Jeopardy = () => {
   </div>
   */
 
-  const clues = CLUES.map((catClues, j) =>
-    catClues.map((clue, i) => {
-      const value = BASE_CLUE_VALUE * (i + 1);
-      return html`
+  const clues = [];
+  for (let j = 0; j < CATEGORY_COUNT; j++) {
+    for (let i = 1; i <= CLUES_PER_CAT; i++) {
+      const { clue, dailyDouble, hidden, selected } = useRecoilValue(
+        clueInfoState([j, i])
+      );
+      const value = BASE_CLUE_VALUE * i;
+      clues.push(html`
         <div
-          key=${j * catClues.length + i}
-          style=${{ "--column": j, "--row": i + 1 }}
+          key=${j * CLUES_PER_CAT + i - 1}
+          style=${{ "--column": j, "--row": i }}
         >
           <div class="aspect-ratio little-screen">
             <div class="limiter blue-background">
@@ -160,9 +178,9 @@ export const Jeopardy = () => {
             </div>
           </div>
         </div>
-      `;
-    })
-  );
+      `);
+    }
+  }
 
   return html`
     <div class="jeopardy">
