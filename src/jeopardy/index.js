@@ -125,35 +125,6 @@ export const Jeopardy = () => {
     `
   );
 
-  /*
-  <div class="aspect-ratio little-screen hidden">
-    <div class="limiter blue-background">
-      <div class="daily double">
-        <p>DAI<span class="daily-ly">LY</span>
-        DOUBLE</p>
-      </div>
-    </div>
-  </div>
-  <div class="aspect-ratio little-screen">
-    <div class="limiter">
-      <div class="vertical-flip">
-        <div class="horizontal-flip blue-background">
-          <div class="daily double hidden">
-            <p>DAI<span class="daily-ly">LY</span>
-            DOUBLE</p>
-          </div>
-          <div class="prompt blue-background hidden">
-            <p>DRAUGHTS IS THIS KINGLY GAME</p>
-          </div>
-        </div>
-      </div>
-      <div class="value">
-        <span class="dollar">$</span>600
-      </div>
-    </div>
-  </div>
-  */
-
   const selectedClue = useRecoilValue(selectedClueState);
   const clues = [];
   for (let j = 0; j < CATEGORY_COUNT; j++) {
@@ -166,20 +137,32 @@ export const Jeopardy = () => {
         const value = BASE_CLUE_VALUE * i;
         const showPrice = !selected;
         const showClue = selected;
-        if (dailyDouble) {
-          const dd = !dailyDouble
-            ? null
-            : html`
-                <div class="daily double">
-                  <p>DAI<span class="daily-ly">LY</span> DOUBLE</p>
-                </div>
-              `;
-          const baseDD = "";
-        }
-        inner = html`
+        let clueSection = html`
           <div class="prompt blue-background hidden">
             <p>${clue}</p>
           </div>
+        `;
+        if (dailyDouble && selected) {
+          const dd = html`
+            <div class="daily double">
+              <p>DAI<span class="daily-ly">LY</span><br />DOUBLE</p>
+            </div>
+          `;
+          before = html`
+            <div class="aspect-ratio little-screen">
+              <div class="limiter${used ? " blue-background" : ""}">${dd}</div>
+            </div>
+          `;
+          clueSection = html`
+            <div class="vertical-flip">
+              <div class="horizontal-flip blue-background">
+                ${dd} ${clueSection}
+              </div>
+            </div>
+          `;
+        }
+        inner = html`
+          ${clueSection}
           <div class="value blue-background">
             <p class=${value >= 1000 && "value-1000"}>
               <span class="dollar">$</span>${value}
@@ -194,7 +177,7 @@ export const Jeopardy = () => {
         >
           ${before}
           <div class="aspect-ratio little-screen">
-            <div class="limiter ${used && "blue-background"}">${inner}</div>
+            <div class="limiter${used ? " blue-background" : ""}">${inner}</div>
           </div>
         </div>
       `);
