@@ -1,10 +1,19 @@
 import { html } from "htm/react";
-import { atom, atomFamily, useRecoilState, useRecoilValue } from "recoil";
+import {
+  atom,
+  atomFamily,
+  selector,
+  selectorFamily,
+  useRecoilState,
+  useRecoilValue,
+} from "recoil";
 
 import "./style.css";
 import gyparodyFontUrl from "./fonts/gyparody.woff2";
 import OptiKorinnaFontUrl from "./fonts/OPTIKorinna-Agency.woff2";
 import OptiTopicFontUrl from "./fonts/OPTITopic-Bold.woff2";
+
+import { data as testData } from "./testData.js";
 
 const FONT_INFO = `
   @font-face {
@@ -30,20 +39,50 @@ const FONT_INFO = `
   }
 `;
 
-const BASE_CLUE_VALUE = 200;
-const CATEGORY_COUNT = 6;
-const CLUES_PER_CAT = 5;
-const CATEGORIES = new Array(CATEGORY_COUNT).fill("POTENT POTABLES");
-const DAILY_DOUBLE = { column: 2, row: 3 };
+const baseClueValueState = atom({
+  key: "baseClueValue",
+  default: testData.baseClueValue,
+});
+
+const boardDataState = atom({
+  key: "boardData",
+  default: testData.board,
+});
+
+const categoryCountValue = selector({
+  key: "categoryCount",
+  get: ({ get }) => get(boardDataState).length,
+});
+
+const cluesPerCategoryValue = selector({
+  key: "cluesPerCategory",
+  get: ({ get }) => get(boardDataState)[0].clues.length,
+});
+
+const categoriesState = atomFamily({
+  key: "categories",
+  default: selectorFamily({
+    key: "categoriesDefault",
+    get: (col) => ({ get }) => get(boardDataState)[col].category,
+  }),
+});
 
 const clueInfoState = atomFamily({
   key: "clueInfo",
-  default: ([column, row]) => ({
-    column,
-    row,
-    clue: "DRAUGHTS IS THIS KINGLY GAME",
-    response: "What is checkers",
-    dailyDouble: column == DAILY_DOUBLE.column && row == DAILY_DOUBLE.row,
+  default: selectorFamily({
+    key: "clueInfoDefault",
+    get: ([col, row]) => ({ get }) => ({
+      clue: get(boardDataState)[col].clues[row - 1],
+      response: "What is checkers",
+      dailyDouble:
+        col == testData.dailyDouble.col && row == testData.dailyDouble.row,
+    }),
+  }),
+});
+
+const clueStatusState = atomFamily({
+  key: "clueStatus",
+  default: ([col, row]) => ({
     flipped: false,
     used: false,
   }),
@@ -52,38 +91,41 @@ const clueInfoState = atomFamily({
 const selectedClueState = atom({ key: "selectedClue" });
 
 export const Jeopardy = () => {
-  const categories = CATEGORIES.map(
-    (cat, i) => html`
+  // TODO(geophree): prevent clicking while fullscreening or flipping
+  const cluesPerCategory = useRecoilValue(cluesPerCategoryValue);
+  const categoryCount = useRecoilValue(categoryCountValue);
+  const baseClueValue = useRecoilValue(baseClueValueState);
+  const [selectedClue, setSelectedClue] = useRecoilState(selectedClueState);
+
+  const categories = [];
+  const clues = [];
+  for (let col = 0; col < categoryCount; col++) {
+    const category = useRecoilValue(categoriesState(col));
+    categories.push(html`
       <div
-        key=${i}
+        key=${col}
         class="aspect-ratio little-screen topic"
-        style=${{ "--column": i, "--row": 0 }}
+        style=${{ "--col": col, "--row": 0 }}
       >
         <div class="limiter blue-background">
-          <p>${cat}</p>
+          <p>${category}</p>
         </div>
       </div>
-    `
-  );
-
-  // TODO(geophree): prevent clicking while fullscreening or flipping
-  const [selectedClue, setSelectedClue] = useRecoilState(selectedClueState);
-  const clues = [];
-  for (let j = 0; j < CATEGORY_COUNT; j++) {
-    for (let i = 1; i <= CLUES_PER_CAT; i++) {
-      const [
-        { clue, dailyDouble, flipped, used },
-        setClueInfo,
-      ] = useRecoilState(clueInfoState([j, i]));
+    `);
+    for (let row = 1; row <= cluesPerCategory; row++) {
+      const { clue, dailyDouble } = useRecoilValue(clueInfoState([col, row]));
+      const [{ flipped, used }, setClueInfo] = useRecoilState(
+        clueStatusState([col, row])
+      );
       let selected = false;
       let doClick = () => {};
       let before;
       let inner;
       if (!used) {
         if (selectedClue) {
-          selected = selectedClue.column == j && selectedClue.row == i;
+          selected = selectedClue.col == col && selectedClue.row == row;
         } else {
-          doClick = () => setSelectedClue({ column: j, row: i });
+          doClick = () => setSelectedClue({ col, row });
         }
         if (selected) {
           doClick = () => {
@@ -91,7 +133,7 @@ export const Jeopardy = () => {
             setSelectedClue();
           };
         }
-        const value = BASE_CLUE_VALUE * i;
+        const value = baseClueValue * row;
         const showPrice = !selected;
         const showClue = selected;
         let clueSection = html`
@@ -139,8 +181,8 @@ export const Jeopardy = () => {
       }
       clues.push(html`
         <div
-          key=${j * CLUES_PER_CAT + i - 1}
-          style=${{ "--column": j, "--row": i }}
+          key=${col * cluesPerCategory + row - 1}
+          style=${{ "--col": col, "--row": row }}
         >
           ${before}
           <div

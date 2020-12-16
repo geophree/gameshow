@@ -5,14 +5,13 @@ body {
 }
 
 .jeopardy {
-  --backgroundColor: darkblue;
+  --backgroundColor: #000;
   background: var(--backgroundColor);
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  background: darkblue;
   overflow: hidden;
   text-rendering: geometricPrecision;
   text-wrap: balance;
@@ -79,7 +78,7 @@ body {
     var(--vertical-bump-direction) * var(--additional-ratio) * var(--line-width)
   );
   --translate-x: calc(
-    var(--scale) * (var(--column) - 2.5) * (var(--width) + var(--line-width))
+    var(--scale) * (var(--col) - 2.5) * (var(--width) + var(--line-width))
   );
   --translate-y: calc(
     var(--scale) *
@@ -167,6 +166,7 @@ body {
   justify-content: center;
   align-items: center;
   text-align: center;
+  white-space: pre-line;
   background: #009;
   background: linear-gradient(to bottom right, #00c, #006);
   color: white;
