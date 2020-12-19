@@ -158,6 +158,9 @@ export const Jeopardy = () => {
         const value = baseClueValue * row;
         const showPrice = !selected;
         const showClue = selected;
+        // for image prompts, use "image" class and background-image url()
+        // https://drive.google.com/uc?id=0B9o1MNFt5ld1N3k1cm9tVnZxQjg
+        // replace after the = with image's drive id
         let clueSection = html`
           <div class="prompt blue-background${showClue ? "" : " hidden"}">
             <p>${clue}</p>

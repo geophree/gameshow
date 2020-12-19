@@ -183,6 +183,11 @@ body {
 .jeopardy .prompt p {
   padding: 0 15%;
 }
+.jeopardy .image.prompt {
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 
 .jeopardy .vertical-flip {
   position: absolute;
