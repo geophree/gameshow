@@ -12,8 +12,7 @@ import "./style.css";
 import gyparodyFontUrl from "./fonts/gyparody.woff2";
 import OptiKorinnaFontUrl from "./fonts/OPTIKorinna-Agency.woff2";
 import OptiTopicFontUrl from "./fonts/OPTITopic-Bold.woff2";
-
-import { data as testData } from "./testData.js";
+import testConfigUrl from "./testConfig.json";
 
 const FONT_INFO = `
   @font-face {
@@ -39,14 +38,42 @@ const FONT_INFO = `
   }
 `;
 
+const configState = atom({
+  key: "config",
+  default: selector({
+    key: "configDefault",
+    // Switch this to be able to fetch an arbitrary json file
+    get: () => testConfigUrl, // async () => (await fetch(testConfigUrl)).json(),
+  }),
+});
+
 const baseClueValueState = atom({
   key: "baseClueValue",
-  default: testData.baseClueValue,
+  default: selector({
+    key: "baseClueValueDefault",
+    get: ({ get }) => get(configState).baseClueValue,
+  }),
+});
+
+const gameStageState = atom({
+  key: "gameStage",
+  default: "jeopardy",
+});
+
+const stageInfoState = atom({
+  key: "stageInfo",
+  default: selector({
+    key: "stageInfoDefault",
+    get: ({ get }) => get(configState)[get(gameStageState)],
+  }),
 });
 
 const boardDataState = atom({
   key: "boardData",
-  default: testData.board,
+  default: selector({
+    key: "boardDataDefault",
+    get: ({ get }) => get(stageInfoState).board,
+  }),
 });
 
 const categoryCountValue = selector({
@@ -71,12 +98,7 @@ const clueInfoState = atomFamily({
   key: "clueInfo",
   default: selectorFamily({
     key: "clueInfoDefault",
-    get: ([col, row]) => ({ get }) => ({
-      clue: get(boardDataState)[col].clues[row - 1],
-      response: "What is checkers",
-      dailyDouble:
-        col == testData.dailyDouble.col && row == testData.dailyDouble.row,
-    }),
+    get: ([col, row]) => ({ get }) => get(boardDataState)[col].clues[row - 1],
   }),
 });
 
@@ -104,7 +126,7 @@ export const Jeopardy = () => {
     categories.push(html`
       <div
         key=${col}
-        class="aspect-ratio little-screen topic"
+        class="aspect-ratio little-screen category"
         style=${{ "--col": col, "--row": 0 }}
       >
         <div class="limiter blue-background">

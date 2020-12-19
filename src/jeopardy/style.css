@@ -93,6 +93,9 @@ body {
 .jeopardy .categories .little-screen {
   --vertical-bump-direction: -1;
 }
+.jeopardy .category {
+  text-transform: uppercase;
+}
 .jeopardy .little-screen.fullscreen {
   transition: transform 1s linear;
   transform: translate(0, 0) scale(1);
@@ -120,13 +123,13 @@ body {
   background: linear-gradient(to bottom right, #00c, #006);
   color: #fff;
 }
-.jeopardy .topic {
+.jeopardy .category {
   font-family: "Anton", serif;
   font-size: calc(var(--width) / 7);
   text-shadow: 0.07em 0.07em #000;
   line-height: 1em;
 }
-.jeopardy .topic p {
+.jeopardy .category p {
   padding: 0 5%;
 }
 
@@ -175,6 +178,7 @@ body {
   word-spacing: 0.15em;
   font-size: calc(var(--width) / 20);
   text-shadow: 0.07em 0.07em #000;
+  text-transform: uppercase;
 }
 .jeopardy .prompt p {
   padding: 0 15%;

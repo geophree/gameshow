@@ -1,0 +1,328 @@
+{
+  "baseClueValue": 200,
+  "comment": "From Show #7537 - Tuesday, May 23, 2017, http://www.j-archive.com/showgame.php?game_id=5648",
+  "jeopardy": {
+    "board": [
+      {
+        "category": "Monogram Mania",
+        "clues": [
+          {
+            "clue": "Evolutionary war starter:\nCD",
+            "response": "Who is Charles Darwin"
+          },
+          {
+            "clue": "Lawyer & evolutionary war defender:\nCD",
+            "response": "Who is Clarence Darrow"
+          },
+          {
+            "clue": "A famous playwright:\nGBS",
+            "response": "Who is George Bernard Shaw"
+          },
+          {
+            "clue": "Women's rights activist:\nSBA",
+            "response": "Who is Susan B. Anthony"
+          },
+          {
+            "clue": "Retired from the Supreme Court in 1932 at age 90:\nOWH (Jr.)",
+            "response": "Who is Oliver Wendell Holmes"
+          }
+        ]
+      },
+      {
+        "category": "Cooking Terms",
+        "clues": [
+          {
+            "clue": "In this colorful technique, meat is rubbed with Cajun spices & cooked at high heat until charred, giving it a crispy crust",
+            "response": "What is blackening"
+          },
+          {
+            "clue": "This term refers to making sugar brown by heating in a skillet over low heat until melted & golden",
+            "response": "What is carmelizing"
+          },
+          {
+            "clue": "This thin cotton cloth is used to strain liquids & bundle up herbs & spices that can be dropped into soup stock",
+            "response": "What is cheesecloth"
+          },
+          {
+            "clue": "This term for vegetables cut into long, thin strips to accompany a salad comes from a French first name",
+            "response": "What is julienne"
+          },
+          {
+            "clue": "To do this to herring or salmon, you must split, salt & smoke it",
+            "response": "What is kipper"
+          }
+        ]
+      },
+      {
+        "category": "History",
+        "clues": [
+          {
+            "clue": "I believe we're all in accord that the League of Nations assembly met for the first time in 1920 in this Swiss city",
+            "response": "What is Geneva"
+          },
+          {
+            "clue": "This document that said the king was subject to the rule of law was reissued with some changes in 1216, '17 & '25",
+            "response": "What is the Magna Carta"
+          },
+          {
+            "clue": "In 1984 this Minnesotan got the fewest electoral votes, 13, of any Democrat since 1872",
+            "response": "Walter Mondale"
+          },
+          {
+            "clue": "This Siberian mystic didn't make it to New Year's 1917, getting poisoned, shot twice, tied up & drowned, all in 1 rough Dec. night",
+            "response": "Who is Grigori Rasputin"
+          },
+          {
+            "clue": "On March 13, 1954 50,000 Vietminh attacked 10,000 French troops at a base in this village",
+            "response": "What is Dien Bien Phu"
+          }
+        ]
+      },
+      {
+        "category": "TV Killers",
+        "clues": [
+          {
+            "clue": "Teri Bauer does not live to see another day on this TV show, killed by her hubby's duplicitous coworker",
+            "response": "What is \"24\""
+          },
+          {
+            "dailyDouble": true,
+            "clue": "An early episode of this killer cable show was \"Shrink Wrap\"; near the finale came \"Goodbye Miami\"",
+            "response": "What is \"Dexter\""
+          },
+          {
+            "clue": "On \"The Office\" he killed Sprinkles, the cat of his sometime love interest Angela",
+            "response": "Who is Dwight"
+          },
+          {
+            "clue": "As serial killer Billy Flynn, Tim Curry confronted Shemar Moore on this CBS show",
+            "response": "What is \"Criminal Minds\""
+          },
+          {
+            "clue": "On \"The Last Man on Earth\", January Jones got revenge of a sort, gunning down this actor in a cameo",
+            "response": "Jon Hamm"
+          }
+        ]
+      },
+      {
+        "category": "Know the Nose",
+        "clues": [
+          {
+            "clue": "An epistaxis is one of these, maybe after a punch",
+            "response": "What is a nosebleed"
+          },
+          {
+            "clue": "The columella or tip of your nose is the lower, front portion of this nasal divider",
+            "response": "What is the septum"
+          },
+          {
+            "clue": "(Jimmy of the Clue Crew shows the brain on a monitor.) Inhalations come through the nostrils and trigger odor signals that are relayed to the brain by these cranial nerves",
+            "response": "What are the olfactory"
+          },
+          {
+            "clue": "A nose job is the common name for this 11-letter medical procedure",
+            "response": "What is a rhinoplasty"
+          },
+          {
+            "clue": "It's that weird divot just below the nose & above the upper lip",
+            "response": "What is a philtrum"
+          }
+        ]
+      },
+      {
+        "category": "A Little Entitled",
+        "clues": [
+          {
+            "clue": "It's said of some people, \"Born on third base & thinks he hit\" this",
+            "response": "What is a triple"
+          },
+          {
+            "clue": "Oliver Goldsmith once noted that a certain man was born with one of these in his mouth, another with a wooden ladle",
+            "response": "What is a silver spoon"
+          },
+          {
+            "clue": "The '70s were called this 2-letter decade",
+            "response": "What is the \"Me\" decade"
+          },
+          {
+            "clue": "In 1989 a syndrome named for this type of coddled child was identified as involving self-centered & immature behavior",
+            "response": "What is the spoiled child syndrome"
+          },
+          {
+            "clue": "Describing the idle wealthy, in 1899 Thorstein Veblen wrote of this \"class\", now a common phrase",
+            "response": "What is the leisure class"
+          }
+        ]
+      }
+    ]
+  },
+  "doubleJeopardy": {
+    "board": [
+      {
+        "category": "The 2016 Siena International Photo Awards",
+        "clues": [
+          {
+            "clue": "Grab a spot of oolong and enjoy watching the lush, rolling hills of China as this is being cultivated",
+            "response": "What is tea"
+          },
+          {
+            "clue": "Greg Lecoeur captured the hunt of all kinds of predators for these fish that are proverbially crowded in",
+            "response": "What are sardines"
+          },
+          {
+            "clue": "Giuseppe Famiani caught Mount Etna clearing its throat on this island in 2015",
+            "response": "What is Sicily"
+          },
+          {
+            "clue": "The structures the Turkish strawberry farmer moves between are actually these despite their color",
+            "response": "What are greenhouses"
+          },
+          {
+            "clue": "Unknown",
+            "response": "Unknown"
+          }
+        ]
+      },
+      {
+        "category": "Catholic Geography",
+        "clues": [
+          {
+            "clue": "A structure called the Vatican Obelisk towers over this square",
+            "response": "St. Peter's"
+          },
+          {
+            "dailyDouble": true,
+            "clue": "This American colony was chartered by George Calvert in 1632 as a refuge for English Catholics",
+            "response": "What is Maryland"
+          },
+          {
+            "clue": "Once home to an order of medieval Catholic knights, this island nation between Italy & Libya is more than 90% Catholic",
+            "response": "What is Malta"
+          },
+          {
+            "clue": "Founded by the Jesuits in 1881, Marquette University is the largest private college in this state",
+            "response": "What is Wisconsin"
+          },
+          {
+            "clue": "A natural spring flows at this site where St. Bernadette saw an apparition of the Virgin Mary in 1858",
+            "response": "What is Lourdes"
+          }
+        ]
+      },
+      {
+        "category": "British Poets Laureate",
+        "clues": [
+          {
+            "clue": "Poet laureate Nahum Tate wrote \"A New Version of the Psalms of\" this Biblical king",
+            "response": "Who is King David"
+          },
+          {
+            "clue": "This father of actor Daniel Day-Lewis was poet laureate & a professor of poetry at Oxford",
+            "response": "Who is Cecil Day-Lewis"
+          },
+          {
+            "clue": "His \"Birthday Letters\" is a collection of poems addressing wife Sylvia Plath over a period of 25 years",
+            "response": "Who is Ted Hughes"
+          },
+          {
+            "clue": "His tenure as poet laureate was the longest at 42 years, 1850 to 1892",
+            "response": "Who is Lord Tennyson"
+          },
+          {
+            "clue": "Unknown",
+            "response": "Unknown"
+          }
+        ]
+      },
+      {
+        "category": "Prefixes",
+        "clues": [
+          {
+            "clue": "It can mean \"a million\" or just \"a lot\" as before \"bucks\"",
+            "response": "What is mega"
+          },
+          {
+            "clue": "Synonymous with \"anti-\", it precedes \"intelligence\" & \"intuitive\"",
+            "response": "What is counter"
+          },
+          {
+            "clue": "A homophone of a letter, it comes before \"bolden\" & \"powerment\"",
+            "response": "What is em"
+          },
+          {
+            "clue": "It's one \"S\" shorter than the Greek word for \"universe\"",
+            "response": "What is cosmo"
+          },
+          {
+            "dailyDouble": true,
+            "clue": "It precedes \"phile\" if you love Sichuan & Shanghai",
+            "response": "What is Sino"
+          }
+        ]
+      },
+      {
+        "category": "Creatures in Mythology",
+        "clues": [
+          {
+            "clue": "Ovid said frankincense was the food of this bird that always rises again",
+            "response": "What is the phoenix"
+          },
+          {
+            "clue": "When Apollo was born, his father Zeus gave him a golden chariot pulled by these white water birds",
+            "response": "What are swans"
+          },
+          {
+            "clue": "In the mythology of the Inca, this camel relative warned 2 shepherd brothers of an impending worldwide flood",
+            "response": "What is a llama"
+          },
+          {
+            "clue": "In Norse myth a never-ending supply of this drink is produced by the she-goat Heidrun, not by bees",
+            "response": "What is mead"
+          },
+          {
+            "clue": "This oldest & wisest of the centaurs mentored such heroes as Jason & Achilles",
+            "response": "Who is Chiron"
+          }
+        ]
+      },
+      {
+        "category": "A \"Little\" in Title",
+        "clues": [
+          {
+            "clue": "Jeff Bridges voiced the aviator in the Netflix reworking of this Antoine de Saint-Exupery tale",
+            "response": "What is \"The Little Prince\""
+          },
+          {
+            "clue": "In this song Queen cautioned, \"Be cool, relax\"",
+            "response": "What is \"Crazy Little Thing Called Love\""
+          },
+          {
+            "clue": "Every bro knows Twilight Sparkle & Pinkie Pie are characters in this \"Friendship is Magic\" animated series",
+            "response": "What is \"My Little Pony\""
+          },
+          {
+            "clue": "This Sondheim show with a Mozartean title returned to Broadway in 2009 with Catherine Zeta-Jones",
+            "response": "What is \"A Little Night Music\""
+          },
+          {
+            "clue": "Kate Winslet starred in this 2006 movie from Tom Perrotta's novel about moms & kids",
+            "response": "What is \"Little Children\""
+          }
+        ]
+      }
+    ]
+  },
+  "finalJeopardy": {
+    "board": [
+      {
+        "category": "Classic Rock Songs",
+        "clues": [
+          {
+            "clue": "Jonathan Cain was a struggling musician when his father told him to keep at it & never give up, inspiring this 3-word 1981 title",
+            "response": "What is \"Don't Stop Believin'\""
+          }
+        ]
+      }
+    ]
+  }
+}
