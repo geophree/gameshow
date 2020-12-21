@@ -20,7 +20,9 @@ export const Clues = () => {
   const clues = [];
   for (let col = 0; col < categoryCount; col++) {
     for (let row = 1; row <= cluesPerCategory; row++) {
-      const { clue, dailyDouble } = useRecoilValue(clueInfoState([col, row]));
+      const { clue, imageUrl, dailyDouble } = useRecoilValue(
+        clueInfoState([col, row])
+      );
       const [{ flipped, used }, setClueStatus] = useRecoilState(
         clueStatusState([col, row])
       );
@@ -46,9 +48,18 @@ export const Clues = () => {
         // for image prompts, use "image" class and background-image url()
         // https://drive.google.com/uc?id=0B9o1MNFt5ld1N3k1cm9tVnZxQjg
         // replace after the = with image's drive id
+        let imageContent = null;
+        let clueContent = null;
+        if (imageUrl) {
+          const style = { backgroundImage: `url(${imageUrl})` };
+          imageContent = html`<div class="image" style=${style} />`;
+        } else {
+          clueContent = html`<p>${clue}</p>`;
+        }
+
         let clueSection = html`
           <div class="prompt blue-background${showClue ? "" : " hidden"}">
-            <p>${clue}</p>
+            ${imageContent} ${clueContent}
           </div>
         `;
         if (dailyDouble) {
