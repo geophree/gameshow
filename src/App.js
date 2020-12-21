@@ -1,4 +1,5 @@
 import { html } from "htm/react";
+import { Helmet } from "react-helmet";
 import { RecoilRoot, useRecoilState } from "recoil";
 import { Button } from "@material-ui/core";
 import { Link, Redirect, Route, Switch, useRouteMatch } from "react-router-dom";
@@ -28,14 +29,16 @@ const GameList = () => {
 export const App = () => {
   const path = "/gameshow";
   const gameRoutes = GAMES.map(
-    ({ Component, subdir }) => html`
+    ({ Component, name, subdir }) => html`
       <${Route} key=${subdir} path="${path}/${subdir}">
+        <${Helmet}><title>${name}</title><//>
         <${Component} />
       <//>
     `
   );
 
   return html`
+    <${Helmet}><title>HTML5 Gameshows!</title><//>
     <${Switch}>
       <${Route} exact path=${path}>
         <${GameList} />

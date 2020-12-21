@@ -1,5 +1,5 @@
 import { html } from "htm/react";
-import { StrictMode } from "react";
+import { StrictMode, Suspense } from "react";
 import ReactDOM from "react-dom";
 import { RecoilRoot } from "recoil";
 import { CssBaseline } from "@material-ui/core";
@@ -7,10 +7,14 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 import { App } from "./App.js";
 
+const fallback = html`<div>Loading...</div>`;
+
 ReactDOM.render(
   html`<${StrictMode}
     ><${RecoilRoot}
-      ><${Router}><${CssBaseline} /><${App} /><//><//
+      ><${Router}
+        ><${CssBaseline} /><${Suspense} fallback=${fallback}
+          ><${App} /><//><//><//
   ><//>`,
   document.getElementById("root")
 );

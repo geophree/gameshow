@@ -12,7 +12,7 @@ import "./style.css";
 import gyparodyFontUrl from "./fonts/gyparody.woff2";
 import OptiKorinnaFontUrl from "./fonts/OPTIKorinna-Agency.woff2";
 import OptiTopicFontUrl from "./fonts/OPTITopic-Bold.woff2";
-import testConfigUrl from "./testConfig.json";
+import localTestConfig from "./testConfig.json";
 
 const FONT_INFO = `
   @font-face {
@@ -43,7 +43,8 @@ const configState = atom({
   default: selector({
     key: "configDefault",
     // Switch this to be able to fetch an arbitrary json file
-    get: () => testConfigUrl, // async () => (await fetch(testConfigUrl)).json(),
+    get: /* async () => (await fetch("jsonurl")).json(), //*/ () =>
+      localTestConfig,
   }),
 });
 
