@@ -68,6 +68,21 @@ body {
   }
 }
 
+.jeopardy .top-left-quarter {
+  transform: scale(0.5) translate(-50%, -50%);
+}
+
+.jeopardy .bottom-half {
+  position: absolute;
+  top: 50%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  /*--width: 200vw;
+  --aspect-ratio: calc(32 / 9);
+  transform: scale(.5) translate(-50%, 50%);*/
+}
+
 .jeopardy .little-screen {
   --line-width: calc(var(--width) * 1 / 20);
   --additional-ratio: 1/4;
@@ -111,7 +126,6 @@ body {
   text-align: center;
   margin-top: auto;
   margin-bottom: auto;
-  cursor: pointer;
 }
 .jeopardy .little-screen.fullscreen > .limiter {
   transition: height 1s linear;
