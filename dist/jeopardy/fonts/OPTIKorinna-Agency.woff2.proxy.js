@@ -1,0 +1,1 @@
+export default "/gameshow/dist/jeopardy/fonts/OPTIKorinna-Agency.woff2";

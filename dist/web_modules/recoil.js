@@ -3834,9 +3834,11 @@ var Recoil_index_2 = Recoil_index.RecoilRoot;
 var Recoil_index_4 = Recoil_index.atom;
 var Recoil_index_5 = Recoil_index.selector;
 var Recoil_index_6 = Recoil_index.atomFamily;
+var Recoil_index_7 = Recoil_index.selectorFamily;
 var Recoil_index_11 = Recoil_index.useRecoilValue;
 var Recoil_index_13 = Recoil_index.useRecoilState;
+var Recoil_index_15 = Recoil_index.useSetRecoilState;
 var Recoil_index_16 = Recoil_index.useResetRecoilState;
 var Recoil_index_17 = Recoil_index.useRecoilCallback;
 
-export { Recoil_index_1 as DefaultValue, Recoil_index_2 as RecoilRoot, Recoil_index_4 as atom, Recoil_index_6 as atomFamily, Recoil_index_5 as selector, Recoil_index_17 as useRecoilCallback, Recoil_index_13 as useRecoilState, Recoil_index_11 as useRecoilValue, Recoil_index_16 as useResetRecoilState };
+export { Recoil_index_1 as DefaultValue, Recoil_index_2 as RecoilRoot, Recoil_index_4 as atom, Recoil_index_6 as atomFamily, Recoil_index_5 as selector, Recoil_index_7 as selectorFamily, Recoil_index_17 as useRecoilCallback, Recoil_index_13 as useRecoilState, Recoil_index_11 as useRecoilValue, Recoil_index_16 as useResetRecoilState, Recoil_index_15 as useSetRecoilState };

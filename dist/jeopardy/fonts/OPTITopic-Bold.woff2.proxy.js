@@ -1,0 +1,1 @@
+export default "/gameshow/dist/jeopardy/fonts/OPTITopic-Bold.woff2";

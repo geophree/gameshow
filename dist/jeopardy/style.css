@@ -1,0 +1,281 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&display=block");
+
+body {
+  margin: 0;
+}
+
+.jeopardy {
+  --backgroundColor: #000;
+  background: var(--backgroundColor);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+  text-rendering: geometricPrecision;
+  text-wrap: balance;
+}
+.jeopardy .splash-screen {
+  /*background-image: url(https://www.w3schools.com/howto/img_nature.jpg);*/
+  --height: calc(var(--width) / var(--splash-ratio)) !important;
+  transform: translate(0, 10%);
+}
+.jeopardy .splash-screen .title {
+  font-family: "Gyparody", serif;
+  font-size: calc(var(--width) / 4.7);
+  text-shadow: 0.06em 0.06em #000;
+  line-height: 0.8em;
+}
+.jeopardy .clues {
+  background: black;
+  transform-origin: top left;
+}
+.jeopardy .clues.splash {
+  mix-blend-mode: multiply;
+}
+.jeopardy .clues.splash .blue-background {
+  background: white;
+}
+.jeopardy .clues.splash .blue-background * {
+  display: none;
+}
+.jeopardy .clues.splash .value {
+  display: none;
+}
+.jeopardy .aspect-ratio {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  --width: 100vw;
+  --height: calc(var(--width) / var(--aspect-ratio));
+  width: var(--width);
+  height: var(--height);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  --aspect-ratio: calc(16 / 9);
+  --board-ratio: calc(240 / 127);
+  --splash-ratio: calc(300 / 137);
+}
+@media (min-aspect-ratio: 16/9) {
+  .jeopardy .aspect-ratio {
+    --width: calc(100vh * var(--aspect-ratio));
+  }
+}
+
+.jeopardy .top-left-quarter {
+  transform: scale(0.5) translate(-50%, -50%);
+}
+
+.jeopardy .bottom-half {
+  position: absolute;
+  top: 50%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  /*--width: 200vw;
+  --aspect-ratio: calc(32 / 9);
+  transform: scale(.5) translate(-50%, 50%);*/
+}
+
+.jeopardy .little-screen {
+  --line-width: calc(var(--width) * 1 / 20);
+  --additional-ratio: 1/4;
+  --scale: calc(5 / 32);
+  --move-height: var(--width) / var(--board-ratio);
+  --vertical-bump-direction: 1;
+  --vertical-bump: calc(
+    var(--vertical-bump-direction) * var(--additional-ratio) * var(--line-width)
+  );
+  --translate-x: calc(
+    var(--scale) * (var(--col) - 2.5) * (var(--width) + var(--line-width))
+  );
+  --translate-y: calc(
+    var(--scale) *
+      (
+        (var(--row) - 2.5) * (var(--move-height) + var(--line-width)) +
+          var(--vertical-bump)
+      )
+  );
+  transform: translate(var(--translate-x), var(--translate-y))
+    scale(var(--scale));
+}
+.jeopardy .categories .little-screen {
+  --vertical-bump-direction: -1;
+}
+.jeopardy .category {
+  text-transform: uppercase;
+}
+.jeopardy .little-screen.fullscreen {
+  transition: transform 1s linear;
+  transform: translate(0, 0) scale(1);
+  z-index: 1;
+}
+.jeopardy .limiter {
+  position: absolute;
+  height: 94%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+.jeopardy .little-screen.fullscreen > .limiter {
+  transition: height 1s linear;
+  height: 100%;
+}
+
+.jeopardy .blue-background {
+  background: #009;
+  background: linear-gradient(to bottom right, #00c, #006);
+  color: #fff;
+}
+.jeopardy .category {
+  font-family: "Anton", serif;
+  font-size: calc(var(--width) / 7);
+  text-shadow: 0.07em 0.07em #000;
+  line-height: 1em;
+}
+.jeopardy .category p {
+  padding: 0 5%;
+}
+
+.jeopardy .value {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: gold;
+  font-family: "Anton", serif;
+  font-size: calc(var(--width) / 2.7);
+  text-shadow: 0.07em 0.07em #000;
+}
+.jeopardy .value-1000 {
+  font-size: 90%;
+  margin: 0;
+}
+.jeopardy .value .dollar {
+  top: -0.04em;
+  position: relative;
+  transform: scale(0.75, 1);
+  display: inline-block;
+  margin-left: -0.05em;
+}
+.jeopardy .prompt {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  white-space: pre-line;
+  background: #009;
+  background: linear-gradient(to bottom right, #00c, #006);
+  color: white;
+  font-family: "OPTIKorinna-Agency", serif;
+  font-weight: normal;
+  word-spacing: 0.15em;
+  font-size: calc(var(--width) / 20);
+  text-shadow: 0.07em 0.07em #000;
+  text-transform: uppercase;
+}
+.jeopardy .prompt p {
+  padding: 0 15%;
+}
+.jeopardy .prompt .image {
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+}
+
+.jeopardy .vertical-flip {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transform: perspective(calc(2 * var(--width))) rotateX(360deg);
+}
+.jeopardy .fullscreen .vertical-flip {
+  transition: transform 1s linear;
+  transform: perspective(calc(2 * var(--width))) rotateX(0deg);
+}
+.jeopardy .horizontal-flip {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transform-style: preserve-3d;
+  transition: transform 1s linear;
+  transform: perspective(calc(2 * var(--width))) rotateY(0deg);
+}
+.jeopardy .horizontal-flip.flipped {
+  transform: perspective(calc(2 * var(--width))) rotateY(-180deg);
+}
+.jeopardy .horizontal-flip .prompt {
+  backface-visibility: hidden;
+  visibility: hidden;
+  transform: rotateY(180deg);
+}
+.jeopardy .horizontal-flip.flipped .prompt {
+  visibility: visible;
+}
+.jeopardy .horizontal-flip.flipped .daily {
+  backface-visibility: hidden;
+}
+.jeopardy .double {
+  font-family: "OPTITopic-Bold", sans-serif;
+  letter-spacing: 0;
+  line-height: 1em;
+}
+.jeopardy .daily {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: #ee0;
+  background: linear-gradient(to bottom right, #ff0, #cc0);
+  color: #009;
+  font-size: calc(var(--width) / 5);
+  line-height: 0.9em;
+  text-shadow: 0.07em 0.07em #f00;
+  white-space: pre;
+  letter-spacing: -0.05em;
+}
+.jeopardy .daily-ly {
+  letter-spacing: -0.15em;
+}
+
+.jeopardy .title .double {
+  color: #f00;
+  font-size: 80%;
+  margin-bottom: -0.12em;
+  display: inline-block;
+}
+
+.jeopardy .hidden {
+  visibility: hidden !important;
+}

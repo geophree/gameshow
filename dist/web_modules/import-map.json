@@ -4,6 +4,9 @@
     "htm/react": "./htm/react.js",
     "react": "./react.js",
     "react-dom": "./react-dom.js",
+    "react-helmet": "./react-helmet.js",
+    "react-new-window": "./react-new-window.js",
+    "react-router-dom": "./react-router-dom.js",
     "recoil": "./recoil.js"
   }
 }

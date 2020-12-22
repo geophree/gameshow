@@ -1,0 +1,159 @@
+{
+  "baseClueValue": 200,
+  "comment": "Playtest clues for Zoom Jeoparody - Fuck 2020 Edition",
+  "jeopardy": {
+    "board": [
+      {
+        "category": "Yeet Buttigieg",
+        "clues": [
+          {
+            "clue": "The president-elect and a hit single by N'Sync",
+            "response": "What is Joe Bye Bye Biden?"
+          },
+          {
+            "clue": "The town Kamala Harris is from and a word used to describe people that are social justice oriented",
+            "response": "What is Wokeland?"
+          },
+          {
+            "clue": "If you were just brutally insulted by the author of \"Our Revolution\", you might say this.",
+            "response": "What is Sick Burn-ie sanders?"
+          },
+          {
+            "clue": "Little John would have this to say about the state that holds the first primary in every election",
+            "response": "What is Turn down for Iowhat?"
+          },
+          {
+            "clue": "The woman that helped flip Georgia is so fierce and is murdering her competition, so she should be called this",
+            "response": "What is Slaycey Abrams?"
+          }
+        ]
+      },
+      {
+        "category": "And The 'Rona Goes To...",
+        "clues": [
+          {
+            "clue": "You might be able to smell what this actor was cooking, but he couldn't",
+            "response": "Who is The Rock?"
+          },
+          {
+            "clue": "This actor and his wife contracted the coronavirus in Australia, while filming a biopic on Elvis Presley",
+            "response": "Who is Tom Hanks?"
+          },
+          {
+            "clue": "This singer was likely familiar with how to treat herself for coronavirus, thanks to her hit song \"Just Like A Pill\"",
+            "response": "Who is Pink?"
+          },
+          {
+            "clue": "This 2020 billionaire presidential candidate, reality TV star, and famous New Yorker caught coronavirus ... in March",
+            "response": "Who is Kanye West?"
+          },
+          {
+            "clue": "This Broadway star would have to wave at you through a window of wherever he's quarantining",
+            "response": "Who is Ben Platt?"
+          }
+        ]
+      },
+      {
+        "category": "B4 U",
+        "clues": [
+          {
+            "clue": "🎉⏰",
+            "response": "Party time!"
+          },
+          {
+            "clue": "👉🚦👧",
+            "response": "You go girl!"
+          },
+          {
+            "clue": "👍 👞 🍆?",
+            "response": "Nice shoes, wanna fuck?"
+          },
+          {
+            "clue": "GTG TTYL 👁️ ❤️ U 👻",
+            "response": "Gotta go, talk to you later I love you boo."
+          },
+          {
+            "clue": "ROFLMAO A 🐕 8 M👁️ 👶",
+            "response": "Rolling on the floor laughing my ass off, A dingo ate my baby"
+          }
+        ]
+      },
+      {
+        "category": "The 1820s",
+        "clues": [
+          {
+            "clue": "This larger-than-life man died in exile of stomach cancer",
+            "response": "Who is Napoleon?"
+          },
+          {
+            "clue": "In Vienna in 1824, Beethoven premiered this, which would later become one of his most famous pieces",
+            "response": "What is the 9th symphony?"
+          },
+          {
+            "clue": "In the late 1820s, steel started replacing whale bone in this popular garment",
+            "response": "What is the corset?"
+          },
+          {
+            "clue": "This mountain erupted in the Northwest, over an area that would later be home to Dave Grohl",
+            "response": "What is Mount Rainier?"
+          },
+          {
+            "clue": "This country fought for its indepencence against the Ottoman Empire",
+            "response": "What is Greece?"
+          }
+        ]
+      },
+      {
+        "category": "The Notorious RBG",
+        "clues": [
+          {
+            "clue": "Ruth Bader faced criticism for taking a man's place at this law school",
+            "response": "What is Harvard?"
+          },
+          {
+            "clue": "RBG formed this project while working the ACLU",
+            "response": "What is the Womens Rights Project?"
+          },
+          {
+            "clue": "RBG was recommended to Bill Clinton by this former Attorney General",
+            "response": "Who is Janet Reno?"
+          },
+          {
+            "dailyDouble": true,
+            "clue": "RBG engaged in this form of exercise to keep herself sharp",
+            "response": "What is weightlifting?"
+          },
+          {
+            "clue": "The decorative pieces she often wore around her neck over her robe are called this",
+            "response": "What is a jabot?"
+          }
+        ]
+      },
+      {
+        "category": "Extreme close-ups of food",
+        "clues": [
+          {
+            "imageUrl": "https://drive.google.com/uc?id=16ZTPdXM8A2WyOoAAIrK0oM5ku7zj1-hh",
+            "response": "What is a churro?"
+          },
+          {
+            "imageUrl": "https://drive.google.com/uc?id=12Il4MvUp-NIzUFvJ3ue2qr8Cnh3K07AR",
+            "response": "What is a carrot?"
+          },
+          {
+            "imageUrl": "https://drive.google.com/uc?id=1t1Mi-kASl5E2IeChK5AIVjx0X4EjNupG",
+            "response": "What is a canteloupe?"
+          },
+          {
+            "imageUrl": "https://drive.google.com/uc?id=1g73-xo6_VlGp4cerm6vGfRc83kdP2ntr",
+            "response": "What is a spaghetti squash?"
+          },
+          {
+            "imageUrl": "https://drive.google.com/uc?id=1idrCLE8juwQD-cROmmu1cPSMYza5D5Ar",
+            "response": "What is a fig?"
+          }
+        ]
+      }
+    ]
+  }
+}
