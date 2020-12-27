@@ -97,7 +97,7 @@ export const Controls = () => {
               >
                 No (-$${value})
               </li>
-              <li onClick="${unselectTeam}style" =${{ cursor: "pointer" }}>
+              <li onClick="${unselectTeam}" style=${{ cursor: "pointer" }}>
                 Change Team Selection
               </li>
             </ul>
