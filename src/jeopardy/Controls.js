@@ -9,13 +9,14 @@ import {
   teamListState,
   teamScoreState,
 } from "./state.js";
+import { useFinishSelectedClue } from "./hooks.js";
 
 export const Controls = () => {
   const setSelectedClue = useSetRecoilState(selectedClueState);
   const [showingPopup, setShowingPopup] = useRecoilState(showingPopupState);
-  const [selectedClueData, setSelectedClueData] = useRecoilState(
-    selectedClueDataValue
-  );
+  const selectedClueData = useRecoilValue(selectedClueDataValue);
+  const finishSelectedClue = useFinishSelectedClue();
+
   const value = selectedClueData?.value ?? 0;
   const selectedClueSection = !selectedClueData
     ? null
@@ -30,10 +31,6 @@ export const Controls = () => {
         </dl>
       `;
 
-  const setClueDone = () => {
-    // setSelectedClueData(x => ({...x, used: true}));
-    // setSelectedClue(null);
-  };
   const teamList = useRecoilValue(teamListState);
   const [selectedTeam, setSelectedTeam] = useRecoilState(selectedTeamState);
   let teamOrList = selectedTeam;
@@ -45,10 +42,15 @@ export const Controls = () => {
         style=${{ cursor: "pointer" }}
         onClick=${() => setSelectedTeam(name)}
       >
-        ${name}: $${score}
+        ${name}
       </li>
     `;
   });
+  innerList.push(html`
+    <li key="None" style=${{ cursor: "pointer" }} onClick=${finishSelectedClue}>
+      None
+    </li>
+  `);
   if (!teamOrList) {
     teamOrList = html`
       <ul>
@@ -82,7 +84,7 @@ export const Controls = () => {
                 onClick=${() => {
                   setScore((x) => x + value);
                   unselectTeam();
-                  setClueDone();
+                  finishSelectedClue();
                 }}
                 style=${{ cursor: "pointer" }}
               >
@@ -124,7 +126,7 @@ export const Controls = () => {
           onClick=${() => setShowingPopup((x) => !x)}
           style=${{ cursor: "pointer" }}
         >
-          ${showingPopup ? "pop in" : "pop out"}
+          ${showingPopup ? "Close" : "Launch"} board-only window
         </div>
       </div>
       <div

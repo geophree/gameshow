@@ -99,8 +99,6 @@ export const selectedClueDataValue = selector({
       selected: true,
     };
   },
-  set: (p) => ({ set }, { used }) =>
-    set(clueStatusState(p), (x) => ({ ...x, used })),
 });
 
 export const teamListState = atom({

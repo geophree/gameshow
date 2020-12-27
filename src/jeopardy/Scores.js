@@ -7,7 +7,9 @@ export const Scores = () => {
   const teamList = useRecoilValue(teamListState);
   const scores = teamList.map((name) => {
     const score = useRecoilValue(teamScoreState(name));
-    return html`<span class="score">${name}: $${score} </span>`;
+    const neg = score < 0 ? "-" : "";
+    const scoreStr = Math.abs(score).toLocaleString("en-US");
+    return html`<span class="score">${name}: ${neg}$${scoreStr} </span>`;
   });
   return html`
     <div

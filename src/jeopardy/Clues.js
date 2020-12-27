@@ -9,6 +9,7 @@ import {
   clueStatusState,
   selectedClueState,
 } from "./state.js";
+import { useFinishSelectedClue } from "./hooks.js";
 
 export const Clues = () => {
   // TODO(geophree): prevent clicking while fullscreening or flipping
@@ -16,6 +17,7 @@ export const Clues = () => {
   const categoryCount = useRecoilValue(categoryCountValue);
   const baseClueValue = useRecoilValue(baseClueValueState);
   const [selectedClue, setSelectedClue] = useRecoilState(selectedClueState);
+  const finishSelectedClue = useFinishSelectedClue();
 
   const clues = [];
   for (let col = 0; col < categoryCount; col++) {
@@ -37,10 +39,7 @@ export const Clues = () => {
           doClick = () => setSelectedClue({ col, row });
         }
         if (selected) {
-          doClick = () => {
-            setClueStatus((info) => ({ ...info, used: true }));
-            setSelectedClue();
-          };
+          doClick = finishSelectedClue;
         }
         const value = baseClueValue * row;
         const showPrice = !selected;
