@@ -9,7 +9,9 @@ export const Scores = () => {
     const score = useRecoilValue(teamScoreState(name));
     const neg = score < 0 ? "-" : "";
     const scoreStr = Math.abs(score).toLocaleString("en-US");
-    return html`<span class="score">${name}: ${neg}$${scoreStr} </span>`;
+    return html`<span key=${name} class="score"
+      >${name}: ${neg}$${scoreStr}
+    </span>`;
   });
   return html`
     <div

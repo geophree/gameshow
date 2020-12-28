@@ -5,6 +5,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { Btn } from "./Btn.js";
 
 import {
+  gameStageState,
   selectedClueState,
   selectedClueDataValue,
   selectedTeamState,
@@ -12,6 +13,7 @@ import {
   teamListState,
   teamScoreState,
   teamWagerState,
+  validGameStages,
 } from "./state.js";
 import { useFinishSelectedClue } from "./hooks.js";
 
@@ -311,6 +313,22 @@ const ScoreChangeControls = () => {
   `;
 };
 
+const GameStageControls = () => {
+  const [gameStage, setGameStage] = useRecoilState(gameStageState);
+  const options = validGameStages.map(
+    ({ id, label }) => html` <option key=${id} value=${id}>${label}</option> `
+  );
+  const selectOnChange = ({ target }) => setGameStage(target.value);
+  return html`
+    <p>
+      Change current game stage:
+      <select onChange=${selectOnChange}>
+        ${options}
+      </select>
+    </p>
+  `;
+};
+
 const GeneralControls = () => {
   const [showingPopup, setShowingPopup] = useRecoilState(showingPopupState);
 
@@ -321,6 +339,7 @@ const GeneralControls = () => {
         <${Btn} onClick=${() => setShowingPopup((x) => !x)}>
           ${showingPopup ? "Close" : "Launch"} board-only window
         <//>
+        <${GameStageControls} />
         <${ScoreSetControls} />
         <${ScoreChangeControls} />
       </div>
