@@ -10,14 +10,14 @@ import { Jeopardy } from "./jeopardy/index.js";
 const GAMES = [
   [ThreeStrikes, "3 Strikes", "threestrikes"],
   [Jeopardy, "Jeopardy", "jeopardy"],
-].map(([Component, name, subdir]) => ({ Component, name, subdir }));
+].map(([Component, name, subpath]) => ({ Component, name, subpath }));
 
 const GameList = () => {
   const { url } = useRouteMatch();
   const list = GAMES.map(
-    ({ name, subdir }) => html`
+    ({ name, subpath }) => html`
       <li key=${name}>
-        <${Link} to="${url}/${subdir}">${name}<//>
+        <${Link} to="${url}/${subpath}">${name}<//>
       </li>
     `
   );
@@ -29,8 +29,8 @@ const GameList = () => {
 export const App = () => {
   const path = "/gameshow";
   const gameRoutes = GAMES.map(
-    ({ Component, name, subdir }) => html`
-      <${Route} key=${subdir} path="${path}/${subdir}">
+    ({ Component, name, subpath }) => html`
+      <${Route} key=${subpath} path="${path}/${subpath}">
         <${Helmet}><title>${name}</title><//>
         <${Component} />
       <//>
@@ -38,8 +38,8 @@ export const App = () => {
   );
 
   return html`
-    <${Helmet}><title>HTML5 Gameshows!</title><//>
-    <${Switch}>
+    <${Helmet} key="title"><title>HTML5 Gameshows!</title><//>
+    <${Switch} key="switch">
       <${Route} exact path=${path}>
         <${GameList} />
       <//>
