@@ -112,3 +112,8 @@ export const teamScoreState = atomFamily({
   key: "teamScore",
   default: (name) => 0,
 });
+
+export const teamWagerState = atomFamily({
+  key: "teamWager",
+  default: (name) => 0,
+});
