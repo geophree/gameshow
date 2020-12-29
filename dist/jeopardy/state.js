@@ -19,17 +19,31 @@ export const showingPopupState = atom({
   default: false,
 });
 
-export const baseClueValueState = atom({
-  key: "baseClueValue",
-  default: selector({
-    key: "baseClueValueDefault",
-    get: ({ get }) => get(configState).baseClueValue,
-  }),
-});
+export const validGameStages = [
+  ["jeopardy", "Jeopardy", 1],
+  ["doubleJeopardy", "Double Jeopardy", 2],
+  ["finalJeopardy", "Final Jeopardy", 0],
+].map(([id, label, scoreMultiplier]) => ({ id, label, scoreMultiplier }));
 
 export const gameStageState = atom({
   key: "gameStage",
   default: "jeopardy",
+});
+
+export const gameStageInfoValue = selector({
+  key: "gameStageInfo",
+  get: ({ get }) => validGameStages.find((el) => el.id == get(gameStageState)),
+});
+
+export const baseClueValueState = atom({
+  key: "baseClueValue",
+  default: selector({
+    key: "baseClueValueDefault",
+    get: ({ get }) => {
+      const base = get(configState).baseClueValue;
+      return base * get(gameStageInfoValue).scoreMultiplier;
+    },
+  }),
 });
 
 export const stageInfoState = atom({
@@ -74,15 +88,29 @@ export const clueInfoState = atomFamily({
   }),
 });
 
-export const clueStatusState = atomFamily({
-  key: "clueStatus",
-  default: ([col, row]) => ({
+export const fullClueStatusState = atomFamily({
+  key: "fullClueStatus",
+  default: ([stage, col, row]) => ({
     flipped: false,
     used: false,
   }),
 });
 
-export const selectedClueState = atom({ key: "selectedClue" });
+export const clueStatusState = selectorFamily({
+  key: "clueStatus",
+  get: ([col, row]) => ({ get }) =>
+    get(fullClueStatusState([get(gameStageState), col, row])),
+  set: ([col, row]) => ({ get, set }, val) =>
+    set(fullClueStatusState([get(gameStageState), col, row]), val),
+});
+
+export const fullSelectedClueState = atomFamily({ key: "fullSelectedClue" });
+export const selectedClueState = selector({
+  key: "selectedClue",
+  get: ({ get }) => get(fullSelectedClueState(get(gameStageState))),
+  set: ({ get, set }, val) =>
+    set(fullSelectedClueState(get(gameStageState)), val),
+});
 
 export const selectedClueDataValue = selector({
   key: "selectedClueData",
@@ -99,8 +127,6 @@ export const selectedClueDataValue = selector({
       selected: true,
     };
   },
-  set: (p) => ({ set }, { used }) =>
-    set(clueStatusState(p), (x) => ({ ...x, used })),
 });
 
 export const teamListState = atom({
@@ -112,5 +138,10 @@ export const selectedTeamState = atom({ key: "selectedTeam" });
 
 export const teamScoreState = atomFamily({
   key: "teamScore",
+  default: (name) => 0,
+});
+
+export const teamWagerState = atomFamily({
+  key: "teamWager",
   default: (name) => 0,
 });

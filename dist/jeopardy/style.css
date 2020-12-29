@@ -279,3 +279,13 @@ body {
 .jeopardy .hidden {
   visibility: hidden !important;
 }
+
+.jeopardy .btn {
+  cursor: pointer;
+  background-color: lightgray;
+  color: black;
+  border: calc(var(--width) / 2000) solid white;
+  padding-left: calc(var(--width) / 500);
+  padding-right: calc(var(--width) / 500);
+  border-radius: calc(var(--width) / 500);
+}
