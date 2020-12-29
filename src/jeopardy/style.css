@@ -68,7 +68,16 @@ body {
   }
 }
 
-.jeopardy .top-left-quarter {
+.jeopardy .board-without-score {
+  transform: scale(0.95) translate(0, -2.7%);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.jeopardy .control-board-view {
   transform: scale(0.5) translate(-50%, -50%);
 }
 
@@ -78,9 +87,61 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  /*--width: 200vw;
-  --aspect-ratio: calc(32 / 9);
-  transform: scale(.5) translate(-50%, 50%);*/
+}
+
+.jeopardy .scores-container {
+  position: absolute;
+  top: 95%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  font-size: 2vw;
+  color: white;
+  z-index: 50;
+  display: grid;
+  grid-template-columns: 4fr 6fr 3fr 6fr 3fr 6fr 4fr;
+  grid-template-areas: ". red . green . blue .";
+}
+
+.jeopardy .score {
+  position: relative;
+  border: 0.1em solid white;
+  border-bottom: none;
+  border-radius: 5em;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  text-transform: uppercase;
+  font-family: "Anton", serif;
+}
+
+.jeopardy .score-name {
+  position: absolute;
+  height: 100%;
+  right: 55%;
+  padding-right: 0.25em;
+  border-right: 0.1em solid white;
+}
+
+.jeopardy .score-score {
+  position: absolute;
+  height: 100%;
+  left: 45%;
+  padding-left: 0.25em;
+}
+
+.jeopardy .score-red {
+  grid-area: red;
+  background-color: darkred;
+}
+
+.jeopardy .score-green {
+  grid-area: green;
+  background-color: darkgreen;
+}
+
+.jeopardy .score-blue {
+  grid-area: blue;
+  background-color: darkblue;
 }
 
 .jeopardy .little-screen {
@@ -166,7 +227,7 @@ body {
   font-size: 90%;
   margin: 0;
 }
-.jeopardy .value .dollar {
+.jeopardy .dollar {
   top: -0.04em;
   position: relative;
   transform: scale(0.75, 1);
