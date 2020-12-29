@@ -1,6 +1,5 @@
 import { atom, atomFamily, selector, selectorFamily } from "recoil";
 
-// import localTestConfig from "./playtestConfig.json";
 import localTestConfig from "./testConfig.json";
 
 export const configState = atom({
