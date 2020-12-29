@@ -51,7 +51,10 @@ const Clue = ({ col, row }) => {
     }
 
     let clueSection = html`
-      <div class="prompt blue-background${showClue ? "" : " hidden"}">
+      <div
+        key="simple"
+        class="prompt blue-background${showClue ? "" : " hidden"}"
+      >
         ${imageContent} ${clueContent}
       </div>
     `;
@@ -60,7 +63,7 @@ const Clue = ({ col, row }) => {
         doClick = null;
       }
       const dd = html`
-        <div class="daily double${selected ? "" : " hidden"}">
+        <div key="dd" class="daily double${selected ? "" : " hidden"}">
           <p>DAI<span class="daily-ly">LY</span><br />DOUBLE</p>
         </div>
       `;
@@ -72,7 +75,7 @@ const Clue = ({ col, row }) => {
       const doFlip = () =>
         setClueStatus((info) => ({ ...info, flipped: true }));
       clueSection = html`
-        <div class="vertical-flip">
+        <div key="fullSection" class="vertical-flip">
           <div
             class="horizontal-flip blue-background${flipped ? " flipped" : ""}"
             style=${doFlip ? { cursor: "pointer" } : {}}
@@ -85,7 +88,10 @@ const Clue = ({ col, row }) => {
     }
     inner = html`
       ${clueSection}
-      <div class="value blue-background${showPrice ? "" : " hidden"}">
+      <div
+        key="value"
+        class="value blue-background${showPrice ? "" : " hidden"}"
+      >
         <p class=${value >= 1000 && "value-1000"}>
           <span class="dollar">$</span>${value}
         </p>
