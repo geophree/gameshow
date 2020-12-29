@@ -248,22 +248,24 @@ const ScoreSetControls = () => {
     const [score, setScore] = useRecoilState(teamScoreState(name));
     const promptScore = makePromptScore({ name, score, setScore });
     return html`
-      <p><${Btn} key=${name} onClick=${promptScore}>${name}: $${score}<//></p>
+      <p key=${name}><${Btn} onClick=${promptScore}>${name}: $${score}<//></p>
     `;
   });
-  const cancel = html`
-    <${Btn} onClick=${() => setChangingScore(false)}>cancel<//>
-  `;
-  const title = "Set Team's Score";
+
+  const title = "Set";
   if (!changingScore) {
     return html`
       <p><${Btn} onClick=${() => setChangingScore(true)}>${title}<//></p>
     `;
   }
 
+  const cancel = html`
+    <${Btn} onClick=${() => setChangingScore(false)}>cancel<//>
+  `;
+
   return html`
-    <p>${title} ${cancel}:</p>
-    <p>${teamBtns}</p>
+    <p key="sstitle">${title} ${cancel}:</p>
+    ${teamBtns}
   `;
 };
 
@@ -296,23 +298,24 @@ const ScoreChangeControls = () => {
     const [score, setScore] = useRecoilState(teamScoreState(name));
     const promptScore = makePromptScore({ name, score, setScore });
     return html`
-      <p><${Btn} key=${name} onClick=${promptScore}>${name}: $${score}<//></p>
+      <p key=${name}><${Btn} onClick=${promptScore}>${name}: $${score}<//></p>
     `;
   });
-  const cancel = html`
-    <${Btn} onClick=${() => setChangingScore(false)}>cancel<//>
-  `;
 
-  const title = "Modify Team's Score";
+  const title = "Modify";
   if (!changingScore) {
     return html`
       <p><${Btn} onClick=${() => setChangingScore(true)}>${title}<//></p>
     `;
   }
 
+  const cancel = html`
+    <${Btn} onClick=${() => setChangingScore(false)}>cancel<//>
+  `;
+
   return html`
-    <p>${title} ${cancel}:</p>
-    <p>${teamBtns}</p>
+    <p key="sctitle">${title} ${cancel}:</p>
+    ${teamBtns}
   `;
 };
 
@@ -324,7 +327,7 @@ const GameStageControls = () => {
   const selectOnChange = ({ target }) => setGameStage(target.value);
   return html`
     <p>
-      Change current game stage:
+      Change:${" "}
       <select
         defaultValue=${gameStage}
         onChange=${selectOnChange}
@@ -344,14 +347,29 @@ const GeneralControls = () => {
   return html`
     <div class="bottom-half" style=${{ padding: "calc(var(--width) / 100)" }}>
       <p style=${{ fontSize: "120%" }}>General Controls</p>
-      <div>
-        <${Btn} onClick=${() => setShowingPopup((x) => !x)}>
-          ${showingPopup ? "Close" : "Launch"} board-only window
-        <//>
-        <${GameStageControls} />
-        <${ScoreSetControls} />
-        <${ScoreChangeControls} />
-      </div>
+      <dl>
+        <dt>Board-only Window:</dt>
+        <dd>
+          <${Btn} onClick=${() => setShowingPopup((x) => !x)}>
+            ${showingPopup ? "Close" : "Launch"}
+          <//>
+        </dd>
+        <dd>To maximize after launching, with the window focused:</dd>
+        <dd>
+          Mac: ⌘-Ctrl-F and/or ⌘-Shift-F (you may need to wait a beat for the
+          title/address bar to disappear)
+        </dd>
+        <dd>Linux/Windows: F11</dd>
+        <dt>Game Stage:</dt>
+        <dd>
+          <${GameStageControls} />
+        </dd>
+        <dt>Team's Score:</dt>
+        <dd>
+          <${ScoreSetControls} />
+          <${ScoreChangeControls} />
+        </dd>
+      </dl>
     </div>
   `;
 };
