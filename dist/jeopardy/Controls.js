@@ -33,29 +33,32 @@ const useSelectedClueIsDailyDouble = () => {
 };
 
 const SelectedClueSection = () => {
-  const selectedClueData = useRecoilValue(selectedClueDataValue);
+  const clueData = useRecoilValue(selectedClueDataValue);
   const finishSelectedClue = useFinishSelectedClue();
-  const value = useSelectedClueValue();
 
-  if (!selectedClueData) return null;
+  if (!clueData) return null;
+  const { clue, prompt, response, value, dailyDouble } = clueData;
 
-  const promptSection = !selectedClueData.prompt
+  const promptSection = !prompt
     ? null
     : html`
-        <dt>MC Prompt:</dt>
-        <dd>${selectedClueData.prompt}</dd>
+        <dt key="pdt">MC Prompt:</dt>
+        <dd key="pdd" style=${{ fontSize: "110%" }}>${prompt}</dd>
+      `;
+  const clueStyle = prompt ? {} : { fontSize: "110%" };
+  const clueSection = !clue
+    ? null
+    : html`
+        <dt key="cdt">Clue:</dt>
+        <dd key="cdd" style=${clueStyle}>${clue}</dd>
       `;
 
   return html`
-    ${promptSection}
-    <dt>Clue:</dt>
-    <dd>${selectedClueData.clue}</dd>
+    ${promptSection} ${clueSection}
     <dt>Response:</dt>
-    <dd>${selectedClueData.response}</dd>
-    <dt>Value:</dt>
-    <dd>$${value}</dd>
-    <dt>Daily Double?</dt>
-    <dd>${selectedClueData.dailyDouble ? "Yes" : "No"}</dd>
+    <dd>${response}</dd>
+    <dt>Value: $${value}</dt>
+    <dt>Daily Double? ${dailyDouble ? "Yes" : "No"}</dt>
   `;
 };
 
@@ -316,13 +319,22 @@ const ScoreChangeControls = () => {
 const GameStageControls = () => {
   const [gameStage, setGameStage] = useRecoilState(gameStageState);
   const options = validGameStages.map(
-    ({ id, label }) => html` <option key=${id} value=${id}>${label}</option> `
+    ({ id, label }) => html`
+      <option key=${id} value=${id} selected=${gameStage == id}>
+        ${label}
+      </option>
+    `
   );
   const selectOnChange = ({ target }) => setGameStage(target.value);
   return html`
     <p>
       Change current game stage:
-      <select onChange=${selectOnChange}>
+      <select
+        onChange=${selectOnChange}
+        style=${{
+          fontSize: "calc(var(--width) / 100)",
+        }}
+      >
         ${options}
       </select>
     </p>

@@ -1,0 +1,4 @@
+Downloaded from https://www.1001fonts.com/brownbaglunch-font.html
+License:
+See BrownBagLunch.woff2.LICENSE: Free for personal and commercial use
+Corrected '<' & '>', Converted to woff2 using https://everythingfonts.com/ttf-to-woff2

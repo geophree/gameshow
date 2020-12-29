@@ -15,13 +15,15 @@ import "./style.css.proxy.js";
 export const Jeopardy = () => {
   const [showingPopup, setShowingPopup] = useRecoilState(showingPopupState);
   const board = html`
-    <div style=${{ userSelect: "none" }}>
+    <div class="aspect-ratio" style=${{ userSelect: "none" }}>
       <${Fonts} />
-      <div class="splash-screen aspect-ratio blue-background">
-        <p class="title"><span class="double">DOUBLE</span>JEOPARDY!</p>
+      <div class="board-without-score">
+        <div class="splash-screen aspect-ratio blue-background">
+          <p class="title"><span class="double">DOUBLE</span>JEOPARDY!</p>
+        </div>
+        <${Clues} />
+        <${Categories} />
       </div>
-      <${Clues} />
-      <${Categories} />
       <${Scores} />
     </div>
   `;
@@ -38,7 +40,7 @@ export const Jeopardy = () => {
   return html`
     <div class="jeopardy">
       <${Controls} />
-      <div class="aspect-ratio top-left-quarter">${board}</div>
+      <div class="aspect-ratio control-board-view">${board}</div>
       ${popout}
     </div>
   `;

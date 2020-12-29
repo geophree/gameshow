@@ -1,6 +1,5 @@
 import { atom, atomFamily, selector, selectorFamily } from "../web_modules/recoil.js";
 
-// import localTestConfig from "./playtestConfig.json";
 import localTestConfig from "./testConfig.json.proxy.js";
 
 export const configState = atom({
@@ -62,24 +61,6 @@ export const boardDataState = atom({
   }),
 });
 
-export const categoryCountValue = selector({
-  key: "categoryCount",
-  get: ({ get }) => get(boardDataState).length,
-});
-
-export const cluesPerCategoryValue = selector({
-  key: "cluesPerCategory",
-  get: ({ get }) => get(boardDataState)[0].clues.length,
-});
-
-export const categoriesState = atomFamily({
-  key: "categories",
-  default: selectorFamily({
-    key: "categoriesDefault",
-    get: (col) => ({ get }) => get(boardDataState)[col].category,
-  }),
-});
-
 export const clueInfoState = atomFamily({
   key: "clueInfo",
   default: selectorFamily({
@@ -126,6 +107,38 @@ export const selectedClueDataValue = selector({
       ...get(clueStatusState([col, row])),
       selected: true,
     };
+  },
+});
+
+export const categoryCountValue = selector({
+  key: "categoryCount",
+  get: ({ get }) => get(boardDataState).length,
+});
+
+export const cluesPerCategoryValue = selector({
+  key: "cluesPerCategory",
+  get: ({ get }) => get(boardDataState)[0].clues.length,
+});
+
+export const categoriesState = atomFamily({
+  key: "categories",
+  default: selectorFamily({
+    key: "categoriesDefault",
+    get: (col) => ({ get }) => get(boardDataState)[col].category,
+  }),
+});
+
+export const cluesLeftInCategoryValue = selectorFamily({
+  key: "cluesLeftInCategory",
+  get: (col) => ({ get }) => {
+    const cluesPerCategory = get(cluesPerCategoryValue);
+    let cluesLeft = 0;
+    for (let row = 1; row <= cluesPerCategory; row++) {
+      if (!get(fullClueStatusState([get(gameStageState), col, row])).used) {
+        cluesLeft++;
+      }
+    }
+    return cluesLeft;
   },
 });
 
