@@ -319,13 +319,22 @@ const ScoreChangeControls = () => {
 const GameStageControls = () => {
   const [gameStage, setGameStage] = useRecoilState(gameStageState);
   const options = validGameStages.map(
-    ({ id, label }) => html` <option key=${id} value=${id}>${label}</option> `
+    ({ id, label }) => html`
+      <option key=${id} value=${id} selected=${gameStage == id}>
+        ${label}
+      </option>
+    `
   );
   const selectOnChange = ({ target }) => setGameStage(target.value);
   return html`
     <p>
       Change current game stage:
-      <select onChange=${selectOnChange}>
+      <select
+        onChange=${selectOnChange}
+        style=${{
+          fontSize: "calc(var(--width) / 100)",
+        }}
+      >
         ${options}
       </select>
     </p>
