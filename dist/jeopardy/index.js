@@ -4,7 +4,7 @@ import { useRecoilState, useRecoilValue } from "../web_modules/recoil.js";
 
 import { endGameState, showingPopupState } from "./state.js";
 
-import { BoardWithoutScore } from "./BoardWithoutScore.js";
+import { BoardWithoutScore } from "./BoardWithoutScore2.js";
 import { Controls } from "./Controls.js";
 import { Fonts } from "./Fonts.js";
 import { Scores } from "./Scores.js";
