@@ -86,15 +86,17 @@ const Clue = ({ col, row }) => {
         </div>
       `;
     }
+    const valueStr = !value
+      ? "CLUE"
+      : html` <span class="dollar">$</span>${value} `;
+
     inner = html`
       ${clueSection}
       <div
         key="value"
         class="value blue-background${showPrice ? "" : " hidden"}"
       >
-        <p class=${value >= 1000 && "value-1000"}>
-          <span class="dollar">$</span>${value}
-        </p>
+        <p class=${value >= 1000 && "value-1000"}>${valueStr}</p>
       </div>
     `;
   }

@@ -10,6 +10,7 @@ import {
   revealOrderValue,
   revealStageState,
   runningRevealState,
+  selectedCategoryDataValue,
   selectedClueState,
   selectedClueDataValue,
   selectedTeamState,
@@ -35,6 +36,21 @@ const useSelectedClueValue = () => {
 const useSelectedClueIsDailyDouble = () => {
   const selectedClueData = useRecoilValue(selectedClueDataValue);
   return !!selectedClueData?.dailyDouble;
+};
+
+const CategoryControls = () => {
+  const categoryData = useRecoilValue(selectedCategoryDataValue);
+  if (!categoryData) return null;
+  const { category, intro } = categoryData;
+  return html`
+    <p>Clue Controls</p>
+    <dl>
+      <dt key="pdt">MC Intro:</dt>
+      <dd key="pdd" style=${{ fontSize: "110%" }}>${intro}</dd>
+      <dt key="cdt">Category:</dt>
+      <dd key="cdd">${category}</dd>
+    </dl>
+  `;
 };
 
 const SelectedClueSection = () => {
@@ -350,6 +366,7 @@ const FinalJeopardyControls = () => {
 const SpecificControls = () => html`
   <section class="controls-specific">
     <p style=${{ fontSize: "120%" }}>Specific Controls</p>
+    <${CategoryControls} />
     <${ClueControls} />
     <${FinalJeopardyControls} />
   </section>

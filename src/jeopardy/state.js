@@ -128,6 +128,18 @@ export const categoriesState = atomFamily({
   }),
 });
 
+export const selectedCategoryState = atom({
+  key: "selectedCategory",
+});
+
+export const selectedCategoryDataValue = selector({
+  key: "selectedCategoryData",
+  get: ({ get }) => {
+    const col = get(selectedCategoryState);
+    return get(boardDataState)[col];
+  },
+});
+
 export const cluesLeftInCategoryValue = selectorFamily({
   key: "cluesLeftInCategory",
   get: (col) => ({ get }) => {

@@ -1,21 +1,27 @@
 import { html } from "htm/react";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 import {
   categoryCountValue,
   categoriesState,
   cluesLeftInCategoryValue,
+  selectedCategoryState,
 } from "./state.js";
 
 const Category = ({ col }) => {
+  const [selectedCategory, setSelectedCategory] = useRecoilState(
+    selectedCategoryState
+  );
   const category = useRecoilValue(categoriesState(col));
   const cluesLeft = useRecoilValue(cluesLeftInCategoryValue(col));
+  const fullscreen = selectedCategory == col ? " fullscreen" : "";
+  const toggleSelected = () => setSelectedCategory(fullscreen ? null : col);
   return html`
     <div
-      class="aspect-ratio little-screen category"
+      class="aspect-ratio little-screen category${fullscreen}"
       style=${{ "--col": col, "--row": 0 }}
     >
-      <div class="limiter blue-background">
+      <div class="limiter blue-background" onClick=${toggleSelected}>
         <p>${cluesLeft ? category : ""}</p>
       </div>
     </div>
