@@ -8,7 +8,7 @@ const Score = ({ name, class: className, ...props }) => {
   const neg = score < 0 ? "-" : "";
   const scoreStr = Math.abs(score).toLocaleString("en-US");
   return html`
-    <div ...$props class="${className ?? ""} score">
+    <div class="${className ?? ""} score">
       <div class="score-name">${name}</div>
       <div class="score-score">${neg}<span class="dollar">$</span>${scoreStr}</div>
     </span>

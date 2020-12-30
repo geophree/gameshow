@@ -5,12 +5,18 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "../web_module
 import { Btn } from "./Btn.js";
 
 import {
+  endGameState,
   gameStageState,
+  revealOrderValue,
+  revealStageState,
+  runningRevealState,
+  selectedCategoryDataValue,
   selectedClueState,
   selectedClueDataValue,
   selectedTeamState,
   showingPopupState,
   teamListState,
+  teamResponseState,
   teamScoreState,
   teamWagerState,
   validGameStages,
@@ -30,6 +36,21 @@ const useSelectedClueValue = () => {
 const useSelectedClueIsDailyDouble = () => {
   const selectedClueData = useRecoilValue(selectedClueDataValue);
   return !!selectedClueData?.dailyDouble;
+};
+
+const CategoryControls = () => {
+  const categoryData = useRecoilValue(selectedCategoryDataValue);
+  if (!categoryData) return null;
+  const { category, intro } = categoryData;
+  return html`
+    <p>Clue Controls</p>
+    <dl>
+      <dt key="pdt">MC Intro:</dt>
+      <dd key="pdd" style=${{ fontSize: "110%" }}>${intro}</dd>
+      <dt key="cdt">Category:</dt>
+      <dd key="cdd">${category}</dd>
+    </dl>
+  `;
 };
 
 const SelectedClueSection = () => {
@@ -62,10 +83,20 @@ const SelectedClueSection = () => {
   `;
 };
 
+const SelectTeamBtn = ({ name }) => {
+  const setSelectedTeam = useSetRecoilState(selectedTeamState);
+  const setWager = useSetRecoilState(teamWagerState(name));
+  const selectTeam = () => {
+    setSelectedTeam(name);
+    setWager();
+  };
+  return html`<${Btn} onClick=${selectTeam}>${name}<//>`;
+};
+
 const TeamSelectionSection = () => {
   const selectedClueData = useRecoilValue(selectedClueDataValue);
   const teamList = useRecoilValue(teamListState);
-  const [selectedTeam, setSelectedTeam] = useRecoilState(selectedTeamState);
+  const selectedTeam = useRecoilValue(selectedTeamState);
   const unselectTeam = useUnselectTeam();
   const finishSelectedClue = useFinishSelectedClue();
 
@@ -76,9 +107,12 @@ const TeamSelectionSection = () => {
     teamOrList = html`<dd>${selectedTeam}</dd>`;
   } else {
     teamOrList = teamList.map((name) => {
+      const selectTeam = (name) => {
+        set;
+      };
       return html`
         <dd key=${name}>
-          <${Btn} onClick=${() => setSelectedTeam(name)}>${name}<//>
+          <${SelectTeamBtn} name=${name} />
         </dd>
       `;
     });
@@ -102,8 +136,9 @@ const useWager = () => {
   const selectedTeam = useRecoilValue(selectedTeamState);
   const selectedTeamWager = useRecoilValue(teamWagerState(selectedTeam));
   const value = useSelectedClueValue();
+  const gameStage = useRecoilValue(gameStageState);
 
-  if (!isDailyDouble) return value;
+  if (!isDailyDouble && gameStage !== "finalJeopardy") return value;
 
   return selectedTeamWager;
 };
@@ -162,6 +197,7 @@ const AnswerControls = () => {
   const unselectTeam = useUnselectTeam();
   const setScore = useSetRecoilState(teamScoreState(selectedTeam));
   const finishSelectedClue = useFinishSelectedClue();
+  const isFinalJeopardy = useRecoilValue(gameStageState) == "finalJeopardy";
 
   if (!selectedTeam || (isDailyDouble && !wager)) return null;
 
@@ -171,7 +207,7 @@ const AnswerControls = () => {
       <${Btn}
         onClick=${() => {
           setScore((x) => x + wager);
-          unselectTeam();
+          if (!isFinalJeopardy) unselectTeam();
           finishSelectedClue();
         }}
       >
@@ -182,7 +218,7 @@ const AnswerControls = () => {
       <${Btn}
         onClick=${() => {
           setScore((x) => x - wager);
-          unselectTeam();
+          if (!isFinalJeopardy) unselectTeam();
           if (isDailyDouble) finishSelectedClue();
         }}
       >
@@ -194,6 +230,7 @@ const AnswerControls = () => {
 
 const ClueControls = () => {
   return html`
+    <p>Clue Controls</p>
     <dl>
       <${SelectedClueSection} />
       <${TeamSelectionSection} />
@@ -203,20 +240,136 @@ const ClueControls = () => {
   `;
 };
 
+const FinalJeopardyTeamControl = ({ name }) => {
+  const score = useRecoilValue(teamScoreState(name));
+  const [wager, setWager] = useRecoilState(teamWagerState(name));
+  const [response, setResponse] = useRecoilState(teamResponseState(name));
+
+  const promptWager = () => {
+    let error = "";
+    let wagerInt;
+    const maxWager = Math.max(0, score);
+    while (true) {
+      const s = prompt(
+        `${error}Enter Team ${name}'s wager: ($0-${maxWager})`,
+        ""
+      );
+      if (s == null || s == "") break;
+      try {
+        wagerInt = parseInt(s.replace(/[^0-9.-]/g, ""), 10);
+        if (wagerInt < 0 || wagerInt > maxWager) {
+          error = `Error: wager (${wagerInt}) out of range.\n`;
+          continue;
+        }
+      } catch {
+        error = "Error: problem modifying team's wager. Only use numbers.\n";
+        continue;
+      }
+      setWager(wagerInt);
+      break;
+    }
+  };
+
+  const promptResponse = () => {
+    const r = prompt(`Enter Team ${name}'s response:`, "");
+    if (r == null) return;
+    setResponse(r);
+  };
+
+  const setResponseBtn = html`<${Btn} onClick=${promptResponse}>Set<//>`;
+  const setWagerBtn = html`<${Btn} onClick=${promptWager}>Set<//>`;
+
+  return html`
+    <dd>
+      ${name}: wager: ${wager} ${setWagerBtn} , response: ${response}
+      ${setResponseBtn}
+    </dd>
+  `;
+};
+
+const revealingSteps = {
+  0: "starting team reveal",
+  1: "revealing team's response",
+  2: "reveal team's wager",
+  3: "start next team's reveal",
+};
+
+const RevealControls = () => {
+  const [revealOrder, setRevealOrder] = useState();
+  const [revealIndex, setRevealIndex] = useState(-1);
+
+  const originalRevealOrder = useRecoilValue(revealOrderValue);
+  const [selectedTeam, setSelectedTeam] = useRecoilState(selectedTeamState);
+  const [revealStage, setRevealStage] = useRecoilState(
+    revealStageState(selectedTeam)
+  );
+  const setEndGame = useSetRecoilState(endGameState);
+  const setBeginReveal = useSetRecoilState(runningRevealState);
+
+  const nextRevealTeam = revealOrder?.[revealIndex + 1];
+  const nextRevealStage = selectedTeam ? revealStage + 1 : 0;
+
+  const revealNextStage = () => {
+    if (revealStage === 2 || (!selectedTeam && nextRevealTeam)) {
+      setSelectedTeam(nextRevealTeam.name);
+      setRevealIndex((x) => x + 1);
+      return;
+    }
+    setRevealStage((x) => x + 1);
+  };
+
+  if (!revealOrder) {
+    const beginReveal = () => {
+      setRevealOrder(originalRevealOrder);
+      setBeginReveal(true);
+      setSelectedTeam();
+    };
+    return html`<dd><${Btn} onClick=${beginReveal}>Begin Reveal<//></dd>`;
+  }
+
+  let nextBtn = html` <${Btn} onClick=${revealNextStage}>Continue Reveal<//> `;
+  if (revealStage === 2 && !nextRevealTeam) {
+    const showWinner = () => setEndGame(true);
+    nextBtn = html`<${Btn} onClick=${showWinner}>Reveal Winner<//>`;
+  }
+
+  return html`
+    <dd>Reveal order: ${revealOrder?.map(({ name }) => name)?.join(" ")}</dd>
+    <dd>next team to reveal: ${nextRevealTeam?.name}</dd>
+    <dd>Current revealing team: ${selectedTeam}</dd>
+    <dd>Next revealing step: ${revealingSteps[nextRevealStage]}</dd>
+    <dd>${nextBtn}</dd>
+  `;
+};
+
+const FinalJeopardyControls = () => {
+  const teamList = useRecoilValue(teamListState);
+  const gameStage = useRecoilValue(gameStageState);
+
+  if (gameStage != "finalJeopardy") return null;
+
+  const teamCtls = teamList.map(
+    (name) => html` <${FinalJeopardyTeamControl} name=${name} /> `
+  );
+
+  return html`
+    <p>Final Jeopardy Controls:</p>
+    <dl>
+      <dt>Team Controls:</dt>
+      ${teamCtls}
+      <dt>Reveal Controls:</dt>
+      <${RevealControls} />
+    </dl>
+  `;
+};
+
 const SpecificControls = () => html`
-  <div
-    style=${{
-      position: "absolute",
-      top: 0,
-      right: 0,
-      bottom: "50%",
-      left: "50%",
-      padding: "calc(var(--width) / 100)",
-    }}
-  >
+  <section class="controls-specific">
     <p style=${{ fontSize: "120%" }}>Specific Controls</p>
+    <${CategoryControls} />
     <${ClueControls} />
-  </div>
+    <${FinalJeopardyControls} />
+  </section>
 `;
 
 const ScoreSetControls = () => {
@@ -248,22 +401,24 @@ const ScoreSetControls = () => {
     const [score, setScore] = useRecoilState(teamScoreState(name));
     const promptScore = makePromptScore({ name, score, setScore });
     return html`
-      <p><${Btn} key=${name} onClick=${promptScore}>${name}: $${score}<//></p>
+      <p key=${name}><${Btn} onClick=${promptScore}>${name}: $${score}<//></p>
     `;
   });
-  const cancel = html`
-    <${Btn} onClick=${() => setChangingScore(false)}>cancel<//>
-  `;
-  const title = "Set Team's Score";
+
+  const title = "Set";
   if (!changingScore) {
     return html`
       <p><${Btn} onClick=${() => setChangingScore(true)}>${title}<//></p>
     `;
   }
 
+  const cancel = html`
+    <${Btn} onClick=${() => setChangingScore(false)}>cancel<//>
+  `;
+
   return html`
-    <p>${title} ${cancel}:</p>
-    <p>${teamBtns}</p>
+    <p key="sstitle">${title} ${cancel}:</p>
+    ${teamBtns}
   `;
 };
 
@@ -296,40 +451,38 @@ const ScoreChangeControls = () => {
     const [score, setScore] = useRecoilState(teamScoreState(name));
     const promptScore = makePromptScore({ name, score, setScore });
     return html`
-      <p><${Btn} key=${name} onClick=${promptScore}>${name}: $${score}<//></p>
+      <p key=${name}><${Btn} onClick=${promptScore}>${name}: $${score}<//></p>
     `;
   });
-  const cancel = html`
-    <${Btn} onClick=${() => setChangingScore(false)}>cancel<//>
-  `;
 
-  const title = "Modify Team's Score";
+  const title = "Modify";
   if (!changingScore) {
     return html`
       <p><${Btn} onClick=${() => setChangingScore(true)}>${title}<//></p>
     `;
   }
 
+  const cancel = html`
+    <${Btn} onClick=${() => setChangingScore(false)}>cancel<//>
+  `;
+
   return html`
-    <p>${title} ${cancel}:</p>
-    <p>${teamBtns}</p>
+    <p key="sctitle">${title} ${cancel}:</p>
+    ${teamBtns}
   `;
 };
 
 const GameStageControls = () => {
   const [gameStage, setGameStage] = useRecoilState(gameStageState);
   const options = validGameStages.map(
-    ({ id, label }) => html`
-      <option key=${id} value=${id} selected=${gameStage == id}>
-        ${label}
-      </option>
-    `
+    ({ id, label }) => html` <option key=${id} value=${id}>${label}</option> `
   );
   const selectOnChange = ({ target }) => setGameStage(target.value);
   return html`
     <p>
-      Change current game stage:
+      Change:${" "}
       <select
+        defaultValue=${gameStage}
         onChange=${selectOnChange}
         style=${{
           fontSize: "calc(var(--width) / 100)",
@@ -345,30 +498,38 @@ const GeneralControls = () => {
   const [showingPopup, setShowingPopup] = useRecoilState(showingPopupState);
 
   return html`
-    <div class="bottom-half" style=${{ padding: "calc(var(--width) / 100)" }}>
+    <section class="controls-general">
       <p style=${{ fontSize: "120%" }}>General Controls</p>
-      <div>
-        <${Btn} onClick=${() => setShowingPopup((x) => !x)}>
-          ${showingPopup ? "Close" : "Launch"} board-only window
-        <//>
-        <${GameStageControls} />
-        <${ScoreSetControls} />
-        <${ScoreChangeControls} />
-      </div>
-    </div>
+      <dl>
+        <dt>Board-only Window:</dt>
+        <dd>
+          <${Btn} onClick=${() => setShowingPopup((x) => !x)}>
+            ${showingPopup ? "Close" : "Launch"}
+          <//>
+        </dd>
+        <dd>To maximize after launching, with the window focused:</dd>
+        <dd>
+          Mac: ⌘-Ctrl-F and/or ⌘-Shift-F (you may need to wait a beat for the
+          title/address bar to disappear)
+        </dd>
+        <dd>Linux/Windows: F11</dd>
+        <dt>Game Stage:</dt>
+        <dd>
+          <${GameStageControls} />
+        </dd>
+        <dt>Team's Score:</dt>
+        <dd>
+          <${ScoreSetControls} />
+          <${ScoreChangeControls} />
+        </dd>
+      </dl>
+    </section>
   `;
 };
 
 export const Controls = () => {
   return html`
-    <div
-      class="aspect-ratio"
-      style=${{
-        color: "white",
-        textAlign: "left",
-        fontSize: "calc(var(--width) / 100)",
-      }}
-    >
+    <section class="aspect-ratio controls">
       <${GeneralControls} />
       <${SpecificControls} />
     </div>

@@ -128,6 +128,18 @@ export const categoriesState = atomFamily({
   }),
 });
 
+export const selectedCategoryState = atom({
+  key: "selectedCategory",
+});
+
+export const selectedCategoryDataValue = selector({
+  key: "selectedCategoryData",
+  get: ({ get }) => {
+    const col = get(selectedCategoryState);
+    return get(boardDataState)[col];
+  },
+});
+
 export const cluesLeftInCategoryValue = selectorFamily({
   key: "cluesLeftInCategory",
   get: (col) => ({ get }) => {
@@ -151,10 +163,53 @@ export const selectedTeamState = atom({ key: "selectedTeam" });
 
 export const teamScoreState = atomFamily({
   key: "teamScore",
-  default: (name) => 0,
+  default: (name) => 0, //name?.length * 100, //0,
 });
 
 export const teamWagerState = atomFamily({
   key: "teamWager",
-  default: (name) => 0,
+  default: (name) => 0, //name?.length * 10, //0,
+});
+
+export const teamResponseState = atomFamily({
+  key: "teamResponse",
+  default: (name) => "", //`Who is ${name}cipia Mathematica?`, //"",
+});
+
+export const revealOrderValue = selector({
+  key: "revealOrder",
+  get: ({ get }) => {
+    const teamList = get(teamListState)
+      .map((name) => {
+        const score = get(teamScoreState(name));
+        return { name, score };
+      })
+      .filter(({ score }) => score > 0);
+    teamList.sort(({ score: a }, { score: b }) => a - b);
+    return teamList;
+  },
+});
+
+export const revealStageState = atomFamily({
+  key: "revealStage",
+  default: () => 0,
+});
+
+export const runningRevealState = atom({
+  key: "runningRevealState",
+  default: false,
+});
+
+export const endGameState = atom({
+  key: "endGame",
+  default: false,
+});
+
+export const winningTeamValue = selector({
+  key: "winningTeam",
+  get: ({ get }) => {
+    const revealOrder = get(revealOrderValue);
+    if (!get(endGameState)) return null;
+    return revealOrder?.[revealOrder?.length - 1];
+  },
 });
