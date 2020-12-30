@@ -81,12 +81,77 @@ body {
   transform: scale(0.5) translate(-50%, -50%);
 }
 
-.jeopardy .bottom-half {
+.jeopardy .controls {
+  color: white;
+  text-align: left;
+  font-size: calc(var(--width) / 100);
+}
+
+.jeopardy .controls-general {
   position: absolute;
   top: 50%;
   bottom: 0;
   left: 0;
   right: 0;
+  padding: calc(var(--width) / 100);
+}
+
+.jeopardy .controls-specific {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 50%;
+  left: 50%;
+  padding: calc(var(--width) / 100);
+}
+
+.jeopardy .game-over {
+  color: white;
+  z-index: 50;
+  display: grid;
+  grid-template-rows: 4fr 6fr 3fr 6fr 3fr 6fr 4fr;
+  grid-template-columns: 1fr;
+  grid-template-areas: "." "congrats" "." "name" "." "score" ".";
+  font-family: "Anton", serif;
+  font-size: calc(var(--width) / 10);
+  text-transform: uppercase;
+}
+
+.jeopardy .game-over .congrats {
+  grid-area: congrats;
+}
+
+.jeopardy .game-over .team-name {
+  grid-area: name;
+}
+
+.jeopardy .game-over .final-score {
+  grid-area: score;
+}
+
+.jeopardy .final-reveal {
+  color: white;
+  z-index: 50;
+  display: grid;
+  grid-template-rows: 4fr 6fr 3fr 6fr 3fr 6fr 4fr;
+  grid-template-columns: 1fr;
+  grid-template-areas: "." "name" "." "response" "." "wager" ".";
+  font-family: "BrownBagLunch", serif;
+  font-size: calc(var(--width) / 10);
+}
+
+.jeopardy .final-reveal .team-name {
+  grid-area: name;
+  font-family: "Anton", serif;
+  text-transform: uppercase;
+}
+
+.jeopardy .final-reveal .final-response {
+  grid-area: response;
+}
+
+.jeopardy .final-reveal .final-wager {
+  grid-area: wager;
 }
 
 .jeopardy .scores-container {

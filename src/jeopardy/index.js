@@ -2,11 +2,10 @@ import { html } from "htm/react";
 import NewWindow from "react-new-window";
 import { useRecoilState, useRecoilValue } from "recoil";
 
-import { showingPopupState } from "./state.js";
+import { endGameState, showingPopupState } from "./state.js";
 
-import { Categories } from "./Categories.js";
+import { BoardWithoutScore } from "./BoardWithoutScore.js";
 import { Controls } from "./Controls.js";
-import { Clues } from "./Clues.js";
 import { Fonts } from "./Fonts.js";
 import { Scores } from "./Scores.js";
 
@@ -14,16 +13,12 @@ import "./style.css";
 
 export const Jeopardy = () => {
   const [showingPopup, setShowingPopup] = useRecoilState(showingPopupState);
+  const endGame = useRecoilValue(endGameState);
+
   const board = html`
     <div class="aspect-ratio" style=${{ userSelect: "none" }}>
       <${Fonts} />
-      <div class="board-without-score">
-        <div class="splash-screen aspect-ratio blue-background">
-          <p class="title"><span class="double">DOUBLE</span>JEOPARDY!</p>
-        </div>
-        <${Clues} />
-        <${Categories} />
-      </div>
+      <${BoardWithoutScore} />
       <${Scores} />
     </div>
   `;
