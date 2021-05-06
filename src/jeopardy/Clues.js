@@ -88,7 +88,7 @@ const Clue = ({ col, row }) => {
     }
     const valueStr = !value
       ? "CLUE"
-      : html` <span class="dollar">$</span>${value} `;
+      : html` <span key="a" class="dollar">$</span>${value} `;
 
     inner = html`
       ${clueSection}

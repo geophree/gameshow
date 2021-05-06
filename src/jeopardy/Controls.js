@@ -43,8 +43,8 @@ const CategoryControls = () => {
   if (!categoryData) return null;
   const { category, intro } = categoryData;
   return html`
-    <p>Clue Controls</p>
-    <dl>
+    <p key="a">Clue Controls</p>
+    <dl key="b">
       <dt key="pdt">MC Intro:</dt>
       <dd key="pdd" style=${{ fontSize: "110%" }}>${intro}</dd>
       <dt key="cdt">Category:</dt>
@@ -76,10 +76,10 @@ const SelectedClueSection = () => {
 
   return html`
     ${promptSection} ${clueSection}
-    <dt>Response:</dt>
-    <dd>${response}</dd>
-    <dt>Value: $${value}</dt>
-    <dt>Daily Double? ${dailyDouble ? "Yes" : "No"}</dt>
+    <dt key="a">Response:</dt>
+    <dd key="b">${response}</dd>
+    <dt key="c">Value: $${value}</dt>
+    <dt key="d">Daily Double? ${dailyDouble ? "Yes" : "No"}</dt>
   `;
 };
 
@@ -104,7 +104,7 @@ const TeamSelectionSection = () => {
 
   let teamOrList = null;
   if (selectedTeam) {
-    teamOrList = html`<dd>${selectedTeam}</dd>`;
+    teamOrList = html`<dd key="a">${selectedTeam}</dd>`;
   } else {
     teamOrList = teamList.map((name) => {
       const selectTeam = (name) => {
@@ -122,11 +122,11 @@ const TeamSelectionSection = () => {
       </dd>
     `);
   }
-  const unselectTeamButton = html` <${Btn} onClick="${unselectTeam}"
+  const unselectTeamButton = html` <${Btn} key="a" onClick="${unselectTeam}"
     >change<//
   >`;
   return html`
-    <dt>Team answering${selectedTeam ? unselectTeamButton : ""}:</dt>
+    <dt key="b">Team answering${selectedTeam ? unselectTeamButton : ""}:</dt>
     ${teamOrList}
   `;
 };
@@ -202,8 +202,8 @@ const AnswerControls = () => {
   if (!selectedTeam || (isDailyDouble && !wager)) return null;
 
   return html`
-    <dt>Correct?</dt>
-    <dd>
+    <dt key="a">Correct?</dt>
+    <dd key="b">
       <${Btn}
         onClick=${() => {
           setScore((x) => x + wager);
@@ -214,7 +214,7 @@ const AnswerControls = () => {
         Yes, +$${wager}
       <//>
     </dd>
-    <dd>
+    <dd key="c">
       <${Btn}
         onClick=${() => {
           setScore((x) => x - wager);
@@ -230,8 +230,8 @@ const AnswerControls = () => {
 
 const ClueControls = () => {
   return html`
-    <p>Clue Controls</p>
-    <dl>
+    <p key="a">Clue Controls</p>
+    <dl key="b">
       <${SelectedClueSection} />
       <${TeamSelectionSection} />
       <${WagerControls} />
